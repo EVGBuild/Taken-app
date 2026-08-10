@@ -11,168 +11,808 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="LumiVault">
   <meta name="theme-color" content="#f5f5f7">
 
   <title>LumiVault</title>
-  <meta name="apple-mobile-web-app-title" content="LumiVault">
-<link rel="apple-touch-icon" href="icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=2">
+
+  <link rel="apple-touch-icon" href="icon.png?v=2">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
 
-  <main class="app">
+<main class="app">
 
-   <h1>LumiVault</h1>
+  <h1>LumiVault</h1>
 
-    <div class="add-task">
-      <input
-        id="taskInput"
-        type="text"
-        placeholder="Nieuwe taak…"
-        autocomplete="off"
-      >
+  <!-- NIEUW ITEM -->
+
+  <section class="capture-card">
+
+    <input
+      id="itemInput"
+      class="main-input"
+      type="text"
+      placeholder="Wat wil je bewaren?"
+      autocomplete="off"
+    >
+
+    <div class="capture-options">
+
+      <select id="typeSelect">
+        <option value="taak">Taak</option>
+        <option value="gedachte">Gedachte</option>
+        <option value="idee">Idee</option>
+        <option value="doel">Doel</option>
+      </select>
+
+      <div id="priorityWrapper">
+
+        <select id="prioritySelect">
+          <option value="1">1 · Nu</option>
+          <option value="2">2 · Belangrijk</option>
+          <option value="3" selected>3 · Normaal</option>
+          <option value="4">4 · Kan wachten</option>
+          <option value="5">5 · Geen haast</option>
+        </select>
+
+      </div>
 
       <button
         id="addButton"
         type="button"
-        aria-label="Taak toevoegen"
+        aria-label="Toevoegen"
       >
         +
       </button>
+
     </div>
 
-    <ul id="taskList"></ul>
+  </section>
 
-  </main>
 
-  <script>
-    const input = document.getElementById("taskInput");
-    const addButton = document.getElementById("addButton");
-    const list = document.getElementById("taskList");
+  <!-- FILTERS -->
 
-    const STORAGE_KEY = "mijnTaken";
+  <div class="filters">
 
-    let tasks = loadTasks();
+    <button class="filter active" data-filter="alles">
+      Alles
+    </button>
 
-    function loadTasks() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch {
-        return [];
-      }
+    <button class="filter" data-filter="taak">
+      Taken
+    </button>
+
+    <button class="filter" data-filter="gedachte">
+      Gedachten
+    </button>
+
+    <button class="filter" data-filter="idee">
+      Ideeën
+    </button>
+
+    <button class="filter" data-filter="doel">
+      Doelen
+    </button>
+
+  </div>
+
+
+  <div class="list-options">
+
+    <label>
+      <input id="hideCompleted" type="checkbox">
+      Verberg afgeronde taken
+    </label>
+
+  </div>
+
+
+  <!-- LIJST -->
+
+  <ul id="itemList"></ul>
+
+</main>
+
+
+<!-- BEWERKVENSTER -->
+
+<div id="editOverlay" class="overlay hidden">
+
+  <div class="edit-card">
+
+    <h2>Bewerken</h2>
+
+    <input
+      id="editText"
+      class="main-input"
+      type="text"
+    >
+
+    <select id="editType">
+      <option value="taak">Taak</option>
+      <option value="gedachte">Gedachte</option>
+      <option value="idee">Idee</option>
+      <option value="doel">Doel</option>
+    </select>
+
+    <div id="editPriorityWrapper">
+
+      <select id="editPriority">
+        <option value="1">1 · Nu</option>
+        <option value="2">2 · Belangrijk</option>
+        <option value="3">3 · Normaal</option>
+        <option value="4">4 · Kan wachten</option>
+        <option value="5">5 · Geen haast</option>
+      </select>
+
+    </div>
+
+    <div class="edit-actions">
+
+      <button id="cancelEdit" class="secondary-button">
+        Annuleren
+      </button>
+
+      <button id="saveEdit" class="primary-button">
+        Opslaan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const STORAGE_KEY = "mijnTaken";
+
+const input = document.getElementById("itemInput");
+const typeSelect = document.getElementById("typeSelect");
+const prioritySelect = document.getElementById("prioritySelect");
+const priorityWrapper = document.getElementById("priorityWrapper");
+const addButton = document.getElementById("addButton");
+
+const list = document.getElementById("itemList");
+const hideCompleted = document.getElementById("hideCompleted");
+
+const filterButtons = document.querySelectorAll(".filter");
+
+const editOverlay = document.getElementById("editOverlay");
+const editText = document.getElementById("editText");
+const editType = document.getElementById("editType");
+const editPriority = document.getElementById("editPriority");
+const editPriorityWrapper =
+  document.getElementById("editPriorityWrapper");
+
+const cancelEdit = document.getElementById("cancelEdit");
+const saveEdit = document.getElementById("saveEdit");
+
+let currentFilter = "alles";
+let editingId = null;
+
+let items = loadItems();
+
+
+/* -----------------------------
+   OPSLAG
+----------------------------- */
+
+function loadItems() {
+
+  try {
+
+    const stored =
+      JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+    return stored.map((item, index) => ({
+
+      id:
+        item.id ||
+        Date.now().toString() +
+        "-" +
+        index +
+        "-" +
+        Math.random().toString(16).slice(2),
+
+      text: item.text || "",
+
+      type: item.type || "taak",
+
+      priority:
+        Number(item.priority) || 3,
+
+      done:
+        Boolean(item.done)
+
+    }));
+
+  } catch {
+
+    return [];
+
+  }
+
+}
+
+
+function saveItems() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(items)
+  );
+
+}
+
+
+/* -----------------------------
+   NIEUW ITEM
+----------------------------- */
+
+function addItem() {
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const type = typeSelect.value;
+
+  items.push({
+
+    id:
+      Date.now().toString() +
+      "-" +
+      Math.random().toString(16).slice(2),
+
+    text: text,
+
+    type: type,
+
+    priority:
+      type === "taak"
+        ? Number(prioritySelect.value)
+        : 3,
+
+    done: false
+
+  });
+
+  saveItems();
+
+  input.value = "";
+  typeSelect.value = "taak";
+  prioritySelect.value = "3";
+
+  updatePriorityVisibility();
+
+  renderItems();
+
+  input.focus();
+
+}
+
+
+addButton.addEventListener(
+  "click",
+  addItem
+);
+
+
+input.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+      addItem();
     }
 
-    function saveTasks() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }
+);
+
+
+/* -----------------------------
+   TYPE / PRIORITEIT
+----------------------------- */
+
+function updatePriorityVisibility() {
+
+  priorityWrapper.style.display =
+    typeSelect.value === "taak"
+      ? "block"
+      : "none";
+
+}
+
+
+typeSelect.addEventListener(
+  "change",
+  updatePriorityVisibility
+);
+
+
+function updateEditPriorityVisibility() {
+
+  editPriorityWrapper.style.display =
+    editType.value === "taak"
+      ? "block"
+      : "none";
+
+}
+
+
+editType.addEventListener(
+  "change",
+  updateEditPriorityVisibility
+);
+
+
+/* -----------------------------
+   FILTERS
+----------------------------- */
+
+filterButtons.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      currentFilter =
+        button.dataset.filter;
+
+      filterButtons.forEach(
+        other =>
+          other.classList.remove("active")
+      );
+
+      button.classList.add("active");
+
+      renderItems();
+
     }
+  );
 
-    function renderTasks() {
-      list.innerHTML = "";
-
-      if (tasks.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "Geen taken 🎉";
-
-        list.appendChild(empty);
-        return;
-      }
-
-      tasks.forEach((task, index) => {
-        const item = document.createElement("li");
-
-        item.className =
-          "task" + (task.done ? " completed" : "");
-
-        const check = document.createElement("div");
-        check.className = "check";
-
-        check.addEventListener("click", () => {
-          tasks[index].done = !tasks[index].done;
-
-          saveTasks();
-          renderTasks();
-        });
-
-        const text = document.createElement("span");
-        text.className = "task-text";
-        text.textContent = task.text;
-const up = document.createElement("button");
-up.className = "move";
-up.type = "button";
-up.textContent = "↑";
-
-up.addEventListener("click", () => {
-  if (index === 0) return;
-
-  [tasks[index - 1], tasks[index]] =
-    [tasks[index], tasks[index - 1]];
-
-  saveTasks();
-  renderTasks();
 });
 
-const down = document.createElement("button");
-down.className = "move";
-down.type = "button";
-down.textContent = "↓";
 
-down.addEventListener("click", () => {
-  if (index === tasks.length - 1) return;
+hideCompleted.addEventListener(
+  "change",
+  renderItems
+);
 
-  [tasks[index + 1], tasks[index]] =
-    [tasks[index], tasks[index + 1]];
 
-  saveTasks();
-  renderTasks();
-});
-        const remove = document.createElement("button");
-        remove.className = "delete";
-        remove.type = "button";
-        remove.textContent = "×";
-        remove.setAttribute("aria-label", "Taak verwijderen");
+/* -----------------------------
+   SORTERING
+----------------------------- */
 
-        remove.addEventListener("click", () => {
-          tasks.splice(index, 1);
+function getSortedItems() {
 
-          saveTasks();
-          renderTasks();
-        });
+  let result = [...items];
 
-item.append(check, text, up, down, remove);
-        list.appendChild(item);
-      });
+
+  if (currentFilter !== "alles") {
+
+    result = result.filter(
+      item =>
+        item.type === currentFilter
+    );
+
+  }
+
+
+  if (hideCompleted.checked) {
+
+    result = result.filter(
+      item =>
+        !(item.type === "taak" && item.done)
+    );
+
+  }
+
+
+  result.sort((a, b) => {
+
+    /*
+      Afgeronde taken altijd onderaan.
+    */
+
+    if (a.done !== b.done) {
+
+      return a.done ? 1 : -1;
+
     }
 
-    function addTask() {
-      const text = input.value.trim();
 
-      if (!text) return;
+    /*
+      Alleen taken worden
+      op prioriteit gesorteerd.
+    */
 
-      tasks.push({
-        text: text,
-        done: false
-      });
+    if (
+      a.type === "taak" &&
+      b.type === "taak"
+    ) {
 
-      saveTasks();
+      return a.priority - b.priority;
 
-      input.value = "";
-
-      renderTasks();
-      input.focus();
     }
 
-    addButton.addEventListener("click", addTask);
 
-    input.addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        addTask();
+    return 0;
+
+  });
+
+
+  return result;
+
+}
+
+
+/* -----------------------------
+   LABELS
+----------------------------- */
+
+function typeLabel(type) {
+
+  const labels = {
+
+    taak: "Taak",
+    gedachte: "Gedachte",
+    idee: "Idee",
+    doel: "Doel"
+
+  };
+
+  return labels[type] || "Taak";
+
+}
+
+
+function priorityLabel(priority) {
+
+  const labels = {
+
+    1: "1 · Nu",
+    2: "2 · Belangrijk",
+    3: "3 · Normaal",
+    4: "4 · Kan wachten",
+    5: "5 · Geen haast"
+
+  };
+
+  return labels[priority] || "3 · Normaal";
+
+}
+
+
+/* -----------------------------
+   RENDEREN
+----------------------------- */
+
+function renderItems() {
+
+  list.innerHTML = "";
+
+  const visibleItems =
+    getSortedItems();
+
+
+  if (visibleItems.length === 0) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className = "empty";
+
+    empty.textContent =
+      currentFilter === "alles"
+        ? "Je Vault is leeg ✨"
+        : "Hier staat nog niets ✨";
+
+    list.appendChild(empty);
+
+    return;
+
+  }
+
+
+  visibleItems.forEach(item => {
+
+    const li =
+      document.createElement("li");
+
+    li.className =
+      "task" +
+      (item.done ? " completed" : "");
+
+
+    /*
+      CHECKBOX
+      Alleen taken kunnen worden afgerond.
+    */
+
+    const check =
+      document.createElement("button");
+
+    check.className = "check";
+    check.type = "button";
+
+
+    if (item.type !== "taak") {
+
+      check.classList.add("not-task");
+
+      check.disabled = true;
+
+    }
+
+
+    check.addEventListener(
+      "click",
+      () => {
+
+        item.done = !item.done;
+
+        saveItems();
+        renderItems();
+
       }
-    });
+    );
 
-    renderTasks();
-  </script>
+
+    /*
+      INHOUD
+    */
+
+    const content =
+      document.createElement("div");
+
+    content.className = "task-content";
+
+
+    const meta =
+      document.createElement("div");
+
+    meta.className = "item-meta";
+
+
+    const typeBadge =
+      document.createElement("span");
+
+    typeBadge.className =
+      "type-badge " + item.type;
+
+    typeBadge.textContent =
+      typeLabel(item.type);
+
+    meta.appendChild(typeBadge);
+
+
+    if (item.type === "taak") {
+
+      const priorityBadge =
+        document.createElement("span");
+
+      priorityBadge.className =
+        "priority-badge priority-" +
+        item.priority;
+
+      priorityBadge.textContent =
+        priorityLabel(item.priority);
+
+      meta.appendChild(priorityBadge);
+
+    }
+
+
+    const text =
+      document.createElement("div");
+
+    text.className = "task-text";
+
+    text.textContent = item.text;
+
+
+    content.append(
+      meta,
+      text
+    );
+
+
+    /*
+      BEWERKEN
+    */
+
+    const edit =
+      document.createElement("button");
+
+    edit.className = "icon-button";
+    edit.type = "button";
+    edit.textContent = "✎";
+
+    edit.setAttribute(
+      "aria-label",
+      "Bewerken"
+    );
+
+    edit.addEventListener(
+      "click",
+      () => openEdit(item.id)
+    );
+
+
+    /*
+      VERWIJDEREN
+    */
+
+    const remove =
+      document.createElement("button");
+
+    remove.className =
+      "delete icon-button";
+
+    remove.type = "button";
+    remove.textContent = "×";
+
+    remove.setAttribute(
+      "aria-label",
+      "Verwijderen"
+    );
+
+    remove.addEventListener(
+      "click",
+      () => {
+
+        items =
+          items.filter(
+            stored =>
+              stored.id !== item.id
+          );
+
+        saveItems();
+        renderItems();
+
+      }
+    );
+
+
+    li.append(
+      check,
+      content,
+      edit,
+      remove
+    );
+
+
+    list.appendChild(li);
+
+  });
+
+}
+
+
+/* -----------------------------
+   BEWERKEN
+----------------------------- */
+
+function openEdit(id) {
+
+  const item =
+    items.find(
+      stored =>
+        stored.id === id
+    );
+
+  if (!item) return;
+
+  editingId = id;
+
+  editText.value = item.text;
+  editType.value = item.type;
+  editPriority.value =
+    String(item.priority || 3);
+
+  updateEditPriorityVisibility();
+
+  editOverlay.classList.remove("hidden");
+
+  editText.focus();
+
+}
+
+
+function closeEdit() {
+
+  editingId = null;
+
+  editOverlay.classList.add("hidden");
+
+}
+
+
+cancelEdit.addEventListener(
+  "click",
+  closeEdit
+);
+
+
+saveEdit.addEventListener(
+  "click",
+  () => {
+
+    const item =
+      items.find(
+        stored =>
+          stored.id === editingId
+      );
+
+    if (!item) return;
+
+
+    const newText =
+      editText.value.trim();
+
+    if (!newText) return;
+
+
+    item.text = newText;
+
+    item.type =
+      editType.value;
+
+
+    if (item.type === "taak") {
+
+      item.priority =
+        Number(editPriority.value);
+
+    } else {
+
+      item.priority = 3;
+
+      /*
+        Een gedachte/idee/doel
+        kan niet "afgerond" zijn.
+      */
+
+      item.done = false;
+
+    }
+
+
+    saveItems();
+
+    closeEdit();
+
+    renderItems();
+
+  }
+);
+
+
+editOverlay.addEventListener(
+  "click",
+  event => {
+
+    if (event.target === editOverlay) {
+      closeEdit();
+    }
+
+  }
+);
+
+
+/* -----------------------------
+   START
+----------------------------- */
+
+updatePriorityVisibility();
+renderItems();
+
+</script>
 
 </body>
 </html>
