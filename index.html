@@ -98,7 +98,35 @@
         const text = document.createElement("span");
         text.className = "task-text";
         text.textContent = task.text;
+const up = document.createElement("button");
+up.className = "move";
+up.type = "button";
+up.textContent = "↑";
 
+up.addEventListener("click", () => {
+  if (index === 0) return;
+
+  [tasks[index - 1], tasks[index]] =
+    [tasks[index], tasks[index - 1]];
+
+  saveTasks();
+  renderTasks();
+});
+
+const down = document.createElement("button");
+down.className = "move";
+down.type = "button";
+down.textContent = "↓";
+
+down.addEventListener("click", () => {
+  if (index === tasks.length - 1) return;
+
+  [tasks[index + 1], tasks[index]] =
+    [tasks[index], tasks[index + 1]];
+
+  saveTasks();
+  renderTasks();
+});
         const remove = document.createElement("button");
         remove.className = "delete";
         remove.type = "button";
@@ -112,7 +140,7 @@
           renderTasks();
         });
 
-        item.append(check, text, remove);
+item.append(check, text, up, down, remove);
         list.appendChild(item);
       });
     }
