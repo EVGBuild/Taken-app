@@ -12,12 +12,12 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LumiVault">
-  <meta name="theme-color" content="#0f1118">
+  <meta name="theme-color" content="#11121d">
 
   <title>LumiVault</title>
 
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 
 <body>
@@ -32,9 +32,7 @@
 
     <header class="home-top">
 
-      <div class="quote-wrap">
-        <p id="homeQuote" class="home-quote"></p>
-      </div>
+      <p id="homeQuote" class="home-quote"></p>
 
       <button
         id="energyButton"
@@ -48,14 +46,20 @@
     </header>
 
 
-    <section class="suggestions-section">
+    <section class="today-card">
+
+      <div class="today-card-glow"></div>
 
       <p class="eyebrow">Voor vandaag</p>
 
-      <h1>Dit zou vandaag kunnen passen</h1>
+      <h1>
+        Dit zou vandaag<br>
+        kunnen passen
+      </h1>
 
       <p class="section-intro">
-        Op basis van wat belangrijk is, hoeveel energie je hebt en hoeveel moeite iets kost.
+        Een rustige selectie op basis van wat belangrijk is,
+        hoeveel energie je hebt en hoeveel moeite iets kost.
       </p>
 
       <ul id="suggestionList"></ul>
@@ -64,7 +68,24 @@
         id="suggestionEmpty"
         class="soft-empty hidden"
       >
-        Op dit moment zie ik niets dat echt goed past. Dat is ook informatie. ✨
+        <span class="empty-star">✦</span>
+
+        <strong>
+          Ik zie nu niets dat echt goed past.
+        </strong>
+
+        <p>
+          Dat is ook informatie. Je kunt altijd zelf even
+          door je taken kijken als je daar zin in hebt.
+        </p>
+
+        <button
+          id="openTasksFromHome"
+          class="soft-link-button"
+          type="button"
+        >
+          Bekijk mijn taken
+        </button>
       </div>
 
     </section>
@@ -125,7 +146,7 @@
 
     <form id="actionForm">
 
-      <div class="form-card">
+      <div class="form-card accent-form-card">
 
         <label class="field-label" for="actionTitle">
           Titel
@@ -177,6 +198,7 @@
           <option value="werk">Werk & ontwikkeling</option>
           <option value="verzorging">Persoonlijke verzorging</option>
           <option value="klusjes">Klusjes & onderhoud</option>
+          <option value="lifeupgrade">Life Upgrade</option>
         </select>
 
       </div>
@@ -199,7 +221,12 @@
 
         <p class="field-label">Prioriteit</p>
 
+        <p class="field-help">
+          Dit gebruikt LumiVault op de achtergrond.
+        </p>
+
         <div class="scale-list" id="priorityChoices">
+
           <button type="button" class="scale-choice" data-value="1">
             <strong>1</strong>
             <span>
@@ -239,6 +266,7 @@
               <small>Voor later</small>
             </span>
           </button>
+
         </div>
 
       </div>
@@ -249,6 +277,7 @@
         <p class="field-label">Weerstand</p>
 
         <div class="scale-list" id="resistanceChoices">
+
           <button type="button" class="scale-choice" data-value="1">
             <strong>1</strong>
             <span>
@@ -288,6 +317,7 @@
               <small>Hier zie ik echt tegenop</small>
             </span>
           </button>
+
         </div>
 
       </div>
@@ -298,6 +328,7 @@
         <p class="field-label">Benodigde energie</p>
 
         <div class="scale-list" id="effortChoices">
+
           <button type="button" class="scale-choice" data-value="1">
             <strong>1</strong>
             <span>
@@ -337,6 +368,7 @@
               <small>Kost veel energie</small>
             </span>
           </button>
+
         </div>
 
       </div>
@@ -365,6 +397,7 @@
         <p class="field-label">Impact</p>
 
         <div class="scale-list" id="impactChoices">
+
           <button type="button" class="scale-choice" data-value="1">
             <strong>1</strong>
             <span>
@@ -404,6 +437,7 @@
               <small>Veel effect op mijn leven</small>
             </span>
           </button>
+
         </div>
 
       </div>
@@ -412,6 +446,7 @@
       <div class="form-card">
 
         <label class="toggle-row">
+
           <span>
             <b>Moet je ergens op wachten?</b>
             <small>Bijvoorbeeld loon, document, levering of antwoord</small>
@@ -421,6 +456,7 @@
             id="hasBlocker"
             type="checkbox"
           >
+
         </label>
 
         <div id="blockerFields" class="conditional hidden">
@@ -454,6 +490,7 @@
       <div class="form-card">
 
         <label class="toggle-row">
+
           <span>
             <b>Heeft dit een deadline?</b>
             <small>Een echte einddatum</small>
@@ -463,6 +500,7 @@
             id="hasDeadline"
             type="checkbox"
           >
+
         </label>
 
         <div id="deadlineFields" class="conditional hidden">
@@ -533,11 +571,10 @@
 
 
       <button
-        id="saveActionButton"
         class="primary-button big-button save-action"
         type="submit"
       >
-        Bewaar in mijn Vault
+        Bewaar in mijn Vault ✦
       </button>
 
     </form>
@@ -546,7 +583,7 @@
 
 
   <!-- =========================
-       VAULT
+       VAULT HOME
   ========================== -->
 
   <section id="vaultScreen" class="screen">
@@ -556,70 +593,170 @@
       <h1>Vault</h1>
     </header>
 
+    <p class="page-intro">
+      Kies waar je wilt kijken. De rest hoeft niet tegelijk in beeld.
+    </p>
+
     <div class="module-grid">
 
-      <button class="module-card" data-module="acties" type="button">
-        <span>✓</span>
-        <strong>Acties</strong>
-        <small id="actionCountText"></small>
+      <button
+        id="tasksModule"
+        class="module-card module-tasks"
+        type="button"
+      >
+        <span class="module-icon">✓</span>
+        <strong>Taken</strong>
+        <small>Je complete masterlijst</small>
+        <span class="module-arrow">›</span>
       </button>
 
-      <button class="module-card" data-module="wishlist" type="button">
-        <span>♡</span>
+      <button
+        class="module-card module-wishlist"
+        type="button"
+      >
+        <span class="module-icon">♡</span>
         <strong>Wishlist</strong>
-        <small>Komt binnenkort</small>
+        <small>Dingen die je wilt kopen</small>
+        <span class="coming-soon">Binnenkort</span>
       </button>
 
-      <button class="module-card" data-module="collecties" type="button">
-        <span>▦</span>
+      <button
+        class="module-card module-collections"
+        type="button"
+      >
+        <span class="module-icon">▦</span>
         <strong>Collecties</strong>
-        <small>Komt binnenkort</small>
+        <small>Lijstjes die je wilt bewaren</small>
+        <span class="coming-soon">Binnenkort</span>
       </button>
 
-      <button class="module-card" data-module="ideeen" type="button">
-        <span>✦</span>
+      <button
+        id="ideasModule"
+        class="module-card module-ideas"
+        type="button"
+      >
+        <span class="module-icon">✦</span>
         <strong>Ideeën</strong>
-        <small id="ideaCountText"></small>
+        <small>Gedachten voor later</small>
+        <span class="module-arrow">›</span>
       </button>
 
     </div>
-
-    <div class="filters">
-      <button class="filter active" data-filter="alles">Alles</button>
-      <button class="filter" data-filter="taak">Taken</button>
-      <button class="filter" data-filter="aankoop">Aankopen</button>
-      <button class="filter" data-filter="betaling">Betalingen</button>
-      <button class="filter" data-filter="afspraak">Afspraken</button>
-      <button class="filter" data-filter="idee">Ideeën</button>
-    </div>
-
-    <ul id="vaultList"></ul>
 
   </section>
 
 
   <!-- =========================
-       PROJECTEN
+       MASTER TASKS
+  ========================== -->
+
+  <section id="tasksScreen" class="screen">
+
+    <header class="screen-header">
+
+      <button
+        id="tasksBackButton"
+        class="back-button"
+        type="button"
+      >
+        ←
+      </button>
+
+      <div>
+        <p class="eyebrow">Vault</p>
+        <h1>Mijn taken</h1>
+      </div>
+
+    </header>
+
+    <p class="page-intro">
+      Alles wat nog ergens op je wacht. Je hoeft hier alleen
+      te kijken wanneer jij daar behoefte aan hebt.
+    </p>
+
+    <div class="search-box">
+
+      <span>⌕</span>
+
+      <input
+        id="taskSearch"
+        type="search"
+        placeholder="Zoek in mijn taken..."
+      >
+
+    </div>
+
+    <div class="filters">
+
+      <button class="filter active" data-task-filter="alles">
+        Alles
+      </button>
+
+      <button class="filter" data-task-filter="taak">
+        Taken
+      </button>
+
+      <button class="filter" data-task-filter="aankoop">
+        Aankopen
+      </button>
+
+      <button class="filter" data-task-filter="betaling">
+        Betalingen
+      </button>
+
+      <button class="filter" data-task-filter="afspraak">
+        Afspraken
+      </button>
+
+    </div>
+
+    <ul id="masterTaskList"></ul>
+
+  </section>
+
+
+  <!-- =========================
+       IDEAS
+  ========================== -->
+
+  <section id="ideasScreen" class="screen">
+
+    <header class="screen-header">
+
+      <button
+        id="ideasBackButton"
+        class="back-button"
+        type="button"
+      >
+        ←
+      </button>
+
+      <div>
+        <p class="eyebrow">Vault</p>
+        <h1>Ideeën</h1>
+      </div>
+
+    </header>
+
+    <div id="ideasList"></div>
+
+  </section>
+
+
+  <!-- =========================
+       PROJECTS
   ========================== -->
 
   <section id="projectsScreen" class="screen">
 
-    <header class="section-title-row project-header">
-
-      <div>
-        <p class="eyebrow">Grotere trajecten</p>
-        <h1>Projecten</h1>
-      </div>
-
-      <button
-        id="newProjectButton"
-        class="small-primary-button"
-        type="button"
-      >
-        + Nieuw
-      </button>
-
+    <header class="simple-header">
+      <p class="eyebrow">Grotere trajecten</p>
+      <h1>Projecten</h1>
     </header>
+
+    <p class="page-intro">
+      Dingen waar meerdere stappen onder vallen.
+    </p>
 
     <div
       id="projectsList"
@@ -652,12 +789,10 @@
 
     </header>
 
-
     <div
       id="projectDeadlineInfo"
       class="project-info hidden"
     ></div>
-
 
     <div class="section-title-row">
 
@@ -666,16 +801,7 @@
         <h2>Acties</h2>
       </div>
 
-      <button
-        id="addProjectActionButton"
-        class="text-button"
-        type="button"
-      >
-        + Toevoegen
-      </button>
-
     </div>
-
 
     <ul id="projectActionList"></ul>
 
@@ -688,7 +814,8 @@
 
   <section id="settingsScreen" class="screen">
 
-    <header class="simple-header">
+    <header class="settings-header">
+      <div class="settings-glow"></div>
       <p class="eyebrow">LumiVault</p>
       <h1>Instellingen</h1>
     </header>
@@ -703,28 +830,61 @@
         class="settings-row"
         type="button"
       >
-        <span>
+        <span class="settings-symbol">✦</span>
+
+        <span class="settings-copy">
           <b>Huidige energie</b>
-          <small>Pas je energie aan</small>
+          <small id="settingsEnergyText">Pas je energie aan</small>
         </span>
-        <span>›</span>
+
+        <span class="settings-arrow">›</span>
       </button>
 
+
       <button class="settings-row" type="button">
-        <span>
+
+        <span class="settings-symbol">☾</span>
+
+        <span class="settings-copy">
           <b>Meldingen</b>
           <small>Later instellen</small>
         </span>
-        <span>›</span>
+
+        <span class="settings-arrow">›</span>
       </button>
 
-      <button class="settings-row" type="button">
-        <span>
-          <b>Weergave</b>
-          <small>Thema en uitstraling</small>
-        </span>
-        <span>›</span>
-      </button>
+    </section>
+
+
+    <section class="settings-group">
+
+      <h2>Weergave</h2>
+
+      <div class="settings-static">
+
+        <span class="static-title">Accentkleur</span>
+
+        <div class="color-swatches">
+          <span class="swatch purple selected-swatch"></span>
+          <span class="swatch blue"></span>
+          <span class="swatch pink"></span>
+          <span class="swatch green"></span>
+          <span class="swatch gold"></span>
+        </div>
+
+      </div>
+
+      <div class="settings-static">
+
+        <span class="static-title">Modus</span>
+
+        <div class="mode-preview">
+          <span>Systeem</span>
+          <span>Licht</span>
+          <strong>Donker</strong>
+        </div>
+
+      </div>
 
     </section>
 
@@ -734,39 +894,58 @@
       <h2>Beheer</h2>
 
       <button class="settings-row" type="button">
-        <span>
+
+        <span class="settings-symbol">▦</span>
+
+        <span class="settings-copy">
           <b>Categorieën beheren</b>
-          <small>Toevoegen, aanpassen en verwijderen</small>
+          <small>Toevoegen en aanpassen</small>
         </span>
-        <span>›</span>
+
+        <span class="settings-arrow">›</span>
       </button>
+
 
       <button
         id="settingsProjectsButton"
         class="settings-row"
         type="button"
       >
-        <span>
+
+        <span class="settings-symbol">◇</span>
+
+        <span class="settings-copy">
           <b>Projecten beheren</b>
           <small>Lopende en afgeronde projecten</small>
         </span>
-        <span>›</span>
+
+        <span class="settings-arrow">›</span>
       </button>
 
+
       <button class="settings-row" type="button">
-        <span>
+
+        <span class="settings-symbol">↻</span>
+
+        <span class="settings-copy">
           <b>Herhalende taken</b>
-          <small>Overzicht van routines</small>
+          <small>Routines en onderhoud</small>
         </span>
-        <span>›</span>
+
+        <span class="settings-arrow">›</span>
       </button>
 
+
       <button class="settings-row" type="button">
-        <span>
+
+        <span class="settings-symbol">↓</span>
+
+        <span class="settings-copy">
           <b>Gegevens & export</b>
           <small>Later beschikbaar</small>
         </span>
-        <span>›</span>
+
+        <span class="settings-arrow">›</span>
       </button>
 
     </section>
@@ -775,23 +954,23 @@
     <section class="settings-social-grid">
 
       <button type="button">
+        <span>★</span>
         <strong>Beoordeel LumiVault</strong>
-        <small>Laat weten wat je vindt</small>
       </button>
 
       <button type="button">
+        <span>♡</span>
         <strong>Nodig iemand uit</strong>
-        <small>Deel LumiVault</small>
       </button>
 
       <button type="button">
+        <span>◎</span>
         <strong>Instagram</strong>
-        <small>Volg LumiVault</small>
       </button>
 
       <button type="button">
+        <span>✉</span>
         <strong>Nieuwsbrief</strong>
-        <small>Blijf op de hoogte</small>
       </button>
 
     </section>
@@ -800,18 +979,18 @@
     <section class="settings-group compact-group">
 
       <button class="settings-row" type="button">
-        <span><b>Privacybeleid</b></span>
-        <span>›</span>
+        <span class="settings-copy"><b>Privacybeleid</b></span>
+        <span class="settings-arrow">›</span>
       </button>
 
       <button class="settings-row" type="button">
-        <span><b>Voorwaarden & condities</b></span>
-        <span>›</span>
+        <span class="settings-copy"><b>Voorwaarden & condities</b></span>
+        <span class="settings-arrow">›</span>
       </button>
 
       <button class="settings-row" type="button">
-        <span><b>Neem contact op</b></span>
-        <span>›</span>
+        <span class="settings-copy"><b>Neem contact op</b></span>
+        <span class="settings-arrow">›</span>
       </button>
 
     </section>
@@ -831,7 +1010,7 @@
 
 
     <p class="version">
-      LumiVault · prototype v0.3
+      LumiVault · prototype v0.4
     </p>
 
   </section>
@@ -908,6 +1087,14 @@
 
   <div class="energy-card">
 
+    <button
+      id="closeEnergyButton"
+      class="modal-close"
+      type="button"
+    >
+      ×
+    </button>
+
     <p class="eyebrow">
       Even inchecken
     </p>
@@ -917,7 +1104,8 @@
     </h2>
 
     <p class="modal-copy">
-      Niet hoe je vindt dat het zou moeten zijn. Gewoon hoe het nu is.
+      Niet hoe je vindt dat het zou moeten zijn.
+      Gewoon hoe het nu is.
     </p>
 
     <div class="energy-grid">
@@ -965,12 +1153,20 @@
 
   <div class="modal-card">
 
+    <button
+      id="closeProjectButton"
+      class="modal-close"
+      type="button"
+    >
+      ×
+    </button>
+
     <p class="eyebrow">
       Nieuw project
     </p>
 
     <h2>
-      Project aanmaken
+      Waar ben je mee bezig?
     </h2>
 
     <label class="small-label" for="projectName">
@@ -984,19 +1180,9 @@
       placeholder="Bijv. WIA-aanvraag"
     >
 
-    <label class="small-label" for="projectDescription">
-      Omschrijving
-    </label>
 
-    <textarea
-      id="projectDescription"
-      class="main-textarea compact-textarea"
-      rows="3"
-      placeholder="Waar gaat dit project over?"
-    ></textarea>
-
-    <label class="small-label">
-      Deadline?
+    <label class="small-label" for="projectDeadline">
+      Deadline, als die er is
     </label>
 
     <input
@@ -1005,25 +1191,53 @@
       type="date"
     >
 
-    <div class="modal-actions">
+
+    <label class="small-label">
+      Kleur
+    </label>
+
+    <div class="project-color-picker">
 
       <button
-        id="cancelProjectButton"
-        class="secondary-button"
+        class="project-color selected"
+        data-color="purple"
         type="button"
-      >
-        Annuleren
-      </button>
+      ></button>
 
       <button
-        id="saveProjectButton"
-        class="primary-button"
+        class="project-color blue"
+        data-color="blue"
         type="button"
-      >
-        Opslaan
-      </button>
+      ></button>
+
+      <button
+        class="project-color green"
+        data-color="green"
+        type="button"
+      ></button>
+
+      <button
+        class="project-color pink"
+        data-color="pink"
+        type="button"
+      ></button>
+
+      <button
+        class="project-color gold"
+        data-color="gold"
+        type="button"
+      ></button>
 
     </div>
+
+
+    <button
+      id="saveProjectButton"
+      class="primary-button big-button"
+      type="button"
+    >
+      Project bewaren
+    </button>
 
   </div>
 
@@ -1040,7 +1254,10 @@
 >
 
   <div>
-    <strong>Bewaard in je Vault ✨</strong>
+    <strong id="toastTitle">
+      Bewaard in je Vault ✦
+    </strong>
+
     <span id="toastText"></span>
   </div>
 
@@ -1066,8 +1283,9 @@ let projects = loadProjects();
 let currentEnergy = loadEnergy();
 
 let currentScreen = "home";
-let currentFilter = "alles";
 let currentProjectId = null;
+let taskFilter = "alles";
+let selectedProjectColor = "purple";
 
 let formPriority = 3;
 let formResistance = 3;
@@ -1080,14 +1298,18 @@ let formImpact = 3;
 ========================= */
 
 function uid() {
+
   return (
     Date.now().toString() +
     "-" +
     Math.random().toString(16).slice(2)
   );
+
 }
 
+
 function todayKey() {
+
   const now = new Date();
 
   return (
@@ -1097,13 +1319,19 @@ function todayKey() {
     "-" +
     String(now.getDate()).padStart(2, "0")
   );
+
 }
+
 
 function formatDate(dateString) {
 
   if (!dateString) return "";
 
-  const date = new Date(dateString + "T12:00:00");
+  const date =
+    new Date(
+      dateString +
+      "T12:00:00"
+    );
 
   return date.toLocaleDateString(
     "nl-NL",
@@ -1113,11 +1341,12 @@ function formatDate(dateString) {
       year: "numeric"
     }
   );
+
 }
 
 
 /* =========================
-   STORAGE
+   STORAGE ACTIONS
 ========================= */
 
 function loadActions() {
@@ -1131,7 +1360,9 @@ function loadActions() {
 
     return stored.map((item, index) => ({
 
-      id: item.id || uid(),
+      id:
+        item.id ||
+        uid(),
 
       title:
         item.title ||
@@ -1211,6 +1442,7 @@ function loadActions() {
     return [];
 
   }
+
 }
 
 
@@ -1237,8 +1469,13 @@ function normalizeType(type) {
   return allowed.includes(type)
     ? type
     : "taak";
+
 }
 
+
+/* =========================
+   STORAGE PROJECTS
+========================= */
 
 function loadProjects() {
 
@@ -1249,7 +1486,15 @@ function loadProjects() {
         localStorage.getItem(PROJECTS_KEY)
       ) || [];
 
-    return stored.map(project => ({
+    const colors = [
+      "purple",
+      "blue",
+      "green",
+      "pink",
+      "gold"
+    ];
+
+    return stored.map((project, index) => ({
 
       id:
         project.id ||
@@ -1259,13 +1504,13 @@ function loadProjects() {
         project.title ||
         "Project",
 
-      description:
-        project.description ||
-        "",
-
       deadline:
         project.deadline ||
         "",
+
+      color:
+        project.color ||
+        colors[index % colors.length],
 
       archived:
         Boolean(project.archived),
@@ -1281,6 +1526,7 @@ function loadProjects() {
     return [];
 
   }
+
 }
 
 
@@ -1309,7 +1555,10 @@ function loadEnergy() {
 
     if (!stored) return null;
 
-    if (stored.day !== todayKey()) {
+    if (
+      stored.day !==
+      todayKey()
+    ) {
       return null;
     }
 
@@ -1320,12 +1569,14 @@ function loadEnergy() {
     return null;
 
   }
+
 }
 
 
 function saveEnergy(value) {
 
-  currentEnergy = Number(value);
+  currentEnergy =
+    Number(value);
 
   localStorage.setItem(
     ENERGY_KEY,
@@ -1336,11 +1587,12 @@ function saveEnergy(value) {
     })
   );
 
-  updateEnergyUI();
-
   closeEnergyModal();
 
+  updateEnergyUI();
+
   renderHome();
+
 }
 
 
@@ -1354,6 +1606,9 @@ const screens =
 const navButtons =
   document.querySelectorAll(".nav-button");
 
+const homeQuote =
+  document.getElementById("homeQuote");
+
 const energyButton =
   document.getElementById("energyButton");
 
@@ -1363,20 +1618,26 @@ const energyButtonText =
 const settingsEnergyButton =
   document.getElementById("settingsEnergyButton");
 
+const settingsEnergyText =
+  document.getElementById("settingsEnergyText");
+
 const energyOverlay =
   document.getElementById("energyOverlay");
 
+const closeEnergyButton =
+  document.getElementById("closeEnergyButton");
+
 const energyChoices =
   document.querySelectorAll(".energy-choice");
-
-const homeQuote =
-  document.getElementById("homeQuote");
 
 const suggestionList =
   document.getElementById("suggestionList");
 
 const suggestionEmpty =
   document.getElementById("suggestionEmpty");
+
+const openTasksFromHome =
+  document.getElementById("openTasksFromHome");
 
 const projectCarousel =
   document.getElementById("projectCarousel");
@@ -1444,23 +1705,32 @@ const repeatUnit =
 const lastDone =
   document.getElementById("lastDone");
 
-const vaultList =
-  document.getElementById("vaultList");
+const tasksModule =
+  document.getElementById("tasksModule");
 
-const filterButtons =
-  document.querySelectorAll(".filter");
+const ideasModule =
+  document.getElementById("ideasModule");
 
-const actionCountText =
-  document.getElementById("actionCountText");
+const tasksBackButton =
+  document.getElementById("tasksBackButton");
 
-const ideaCountText =
-  document.getElementById("ideaCountText");
+const ideasBackButton =
+  document.getElementById("ideasBackButton");
+
+const taskSearch =
+  document.getElementById("taskSearch");
+
+const taskFilterButtons =
+  document.querySelectorAll("[data-task-filter]");
+
+const masterTaskList =
+  document.getElementById("masterTaskList");
+
+const ideasList =
+  document.getElementById("ideasList");
 
 const projectsList =
   document.getElementById("projectsList");
-
-const newProjectButton =
-  document.getElementById("newProjectButton");
 
 const projectOverlay =
   document.getElementById("projectOverlay");
@@ -1468,14 +1738,14 @@ const projectOverlay =
 const projectName =
   document.getElementById("projectName");
 
-const projectDescription =
-  document.getElementById("projectDescription");
-
 const projectDeadline =
   document.getElementById("projectDeadline");
 
-const cancelProjectButton =
-  document.getElementById("cancelProjectButton");
+const projectColorButtons =
+  document.querySelectorAll(".project-color");
+
+const closeProjectButton =
+  document.getElementById("closeProjectButton");
 
 const saveProjectButton =
   document.getElementById("saveProjectButton");
@@ -1492,14 +1762,14 @@ const projectActionList =
 const projectBackButton =
   document.getElementById("projectBackButton");
 
-const addProjectActionButton =
-  document.getElementById("addProjectActionButton");
-
 const settingsProjectsButton =
   document.getElementById("settingsProjectsButton");
 
 const toast =
   document.getElementById("toast");
+
+const toastTitle =
+  document.getElementById("toastTitle");
 
 const toastText =
   document.getElementById("toastText");
@@ -1509,7 +1779,7 @@ const toastVaultButton =
 
 
 /* =========================
-   QUOTE
+   QUOTES
 ========================= */
 
 function setQuote() {
@@ -1519,7 +1789,9 @@ function setQuote() {
     "Klein telt ook.",
     "Wat lukt, telt.",
     "Rustig vooruit is ook vooruit.",
-    "Vandaag hoeft niet perfect te zijn."
+    "Vandaag hoeft niet perfect te zijn.",
+    "Niet alles hoeft vandaag.",
+    "Je energie bepaalt de route, niet je waarde."
   ];
 
   homeQuote.textContent =
@@ -1527,11 +1799,12 @@ function setQuote() {
       new Date().getDate() %
       quotes.length
     ];
+
 }
 
 
 /* =========================
-   NAV
+   NAVIGATION
 ========================= */
 
 function showScreen(name) {
@@ -1562,16 +1835,19 @@ function showScreen(name) {
 
   globalAddButton.classList.toggle(
     "hidden",
-    name === "capture" ||
-    name === "projectDetail"
+    name === "capture"
   );
 
   if (name === "home") {
     renderHome();
   }
 
-  if (name === "vault") {
-    renderVault();
+  if (name === "tasks") {
+    renderMasterTasks();
+  }
+
+  if (name === "ideas") {
+    renderIdeas();
   }
 
   if (name === "projects") {
@@ -1583,6 +1859,7 @@ function showScreen(name) {
   }
 
   window.scrollTo(0, 0);
+
 }
 
 
@@ -1590,9 +1867,15 @@ navButtons.forEach(button => {
 
   button.addEventListener(
     "click",
-    () => showScreen(
-      button.dataset.screen
-    )
+    () => {
+
+      currentProjectId = null;
+
+      showScreen(
+        button.dataset.screen
+      );
+
+    }
   );
 
 });
@@ -1610,6 +1893,36 @@ settingsProjectsButton.addEventListener(
 );
 
 
+tasksModule.addEventListener(
+  "click",
+  () => showScreen("tasks")
+);
+
+
+ideasModule.addEventListener(
+  "click",
+  () => showScreen("ideas")
+);
+
+
+openTasksFromHome.addEventListener(
+  "click",
+  () => showScreen("tasks")
+);
+
+
+tasksBackButton.addEventListener(
+  "click",
+  () => showScreen("vault")
+);
+
+
+ideasBackButton.addEventListener(
+  "click",
+  () => showScreen("vault")
+);
+
+
 /* =========================
    ENERGY
 ========================= */
@@ -1620,16 +1933,30 @@ function updateEnergyUI() {
     currentEnergy
       ? "Energie " + currentEnergy
       : "Energie";
+
+  settingsEnergyText.textContent =
+    currentEnergy
+      ? "Op dit moment: " + currentEnergy
+      : "Pas je energie aan";
+
 }
 
 
 function openEnergyModal() {
-  energyOverlay.classList.remove("hidden");
+
+  energyOverlay.classList.remove(
+    "hidden"
+  );
+
 }
 
 
 function closeEnergyModal() {
-  energyOverlay.classList.add("hidden");
+
+  energyOverlay.classList.add(
+    "hidden"
+  );
+
 }
 
 
@@ -1642,6 +1969,29 @@ energyButton.addEventListener(
 settingsEnergyButton.addEventListener(
   "click",
   openEnergyModal
+);
+
+
+closeEnergyButton.addEventListener(
+  "click",
+  closeEnergyModal
+);
+
+
+energyOverlay.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      energyOverlay
+    ) {
+
+      closeEnergyModal();
+
+    }
+
+  }
 );
 
 
@@ -1661,7 +2011,7 @@ energyChoices.forEach(button => {
    RECOMMENDATIONS
 ========================= */
 
-function isAction(item) {
+function isTaskLike(item) {
 
   return [
     "taak",
@@ -1669,6 +2019,7 @@ function isAction(item) {
     "betaling",
     "afspraak"
   ].includes(item.type);
+
 }
 
 
@@ -1681,12 +2032,17 @@ function isBlocked(item) {
     return false;
   }
 
-  if (!item.blocker.availableFrom) {
+  if (
+    !item.blocker.availableFrom
+  ) {
     return true;
   }
 
   const today =
-    new Date(todayKey() + "T12:00:00");
+    new Date(
+      todayKey() +
+      "T12:00:00"
+    );
 
   const available =
     new Date(
@@ -1695,6 +2051,7 @@ function isBlocked(item) {
     );
 
   return available > today;
+
 }
 
 
@@ -1709,7 +2066,10 @@ function deadlineUrgency(item) {
   }
 
   const today =
-    new Date(todayKey() + "T12:00:00");
+    new Date(
+      todayKey() +
+      "T12:00:00"
+    );
 
   const deadline =
     new Date(
@@ -1729,12 +2089,15 @@ function deadlineUrgency(item) {
   if (diffDays <= 7) return 4;
 
   return 0;
+
 }
 
 
 function recommendationScore(item) {
 
-  if (!currentEnergy) return -999;
+  if (!currentEnergy) {
+    return -999;
+  }
 
   if (isBlocked(item)) {
     return -999;
@@ -1742,68 +2105,42 @@ function recommendationScore(item) {
 
   let score = 0;
 
-  /*
-    Prioriteit:
-    1 is belangrijker dan 5.
-  */
-
   score +=
     (6 - item.priority) * 3;
 
-
-  /*
-    Energie-match.
-  */
-
   const energyDifference =
-    currentEnergy - item.effort;
+    currentEnergy -
+    item.effort;
 
-  if (energyDifference >= 0) {
+  if (
+    energyDifference >= 0
+  ) {
+
     score += 8;
-  }
 
-  else {
+  } else {
+
     score -=
       Math.abs(
         energyDifference
       ) * 5;
+
   }
-
-
-  /*
-    Lage weerstand is makkelijker.
-    Hoge weerstand krijgt iets minder kans,
-    maar verdwijnt niet compleet.
-  */
 
   score +=
     (6 - item.resistance) * 1.2;
 
-
-  /*
-    Impact.
-  */
-
   score +=
     item.impact * 1.7;
-
-
-  /*
-    Korte taken krijgen op lage energie
-    iets extra kans.
-  */
 
   if (
     currentEnergy <= 2 &&
     item.duration <= 15
   ) {
+
     score += 5;
+
   }
-
-
-  /*
-    Uitstel telt mee.
-  */
 
   score +=
     Math.min(
@@ -1811,16 +2148,11 @@ function recommendationScore(item) {
       5
     ) * 1.2;
 
-
-  /*
-    Deadline kan energie-match overrulen.
-  */
-
   score +=
     deadlineUrgency(item);
 
-
   return score;
+
 }
 
 
@@ -1829,7 +2161,7 @@ function getSuggestions() {
   return actions
     .filter(
       item =>
-        isAction(item) &&
+        isTaskLike(item) &&
         !item.done
     )
     .map(
@@ -1852,6 +2184,7 @@ function getSuggestions() {
       wrapped =>
         wrapped.item
     );
+
 }
 
 
@@ -1891,9 +2224,11 @@ function renderHome() {
       );
 
     });
+
   }
 
   renderProjectPreview();
+
 }
 
 
@@ -1903,18 +2238,15 @@ function createSuggestionCard(item) {
     document.createElement("li");
 
   li.className =
-    "suggestion-card";
+    "suggestion-card suggestion-" +
+    item.type;
 
 
   const check =
     document.createElement("button");
 
-  check.className =
-    "check";
-
-  check.type =
-    "button";
-
+  check.className = "check";
+  check.type = "button";
 
   check.addEventListener(
     "click",
@@ -1950,9 +2282,22 @@ function createSuggestionCard(item) {
     item.title;
 
 
+  const subtle =
+    document.createElement("small");
+
+  subtle.className =
+    "suggestion-detail";
+
+  subtle.textContent =
+    durationLabel(
+      item.duration
+    );
+
+
   content.append(
     badge,
-    text
+    text,
+    subtle
   );
 
 
@@ -1961,13 +2306,13 @@ function createSuggestionCard(item) {
     content
   );
 
-
   return li;
+
 }
 
 
 /* =========================
-   COMPLETE / REPEAT
+   COMPLETE
 ========================= */
 
 function completeAction(item) {
@@ -2002,14 +2347,19 @@ function completeAction(item) {
 
   saveActions();
 
+  showCompletionToast(item);
+
   renderHome();
-  renderVault();
+  renderMasterTasks();
 
   if (currentProjectId) {
+
     renderProjectDetail(
       currentProjectId
     );
+
   }
+
 }
 
 
@@ -2029,29 +2379,36 @@ function calculateNextDue(
     Number(every) || 1;
 
   if (unit === "days") {
+
     date.setDate(
       date.getDate() +
       amount
     );
+
   }
 
   if (unit === "weeks") {
+
     date.setDate(
       date.getDate() +
       amount * 7
     );
+
   }
 
   if (unit === "months") {
+
     date.setMonth(
       date.getMonth() +
       amount
     );
+
   }
 
   return date
     .toISOString()
     .slice(0, 10);
+
 }
 
 
@@ -2098,6 +2455,7 @@ function setupScale(
     );
 
   });
+
 }
 
 
@@ -2202,11 +2560,12 @@ function populateProjectSelect() {
       );
 
     });
+
 }
 
 
 /* =========================
-   OPEN CAPTURE
+   CAPTURE
 ========================= */
 
 function resetForm() {
@@ -2243,6 +2602,7 @@ function resetForm() {
   );
 
   populateProjectSelect();
+
 }
 
 
@@ -2253,8 +2613,10 @@ function openCapture(
   resetForm();
 
   if (projectId) {
+
     actionProject.value =
       projectId;
+
   }
 
   showScreen("capture");
@@ -2264,21 +2626,17 @@ function openCapture(
       actionTitle.focus(),
     100
   );
+
 }
-
-
-globalAddButton.addEventListener(
-  "click",
-  () =>
-    openCapture()
-);
 
 
 captureBackButton.addEventListener(
   "click",
   () => {
 
-    if (currentProjectId) {
+    if (
+      currentProjectId
+    ) {
 
       showProjectDetail(
         currentProjectId
@@ -2289,6 +2647,43 @@ captureBackButton.addEventListener(
       showScreen("home");
 
     }
+
+  }
+);
+
+
+/* =========================
+   GLOBAL PLUS
+========================= */
+
+globalAddButton.addEventListener(
+  "click",
+  () => {
+
+    if (
+      currentScreen ===
+      "projects"
+    ) {
+
+      openProjectModal();
+      return;
+
+    }
+
+    if (
+      currentScreen ===
+      "projectDetail"
+    ) {
+
+      openCapture(
+        currentProjectId
+      );
+
+      return;
+
+    }
+
+    openCapture();
 
   }
 );
@@ -2308,8 +2703,10 @@ actionForm.addEventListener(
       actionTitle.value.trim();
 
     if (!title) {
+
       actionTitle.focus();
       return;
+
     }
 
     const isRepeat =
@@ -2329,6 +2726,7 @@ actionForm.addEventListener(
           repeatEvery.value,
           repeatUnit.value
         );
+
     }
 
     const item = {
@@ -2420,29 +2818,47 @@ actionForm.addEventListener(
 
     saveActions();
 
-    currentProjectId = null;
+    const savedProject =
+      item.projectId;
 
-    showScreen("home");
+    showSavedToast(item);
 
-    showToast(item);
+    if (savedProject) {
+
+      currentProjectId =
+        savedProject;
+
+      showProjectDetail(
+        savedProject
+      );
+
+    } else {
+
+      currentProjectId =
+        null;
+
+      showScreen("home");
+
+    }
+
   }
 );
 
 
 /* =========================
-   VAULT
+   MASTER TASKS
 ========================= */
 
-filterButtons.forEach(button => {
+taskFilterButtons.forEach(button => {
 
   button.addEventListener(
     "click",
     () => {
 
-      currentFilter =
-        button.dataset.filter;
+      taskFilter =
+        button.dataset.taskFilter;
 
-      filterButtons.forEach(
+      taskFilterButtons.forEach(
         other =>
           other.classList.remove(
             "active"
@@ -2453,7 +2869,7 @@ filterButtons.forEach(button => {
         "active"
       );
 
-      renderVault();
+      renderMasterTasks();
 
     }
   );
@@ -2461,36 +2877,25 @@ filterButtons.forEach(button => {
 });
 
 
-function renderVault() {
+taskSearch.addEventListener(
+  "input",
+  renderMasterTasks
+);
 
-  vaultList.innerHTML = "";
 
-  const actionCount =
-    actions.filter(
-      item =>
-        item.type !== "idee"
-    ).length;
+function renderMasterTasks() {
 
-  const ideaCount =
-    actions.filter(
-      item =>
-        item.type === "idee"
-    ).length;
-
-  actionCountText.textContent =
-    actionCount +
-    " opgeslagen";
-
-  ideaCountText.textContent =
-    ideaCount +
-    " opgeslagen";
-
+  masterTaskList.innerHTML = "";
 
   let visible =
-    [...actions];
+    actions.filter(
+      item =>
+        isTaskLike(item) &&
+        !item.done
+    );
 
   if (
-    currentFilter !==
+    taskFilter !==
     "alles"
   ) {
 
@@ -2498,14 +2903,40 @@ function renderVault() {
       visible.filter(
         item =>
           item.type ===
-          currentFilter
+          taskFilter
       );
+
+  }
+
+  const search =
+    taskSearch.value
+      .trim()
+      .toLowerCase();
+
+  if (search) {
+
+    visible =
+      visible.filter(
+        item =>
+          item.title
+            .toLowerCase()
+            .includes(search)
+      );
+
   }
 
   visible.sort(
-    (a, b) =>
-      b.createdAt -
-      a.createdAt
+    (a, b) => {
+
+      const scoreA =
+        recommendationScore(a);
+
+      const scoreB =
+        recommendationScore(b);
+
+      return scoreB - scoreA;
+
+    }
   );
 
   if (
@@ -2520,138 +2951,215 @@ function renderVault() {
     empty.className =
       "soft-empty";
 
-    empty.textContent =
-      "Hier staat nog niets ✨";
+    empty.innerHTML =
+      "<strong>Niets gevonden ✦</strong>";
 
-    vaultList.appendChild(
+    masterTaskList.appendChild(
       empty
     );
 
     return;
+
   }
 
   visible.forEach(item => {
 
-    vaultList.appendChild(
-      createVaultCard(item)
+    masterTaskList.appendChild(
+      createMasterTaskCard(item)
     );
 
   });
+
 }
 
 
-function createVaultCard(item) {
+function createMasterTaskCard(item) {
 
   const li =
     document.createElement("li");
 
   li.className =
-    "vault-card" +
-    (
-      item.done
-        ? " completed"
-        : ""
-    );
+    "master-task-card master-" +
+    item.type;
 
 
-  const icon =
-    document.createElement(
-      "div"
-    );
+  const check =
+    document.createElement("button");
 
-  icon.className =
-    "vault-icon";
+  check.className = "check";
+  check.type = "button";
 
-  icon.textContent =
-    typeIcon(
-      item.type
-    );
+  check.addEventListener(
+    "click",
+    () => completeAction(item)
+  );
 
 
   const content =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
   content.className =
-    "vault-content";
+    "master-task-content";
 
 
-  const text =
-    document.createElement(
-      "div"
-    );
+  const title =
+    document.createElement("strong");
 
-  text.className =
-    "vault-text";
-
-  text.textContent =
+  title.textContent =
     item.title;
 
 
   const meta =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
   meta.className =
-    "vault-meta";
+    "master-task-meta";
 
-  meta.textContent =
+
+  const badge =
+    document.createElement("span");
+
+  badge.className =
+    "type-badge " +
+    item.type;
+
+  badge.textContent =
+    typeLabel(item.type);
+
+
+  const category =
+    document.createElement("span");
+
+  category.className =
+    "category-text";
+
+  category.textContent =
     categoryLabel(
       item.category
     );
 
 
+  meta.append(
+    badge,
+    category
+  );
+
+
   content.append(
-    text,
+    title,
     meta
   );
 
 
-  const remove =
-    document.createElement(
-      "button"
-    );
-
-  remove.className =
-    "delete-button";
-
-  remove.type =
-    "button";
-
-  remove.textContent =
-    "×";
-
-
-  remove.addEventListener(
-    "click",
-    () => {
-
-      actions =
-        actions.filter(
-          stored =>
-            stored.id !==
-            item.id
-        );
-
-      saveActions();
-
-      renderVault();
-      renderHome();
-
-    }
-  );
-
-
   li.append(
-    icon,
-    content,
-    remove
+    check,
+    content
   );
 
 
   return li;
+
+}
+
+
+/* =========================
+   IDEAS
+========================= */
+
+function renderIdeas() {
+
+  ideasList.innerHTML = "";
+
+  const ideas =
+    actions
+      .filter(
+        item =>
+          item.type === "idee"
+      )
+      .sort(
+        (a, b) =>
+          b.createdAt -
+          a.createdAt
+      );
+
+  if (
+    ideas.length === 0
+  ) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "soft-empty";
+
+    empty.innerHTML =
+      "<strong>Nog geen ideeën ✦</strong>";
+
+    ideasList.appendChild(
+      empty
+    );
+
+    return;
+
+  }
+
+  ideas.forEach(item => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "idea-card";
+
+
+    const star =
+      document.createElement("span");
+
+    star.className =
+      "idea-star";
+
+    star.textContent =
+      "✦";
+
+
+    const content =
+      document.createElement("div");
+
+
+    const title =
+      document.createElement("strong");
+
+    title.textContent =
+      item.title;
+
+
+    const category =
+      document.createElement("small");
+
+    category.textContent =
+      categoryLabel(
+        item.category
+      );
+
+
+    content.append(
+      title,
+      category
+    );
+
+
+    card.append(
+      star,
+      content
+    );
+
+
+    ideasList.appendChild(
+      card
+    );
+
+  });
+
 }
 
 
@@ -2674,21 +3182,20 @@ function renderProjects() {
   ) {
 
     const empty =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     empty.className =
       "soft-empty";
 
-    empty.textContent =
-      "Nog geen projecten ✨";
+    empty.innerHTML =
+      "<strong>Nog geen projecten ✦</strong><p>Gebruik het plusje om je eerste project te maken.</p>";
 
     projectsList.appendChild(
       empty
     );
 
     return;
+
   }
 
   active.forEach(project => {
@@ -2701,6 +3208,7 @@ function renderProjects() {
     );
 
   });
+
 }
 
 
@@ -2714,7 +3222,7 @@ function renderProjectPreview() {
         project =>
           !project.archived
       )
-      .slice(0, 5);
+      .slice(0, 6);
 
   if (
     active.length === 0
@@ -2722,20 +3230,29 @@ function renderProjectPreview() {
 
     const empty =
       document.createElement(
-        "div"
+        "button"
       );
 
     empty.className =
-      "mini-empty";
+      "empty-project-card";
 
-    empty.textContent =
-      "Nog geen projecten";
+    empty.type =
+      "button";
+
+    empty.innerHTML =
+      "<span>＋</span><strong>Maak je eerste project</strong>";
+
+    empty.addEventListener(
+      "click",
+      openProjectModal
+    );
 
     projectCarousel.appendChild(
       empty
     );
 
     return;
+
   }
 
   active.forEach(project => {
@@ -2748,6 +3265,7 @@ function renderProjectPreview() {
     );
 
   });
+
 }
 
 
@@ -2760,7 +3278,7 @@ function createProjectCard(
     actions.filter(
       item =>
         item.projectId ===
-        project.id &&
+          project.id &&
         !item.done
     );
 
@@ -2773,7 +3291,8 @@ function createProjectCard(
     "button";
 
   card.className =
-    "project-card" +
+    "project-card project-" +
+    project.color +
     (
       compact
         ? " compact-project"
@@ -2781,45 +3300,88 @@ function createProjectCard(
     );
 
 
-  const title =
-    document.createElement(
-      "h3"
+  const icon =
+    document.createElement("div");
+
+  icon.className =
+    "project-icon";
+
+  icon.textContent =
+    projectIcon(
+      project.title
     );
+
+
+  const title =
+    document.createElement("h3");
 
   title.textContent =
     project.title;
 
 
   const count =
-    document.createElement(
-      "p"
-    );
+    document.createElement("p");
 
   count.textContent =
     related.length +
-    " open acties";
+    (
+      related.length === 1
+        ? " open actie"
+        : " open acties"
+    );
+
+
+  const progress =
+    document.createElement("div");
+
+  progress.className =
+    "project-progress";
+
+  progress.innerHTML =
+    "<span></span>";
 
 
   const sub =
-    document.createElement(
-      "small"
-    );
+    document.createElement("small");
 
-  sub.textContent =
+  if (
+    related.length > 0
+  ) {
+
+    const sorted =
+      [...related].sort(
+        (a, b) =>
+          recommendationScore(b) -
+          recommendationScore(a)
+      );
+
+    sub.textContent =
+      "Volgende: " +
+      sorted[0].title;
+
+  } else if (
     project.deadline
-      ? "Deadline " +
-        formatDate(
-          project.deadline
-        )
-      : (
-          project.description ||
-          "Geen deadline"
-        );
+  ) {
+
+    sub.textContent =
+      "Deadline " +
+      formatDate(
+        project.deadline
+      );
+
+  } else {
+
+    sub.textContent =
+      "Nog geen open acties";
+
+  }
 
 
   card.append(
+    icon,
     title,
     count,
+    progress,
     sub
   );
 
@@ -2834,6 +3396,7 @@ function createProjectCard(
 
 
   return card;
+
 }
 
 
@@ -2847,6 +3410,9 @@ function showProjectDetail(
 
   currentProjectId =
     projectId;
+
+  currentScreen =
+    "projectDetail";
 
   const project =
     projects.find(
@@ -2879,7 +3445,7 @@ function showProjectDetail(
       )
   );
 
-  globalAddButton.classList.add(
+  globalAddButton.classList.remove(
     "hidden"
   );
 
@@ -2888,6 +3454,7 @@ function showProjectDetail(
   );
 
   window.scrollTo(0, 0);
+
 }
 
 
@@ -2907,14 +3474,16 @@ function renderProjectDetail(
   projectDetailTitle.textContent =
     project.title;
 
-  if (project.deadline) {
+  if (
+    project.deadline
+  ) {
 
     projectDeadlineInfo.classList.remove(
       "hidden"
     );
 
     projectDeadlineInfo.textContent =
-      "Deadline: " +
+      "Deadline · " +
       formatDate(
         project.deadline
       );
@@ -2924,6 +3493,7 @@ function renderProjectDetail(
     projectDeadlineInfo.classList.add(
       "hidden"
     );
+
   }
 
   projectActionList.innerHTML = "";
@@ -2933,12 +3503,13 @@ function renderProjectDetail(
       .filter(
         item =>
           item.projectId ===
-          projectId
+            projectId &&
+          !item.done
       )
       .sort(
         (a, b) =>
-          a.priority -
-          b.priority
+          recommendationScore(b) -
+          recommendationScore(a)
       );
 
   if (
@@ -2946,73 +3517,30 @@ function renderProjectDetail(
   ) {
 
     const empty =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     empty.className =
       "soft-empty";
 
-    empty.textContent =
-      "Nog geen acties binnen dit project.";
+    empty.innerHTML =
+      "<strong>Nog geen open acties ✦</strong><p>Gebruik het plusje om iets aan dit project toe te voegen.</p>";
 
     projectActionList.appendChild(
       empty
     );
 
     return;
+
   }
 
   related.forEach(item => {
 
-    const li =
-      document.createElement(
-        "li"
-      );
-
-    li.className =
-      "project-action-row";
-
-
-    const check =
-      document.createElement(
-        "button"
-      );
-
-    check.className =
-      "check";
-
-    check.type =
-      "button";
-
-
-    check.addEventListener(
-      "click",
-      () =>
-        completeAction(item)
-    );
-
-
-    const text =
-      document.createElement(
-        "div"
-      );
-
-    text.textContent =
-      item.title;
-
-
-    li.append(
-      check,
-      text
-    );
-
-
     projectActionList.appendChild(
-      li
+      createMasterTaskCard(item)
     );
 
   });
+
 }
 
 
@@ -3028,18 +3556,6 @@ projectBackButton.addEventListener(
 );
 
 
-addProjectActionButton.addEventListener(
-  "click",
-  () => {
-
-    openCapture(
-      currentProjectId
-    );
-
-  }
-);
-
-
 /* =========================
    NEW PROJECT
 ========================= */
@@ -3047,8 +3563,19 @@ addProjectActionButton.addEventListener(
 function openProjectModal() {
 
   projectName.value = "";
-  projectDescription.value = "";
   projectDeadline.value = "";
+
+  selectedProjectColor =
+    "purple";
+
+  projectColorButtons.forEach(
+    button =>
+      button.classList.toggle(
+        "selected",
+        button.dataset.color ===
+        "purple"
+      )
+  );
 
   projectOverlay.classList.remove(
     "hidden"
@@ -3059,6 +3586,7 @@ function openProjectModal() {
       projectName.focus(),
     100
   );
+
 }
 
 
@@ -3067,19 +3595,57 @@ function closeProjectModal() {
   projectOverlay.classList.add(
     "hidden"
   );
+
 }
 
 
-newProjectButton.addEventListener(
-  "click",
-  openProjectModal
-);
-
-
-cancelProjectButton.addEventListener(
+closeProjectButton.addEventListener(
   "click",
   closeProjectModal
 );
+
+
+projectOverlay.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      projectOverlay
+    ) {
+
+      closeProjectModal();
+
+    }
+
+  }
+);
+
+
+projectColorButtons.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      selectedProjectColor =
+        button.dataset.color;
+
+      projectColorButtons.forEach(
+        other =>
+          other.classList.remove(
+            "selected"
+          )
+      );
+
+      button.classList.add(
+        "selected"
+      );
+
+    }
+  );
+
+});
 
 
 saveProjectButton.addEventListener(
@@ -3090,23 +3656,24 @@ saveProjectButton.addEventListener(
       projectName.value.trim();
 
     if (!title) {
+
       projectName.focus();
       return;
+
     }
 
     projects.push({
 
-      id: uid(),
+      id:
+        uid(),
 
       title,
 
-      description:
-        projectDescription
-          .value
-          .trim(),
-
       deadline:
         projectDeadline.value,
+
+      color:
+        selectedProjectColor,
 
       archived:
         false,
@@ -3121,7 +3688,6 @@ saveProjectButton.addEventListener(
     closeProjectModal();
 
     populateProjectSelect();
-
     renderProjects();
     renderProjectPreview();
 
@@ -3133,18 +3699,41 @@ saveProjectButton.addEventListener(
    TOAST
 ========================= */
 
-function showToast(item) {
+function showSavedToast(item) {
+
+  toastTitle.textContent =
+    "Bewaard in je Vault ✦";
 
   toastText.textContent =
-    item.title +
-    " · " +
-    typeLabel(
-      item.type
-    );
+    item.title;
 
   toast.classList.remove(
     "hidden"
   );
+
+  resetToastTimer();
+
+}
+
+
+function showCompletionToast(item) {
+
+  toastTitle.textContent =
+    "Kijk eens wat wél lukte ✦";
+
+  toastText.textContent =
+    item.title;
+
+  toast.classList.remove(
+    "hidden"
+  );
+
+  resetToastTimer();
+
+}
+
+
+function resetToastTimer() {
 
   clearTimeout(
     window.toastTimer
@@ -3156,8 +3745,9 @@ function showToast(item) {
         toast.classList.add(
           "hidden"
         ),
-      5000
+      4500
     );
+
 }
 
 
@@ -3192,20 +3782,7 @@ function typeLabel(type) {
   };
 
   return labels[type] || "Taak";
-}
 
-
-function typeIcon(type) {
-
-  const icons = {
-    taak: "✓",
-    aankoop: "🛒",
-    betaling: "€",
-    afspraak: "◷",
-    idee: "✦"
-  };
-
-  return icons[type] || "•";
 }
 
 
@@ -3223,10 +3800,53 @@ function categoryLabel(category) {
     hobby: "Hobby & creativiteit",
     werk: "Werk & ontwikkeling",
     verzorging: "Persoonlijke verzorging",
-    klusjes: "Klusjes & onderhoud"
+    klusjes: "Klusjes & onderhoud",
+    lifeupgrade: "Life Upgrade"
   };
 
   return labels[category] || category;
+
+}
+
+
+function durationLabel(minutes) {
+
+  if (minutes <= 2) return "± 2 min";
+  if (minutes <= 5) return "± 5 min";
+  if (minutes <= 15) return "± 15 min";
+  if (minutes <= 30) return "± 30 min";
+  if (minutes <= 60) return "± 1 uur";
+
+  return "langer";
+
+}
+
+
+function projectIcon(title) {
+
+  const lower =
+    title.toLowerCase();
+
+  if (
+    lower.includes("wia")
+  ) {
+    return "▤";
+  }
+
+  if (
+    lower.includes("verhuis")
+  ) {
+    return "⌂";
+  }
+
+  if (
+    lower.includes("lumi")
+  ) {
+    return "✦";
+  }
+
+  return "◇";
+
 }
 
 
@@ -3239,8 +3859,8 @@ populateProjectSelect();
 setQuote();
 
 renderHome();
-renderProjectPreview();
-renderVault();
+renderMasterTasks();
+renderIdeas();
 renderProjects();
 
 updateEnergyUI();
@@ -3251,6 +3871,7 @@ if (!currentEnergy) {
     openEnergyModal,
     300
   );
+
 }
 
 </script>
