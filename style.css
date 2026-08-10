@@ -137,3 +137,8 @@ h1 {
     font-size: 40px;
   }
 }
+#taskList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
