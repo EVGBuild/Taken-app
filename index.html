@@ -12,82 +12,89 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LumiVault">
-  <meta name="theme-color" content="#f5f5f7">
+  <meta name="theme-color" content="#10121c">
 
   <title>LumiVault</title>
 
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 
 <body>
 
 <main class="app">
 
-  <!-- =========================
+  <!-- ======================
        HOME
-  ========================== -->
+  ======================= -->
 
   <section id="homeScreen" class="screen active">
 
-    <header class="home-header">
-      <div>
-        <p id="greeting" class="eyebrow"></p>
-        <h1>LumiVault</h1>
+    <header class="home-top">
+      <div class="quote-wrap">
+        <p id="homeQuote" class="home-quote"></p>
       </div>
 
       <button
-        id="openVaultButton"
-        class="round-icon-button"
+        id="energyButton"
+        class="energy-pill"
         type="button"
-        aria-label="Open mijn Vault"
       >
-        ✨
+        <span class="energy-dot"></span>
+        <span id="energyButtonText">Energie</span>
       </button>
     </header>
 
-    <section class="hero-card">
-      <p class="hero-kicker">Vandaag</p>
 
-      <h2 id="todayTitle">
-        Wat verdient vandaag je aandacht?
-      </h2>
+    <section class="suggestions-section">
 
-      <p class="hero-text">
-        Je hoeft niet alles tegelijk vast te houden.
+      <p class="eyebrow">Voor vandaag</p>
+
+      <h1>Dit zou vandaag kunnen passen</h1>
+
+      <p class="section-intro">
+        Op basis van wat belangrijk is én wat je nu aankunt.
       </p>
+
+      <ul id="suggestionList"></ul>
+
+      <div
+        id="suggestionEmpty"
+        class="soft-empty hidden"
+      >
+        Ik zie nu niets dat lekker bij je energie past. Dat mag ook. ✨
+      </div>
+
     </section>
 
-    <section class="today-section">
 
-      <div class="section-heading">
+    <section class="projects-preview">
+
+      <div class="section-title-row">
         <div>
-          <p class="eyebrow">Open taken</p>
-          <h2>Vandaag</h2>
+          <p class="eyebrow">Lopend</p>
+          <h2>Projecten</h2>
         </div>
 
-        <span id="todayCount" class="count-badge">0</span>
+        <button
+          id="seeProjectsButton"
+          class="text-button"
+          type="button"
+        >
+          Bekijk alle
+        </button>
       </div>
 
-      <ul id="todayList"></ul>
-
-      <div id="todayEmpty" class="soft-empty hidden">
-        Geen open taken. Lekker dan. ✨
-      </div>
+      <div id="projectCarousel" class="project-carousel"></div>
 
     </section>
-
-    <button id="openCaptureButton" class="capture-fab" type="button">
-      <span class="capture-fab-plus">+</span>
-      <span>Bewaar iets</span>
-    </button>
 
   </section>
 
 
-  <!-- =========================
-       BEWAAR IETS
-  ========================== -->
+  <!-- ======================
+       CAPTURE
+  ======================= -->
 
   <section id="captureScreen" class="screen">
 
@@ -102,8 +109,8 @@
       </button>
 
       <div>
-        <p class="eyebrow">Nieuwe Lumi</p>
-        <h1>Bewaar iets</h1>
+        <p class="eyebrow">Bewaar iets</p>
+        <h1>Uit je hoofd</h1>
       </div>
 
     </header>
@@ -114,13 +121,13 @@
     <div id="captureStepText" class="capture-step active">
 
       <label class="field-label" for="itemInput">
-        Wat wil je bewaren?
+        Wat wil je niet hoeven onthouden?
       </label>
 
       <textarea
         id="itemInput"
         class="main-textarea"
-        placeholder="Schrijf het uit je hoofd..."
+        placeholder="Schrijf het hier..."
         rows="4"
       ></textarea>
 
@@ -140,33 +147,45 @@
     <div id="captureStepType" class="capture-step">
 
       <p class="field-label">
-        Wat is dit?
+        Wat voor soort ding is dit?
       </p>
 
       <div class="type-grid">
 
         <button class="type-choice" data-type="taak" type="button">
-          <span class="type-choice-icon">✓</span>
-          <span class="type-choice-title">Taak</span>
-          <span class="type-choice-text">Iets wat je wilt doen</span>
+          <span class="type-icon">✓</span>
+          <strong>Taak</strong>
+          <small>Iets wat je moet of wilt doen</small>
         </button>
 
-        <button class="type-choice" data-type="gedachte" type="button">
-          <span class="type-choice-icon">💭</span>
-          <span class="type-choice-title">Gedachte</span>
-          <span class="type-choice-text">Iets wat in je hoofd zit</span>
+        <button class="type-choice" data-type="aankoop" type="button">
+          <span class="type-icon">🛒</span>
+          <strong>Aankoop</strong>
+          <small>Iets wat je wilt kopen</small>
+        </button>
+
+        <button class="type-choice" data-type="betaling" type="button">
+          <span class="type-icon">€</span>
+          <strong>Betaling</strong>
+          <small>Rekening of betaling</small>
+        </button>
+
+        <button class="type-choice" data-type="event" type="button">
+          <span class="type-icon">◷</span>
+          <strong>Event</strong>
+          <small>Afspraak of gebeurtenis</small>
         </button>
 
         <button class="type-choice" data-type="idee" type="button">
-          <span class="type-choice-icon">💡</span>
-          <span class="type-choice-title">Idee</span>
-          <span class="type-choice-text">Iets om later te onderzoeken</span>
+          <span class="type-icon">✦</span>
+          <strong>Idee</strong>
+          <small>Iets wat je wilt bewaren</small>
         </button>
 
         <button class="type-choice" data-type="doel" type="button">
-          <span class="type-choice-icon">⭐</span>
-          <span class="type-choice-title">Doel</span>
-          <span class="type-choice-text">Iets waar je naartoe wilt</span>
+          <span class="type-icon">☆</span>
+          <strong>Doel</strong>
+          <small>Iets waar je naartoe wilt</small>
         </button>
 
       </div>
@@ -174,60 +193,123 @@
     </div>
 
 
-    <!-- STAP 3: ALLEEN TAAK -->
+    <!-- STAP 3 -->
 
     <div id="captureStepPriority" class="capture-step">
 
       <p class="field-label">
-        Hoe urgent is deze taak?
+        Hoe belangrijk of tijdgevoelig is dit?
       </p>
 
-      <div class="priority-list">
+      <div class="scale-list">
 
-        <button class="priority-choice" data-priority="1" type="button">
+        <button class="scale-choice" data-priority="1" type="button">
           <strong>1</strong>
           <span>
-            <b>Nu</b>
-            <small>Dit verdient als eerste aandacht</small>
+            <b>Moet echt</b>
+            <small>Dit mag niet blijven liggen</small>
           </span>
         </button>
 
-        <button class="priority-choice" data-priority="2" type="button">
+        <button class="scale-choice" data-priority="2" type="button">
           <strong>2</strong>
           <span>
             <b>Belangrijk</b>
-            <small>Liever snel oppakken</small>
+            <small>Liever binnenkort</small>
           </span>
         </button>
 
-        <button class="priority-choice selected" data-priority="3" type="button">
+        <button class="scale-choice selected" data-priority="3" type="button">
           <strong>3</strong>
           <span>
             <b>Normaal</b>
-            <small>Geen brand, wel doen</small>
+            <small>Gewoon ergens oppakken</small>
           </span>
         </button>
 
-        <button class="priority-choice" data-priority="4" type="button">
+        <button class="scale-choice" data-priority="4" type="button">
           <strong>4</strong>
           <span>
             <b>Kan wachten</b>
-            <small>Niet voor vandaag nodig</small>
+            <small>Niet dringend</small>
           </span>
         </button>
 
-        <button class="priority-choice" data-priority="5" type="button">
+        <button class="scale-choice" data-priority="5" type="button">
           <strong>5</strong>
           <span>
-            <b>Geen haast</b>
-            <small>Bewaren voor later</small>
+            <b>Ooit</b>
+            <small>Geen haast</small>
           </span>
         </button>
 
       </div>
 
       <button
-        id="saveTaskButton"
+        id="continueToEffortButton"
+        class="primary-button big-button"
+        type="button"
+      >
+        Verder
+      </button>
+
+    </div>
+
+
+    <!-- STAP 4 -->
+
+    <div id="captureStepEffort" class="capture-step">
+
+      <p class="field-label">
+        Hoeveel energie kost dit ongeveer?
+      </p>
+
+      <div class="scale-list">
+
+        <button class="effort-choice" data-effort="1" type="button">
+          <strong>1</strong>
+          <span>
+            <b>Bijna niks</b>
+            <small>Een paar klikken of heel klein ding</small>
+          </span>
+        </button>
+
+        <button class="effort-choice" data-effort="2" type="button">
+          <strong>2</strong>
+          <span>
+            <b>Weinig</b>
+            <small>Goed te doen op een rustige dag</small>
+          </span>
+        </button>
+
+        <button class="effort-choice selected" data-effort="3" type="button">
+          <strong>3</strong>
+          <span>
+            <b>Gemiddeld</b>
+            <small>Vraagt wat aandacht</small>
+          </span>
+        </button>
+
+        <button class="effort-choice" data-effort="4" type="button">
+          <strong>4</strong>
+          <span>
+            <b>Best veel</b>
+            <small>Concentratie of moeite nodig</small>
+          </span>
+        </button>
+
+        <button class="effort-choice" data-effort="5" type="button">
+          <strong>5</strong>
+          <span>
+            <b>Zwaar</b>
+            <small>Alleen op een goede dag</small>
+          </span>
+        </button>
+
+      </div>
+
+      <button
+        id="saveActionButton"
         class="primary-button big-button"
         type="button"
       >
@@ -239,27 +321,17 @@
   </section>
 
 
-  <!-- =========================
+  <!-- ======================
        VAULT
-  ========================== -->
+  ======================= -->
 
   <section id="vaultScreen" class="screen">
 
-    <header class="screen-header">
-
-      <button
-        id="vaultBackButton"
-        class="back-button"
-        type="button"
-      >
-        ←
-      </button>
-
+    <header class="screen-header simple-header">
       <div>
-        <p class="eyebrow">Alles wat je bewaart</p>
-        <h1>Mijn Vault</h1>
+        <p class="eyebrow">Alles veilig bewaard</p>
+        <h1>Vault</h1>
       </div>
-
     </header>
 
 
@@ -273,8 +345,16 @@
         Taken
       </button>
 
-      <button class="filter" data-filter="gedachte">
-        Gedachten
+      <button class="filter" data-filter="aankoop">
+        Aankopen
+      </button>
+
+      <button class="filter" data-filter="betaling">
+        Betalingen
+      </button>
+
+      <button class="filter" data-filter="event">
+        Events
       </button>
 
       <button class="filter" data-filter="idee">
@@ -287,81 +367,149 @@
 
     </div>
 
-
-    <div class="list-options">
-      <label>
-        <input id="hideCompleted" type="checkbox">
-        Verberg afgeronde taken
-      </label>
-    </div>
-
-
     <ul id="vaultList"></ul>
+
+  </section>
+
+
+  <!-- ======================
+       PROJECTEN
+  ======================= -->
+
+  <section id="projectsScreen" class="screen">
+
+    <header class="screen-header simple-header">
+      <div>
+        <p class="eyebrow">Grotere dingen</p>
+        <h1>Projecten</h1>
+      </div>
+    </header>
+
+    <div id="projectsList" class="projects-list"></div>
+
+  </section>
+
+
+  <!-- ======================
+       INSTELLINGEN
+  ======================= -->
+
+  <section id="settingsScreen" class="screen">
+
+    <header class="screen-header simple-header">
+      <div>
+        <p class="eyebrow">LumiVault</p>
+        <h1>Instellingen</h1>
+      </div>
+    </header>
+
+    <section class="settings-card">
+
+      <h2>Mijn energie</h2>
+
+      <p>
+        Pas hier je huidige energie aan wanneer die gedurende de dag verandert.
+      </p>
+
+      <button
+        id="settingsEnergyButton"
+        class="primary-button settings-button"
+        type="button"
+      >
+        Energie aanpassen
+      </button>
+
+    </section>
 
   </section>
 
 </main>
 
 
-<!-- =========================
-     BEWERKEN
-========================== -->
+<!-- ======================
+     PLUS
+======================= -->
 
-<div id="editOverlay" class="overlay hidden">
+<button
+  id="globalAddButton"
+  class="global-add"
+  type="button"
+  aria-label="Bewaar iets"
+>
+  +
+</button>
 
-  <div class="edit-card">
 
-    <h2>Bewerken</h2>
+<!-- ======================
+     NAV
+======================= -->
 
-    <textarea
-      id="editText"
-      class="edit-textarea"
-      rows="3"
-    ></textarea>
+<nav class="bottom-nav">
 
-    <label class="small-label">
-      Type
-    </label>
+  <button class="nav-button active" data-screen="home" type="button">
+    <span>⌂</span>
+    <small>Home</small>
+  </button>
 
-    <select id="editType">
-      <option value="taak">Taak</option>
-      <option value="gedachte">Gedachte</option>
-      <option value="idee">Idee</option>
-      <option value="doel">Doel</option>
-    </select>
+  <button class="nav-button" data-screen="vault" type="button">
+    <span>▣</span>
+    <small>Vault</small>
+  </button>
 
-    <div id="editPriorityWrapper">
+  <button class="nav-button" data-screen="projects" type="button">
+    <span>▱</span>
+    <small>Projecten</small>
+  </button>
 
-      <label class="small-label">
-        Urgentie
-      </label>
+  <button class="nav-button" data-screen="settings" type="button">
+    <span>⚙</span>
+    <small>Instellingen</small>
+  </button>
 
-      <select id="editPriority">
-        <option value="1">1 · Nu</option>
-        <option value="2">2 · Belangrijk</option>
-        <option value="3">3 · Normaal</option>
-        <option value="4">4 · Kan wachten</option>
-        <option value="5">5 · Geen haast</option>
-      </select>
+</nav>
 
-    </div>
 
-    <div class="edit-actions">
+<!-- ======================
+     ENERGIE MODAL
+======================= -->
 
-      <button
-        id="cancelEdit"
-        class="secondary-button"
-        type="button"
-      >
-        Annuleren
+<div id="energyOverlay" class="overlay hidden">
+
+  <div class="energy-card">
+
+    <p class="eyebrow">Even inchecken</p>
+
+    <h2>Hoe is je energie op dit moment?</h2>
+
+    <p class="modal-copy">
+      Niet hoe je vindt dat het zou moeten zijn. Gewoon hoe het nu is.
+    </p>
+
+    <div class="energy-grid">
+
+      <button class="energy-choice" data-energy="1" type="button">
+        <strong>1</strong>
+        <small>Heel laag</small>
       </button>
 
-      <button
-        id="saveEdit"
-        class="primary-button"
-        type="button"
-      >
-        Opslaan
+      <button class="energy-choice" data-energy="2" type="button">
+        <strong>2</strong>
+        <small>Laag</small>
+      </button>
+
+      <button class="energy-choice" data-energy="3" type="button">
+        <strong>3</strong>
+        <small>Oké</small>
+      </button>
+
+      <button class="energy-choice" data-energy="4" type="button">
+        <strong>4</strong>
+        <small>Goed</small>
+      </button>
+
+      <button class="energy-choice" data-energy="5" type="button">
+        <strong>5</strong>
+        <small>Veel</small>
       </button>
 
     </div>
@@ -371,53 +519,128 @@
 </div>
 
 
+<!-- ======================
+     TOAST
+======================= -->
+
+<div id="toast" class="toast hidden">
+  <div>
+    <strong>Bewaard in je Vault ✨</strong>
+    <span id="toastText"></span>
+  </div>
+
+  <button id="toastVaultButton" type="button">
+    Bekijk
+  </button>
+</div>
+
+
 <script>
 
 const STORAGE_KEY = "mijnTaken";
+const ENERGY_KEY = "lumiEnergy";
 
 let items = loadItems();
 
+let currentEnergy = loadEnergy();
+
 let currentFilter = "alles";
-let editingId = null;
 
 let captureText = "";
 let captureType = null;
 let capturePriority = 3;
+let captureEffort = 3;
 
 
-/* =========================
+/* ======================
+   PROJECTEN
+======================= */
+
+const projects = [
+  {
+    id: "wia",
+    title: "WIA-aanvraag",
+    subtitle: "Medische documentatie verzamelen",
+    openActions: 6,
+    accent: "purple"
+  },
+  {
+    id: "verhuizen",
+    title: "Verhuizen",
+    subtitle: "Volgende stap bepalen",
+    openActions: 4,
+    accent: "blue"
+  },
+  {
+    id: "lumivault",
+    title: "LumiVault",
+    subtitle: "Prototype verder bouwen",
+    openActions: 3,
+    accent: "green"
+  }
+];
+
+
+/* ======================
    ELEMENTEN
-========================= */
+======================= */
 
-const screens = document.querySelectorAll(".screen");
+const screens =
+  document.querySelectorAll(".screen");
 
-const homeScreen = document.getElementById("homeScreen");
-const captureScreen = document.getElementById("captureScreen");
-const vaultScreen = document.getElementById("vaultScreen");
+const navButtons =
+  document.querySelectorAll(".nav-button");
 
-const greeting = document.getElementById("greeting");
+const homeQuote =
+  document.getElementById("homeQuote");
 
-const todayList = document.getElementById("todayList");
-const todayEmpty = document.getElementById("todayEmpty");
-const todayCount = document.getElementById("todayCount");
+const energyButton =
+  document.getElementById("energyButton");
 
-const openCaptureButton =
-  document.getElementById("openCaptureButton");
+const energyButtonText =
+  document.getElementById("energyButtonText");
 
-const openVaultButton =
-  document.getElementById("openVaultButton");
+const settingsEnergyButton =
+  document.getElementById("settingsEnergyButton");
+
+const energyOverlay =
+  document.getElementById("energyOverlay");
+
+const energyChoices =
+  document.querySelectorAll(".energy-choice");
+
+const suggestionList =
+  document.getElementById("suggestionList");
+
+const suggestionEmpty =
+  document.getElementById("suggestionEmpty");
+
+const projectCarousel =
+  document.getElementById("projectCarousel");
+
+const projectsList =
+  document.getElementById("projectsList");
+
+const seeProjectsButton =
+  document.getElementById("seeProjectsButton");
+
+const globalAddButton =
+  document.getElementById("globalAddButton");
 
 const captureBackButton =
   document.getElementById("captureBackButton");
-
-const vaultBackButton =
-  document.getElementById("vaultBackButton");
 
 const itemInput =
   document.getElementById("itemInput");
 
 const continueToTypeButton =
   document.getElementById("continueToTypeButton");
+
+const continueToEffortButton =
+  document.getElementById("continueToEffortButton");
+
+const saveActionButton =
+  document.getElementById("saveActionButton");
 
 const captureStepText =
   document.getElementById("captureStepText");
@@ -428,49 +651,37 @@ const captureStepType =
 const captureStepPriority =
   document.getElementById("captureStepPriority");
 
+const captureStepEffort =
+  document.getElementById("captureStepEffort");
+
 const typeChoices =
   document.querySelectorAll(".type-choice");
 
 const priorityChoices =
-  document.querySelectorAll(".priority-choice");
+  document.querySelectorAll(".scale-choice");
 
-const saveTaskButton =
-  document.getElementById("saveTaskButton");
+const effortChoices =
+  document.querySelectorAll(".effort-choice");
 
 const filterButtons =
   document.querySelectorAll(".filter");
 
-const hideCompleted =
-  document.getElementById("hideCompleted");
-
 const vaultList =
   document.getElementById("vaultList");
 
-const editOverlay =
-  document.getElementById("editOverlay");
+const toast =
+  document.getElementById("toast");
 
-const editText =
-  document.getElementById("editText");
+const toastText =
+  document.getElementById("toastText");
 
-const editType =
-  document.getElementById("editType");
-
-const editPriority =
-  document.getElementById("editPriority");
-
-const editPriorityWrapper =
-  document.getElementById("editPriorityWrapper");
-
-const cancelEdit =
-  document.getElementById("cancelEdit");
-
-const saveEdit =
-  document.getElementById("saveEdit");
+const toastVaultButton =
+  document.getElementById("toastVaultButton");
 
 
-/* =========================
+/* ======================
    OPSLAG
-========================= */
+======================= */
 
 function loadItems() {
 
@@ -485,20 +696,23 @@ function loadItems() {
 
       id:
         item.id ||
-        Date.now().toString() +
+        Date.now() +
         "-" +
-        index +
-        "-" +
-        Math.random().toString(16).slice(2),
+        index,
 
       text:
         item.text || "",
 
       type:
-        item.type || "taak",
+        normalizeOldType(
+          item.type
+        ),
 
       priority:
         Number(item.priority) || 3,
+
+      effort:
+        Number(item.effort) || 3,
 
       done:
         Boolean(item.done),
@@ -509,11 +723,35 @@ function loadItems() {
 
     }));
 
-  } catch {
+  }
+
+  catch {
 
     return [];
 
   }
+
+}
+
+
+function normalizeOldType(type) {
+
+  if (
+    [
+      "taak",
+      "aankoop",
+      "betaling",
+      "event",
+      "idee",
+      "doel"
+    ].includes(type)
+  ) {
+
+    return type;
+
+  }
+
+  return "taak";
 
 }
 
@@ -528,9 +766,174 @@ function saveItems() {
 }
 
 
-/* =========================
-   NAVIGATIE
-========================= */
+/* ======================
+   ENERGIE
+======================= */
+
+function getTodayKey() {
+
+  const now =
+    new Date();
+
+  return (
+    now.getFullYear() +
+    "-" +
+    (now.getMonth() + 1) +
+    "-" +
+    now.getDate()
+  );
+
+}
+
+
+function loadEnergy() {
+
+  try {
+
+    const stored =
+      JSON.parse(
+        localStorage.getItem(ENERGY_KEY)
+      );
+
+    if (!stored) {
+      return null;
+    }
+
+    if (
+      stored.day !==
+      getTodayKey()
+    ) {
+      return null;
+    }
+
+    return Number(
+      stored.value
+    );
+
+  }
+
+  catch {
+
+    return null;
+
+  }
+
+}
+
+
+function saveEnergy(value) {
+
+  currentEnergy =
+    Number(value);
+
+  localStorage.setItem(
+    ENERGY_KEY,
+    JSON.stringify({
+      day: getTodayKey(),
+      value: currentEnergy,
+      updatedAt: Date.now()
+    })
+  );
+
+  updateEnergyUI();
+
+  closeEnergyModal();
+
+  renderHome();
+
+}
+
+
+function openEnergyModal() {
+
+  energyOverlay.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+function closeEnergyModal() {
+
+  energyOverlay.classList.add(
+    "hidden"
+  );
+
+}
+
+
+energyChoices.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      saveEnergy(
+        button.dataset.energy
+      );
+
+    }
+  );
+
+});
+
+
+energyButton.addEventListener(
+  "click",
+  openEnergyModal
+);
+
+
+settingsEnergyButton.addEventListener(
+  "click",
+  openEnergyModal
+);
+
+
+function updateEnergyUI() {
+
+  if (!currentEnergy) {
+
+    energyButtonText.textContent =
+      "Energie";
+
+    return;
+
+  }
+
+  energyButtonText.textContent =
+    "Energie " + currentEnergy;
+
+}
+
+
+/* ======================
+   QUOTE
+======================= */
+
+function setQuote() {
+
+  const quotes = [
+    "Je hoeft niet alles vandaag te dragen.",
+    "Klein telt ook.",
+    "Wat lukt, is genoeg voor nu.",
+    "Rustig vooruit is ook vooruit.",
+    "Vandaag hoeft niet perfect te zijn."
+  ];
+
+  const index =
+    new Date().getDate() %
+    quotes.length;
+
+  homeQuote.textContent =
+    quotes[index];
+
+}
+
+
+/* ======================
+   NAV
+======================= */
 
 function showScreen(name) {
 
@@ -539,167 +942,486 @@ function showScreen(name) {
       screen.classList.remove("active")
   );
 
+  navButtons.forEach(
+    button =>
+      button.classList.toggle(
+        "active",
+        button.dataset.screen === name
+      )
+  );
+
+
+  document
+    .getElementById(
+      name + "Screen"
+    )
+    .classList.add(
+      "active"
+    );
+
+
   if (name === "home") {
 
-    homeScreen.classList.add("active");
     renderHome();
-
-  }
-
-  if (name === "capture") {
-
-    captureScreen.classList.add("active");
-    resetCapture();
-
-    setTimeout(
-      () => itemInput.focus(),
-      150
-    );
 
   }
 
   if (name === "vault") {
 
-    vaultScreen.classList.add("active");
     renderVault();
 
   }
 
-  window.scrollTo(0, 0);
+  if (name === "projects") {
+
+    renderProjects();
+
+  }
+
+
+  globalAddButton.classList.toggle(
+    "hidden",
+    name === "capture"
+  );
+
+  window.scrollTo(
+    0,
+    0
+  );
 
 }
 
 
-openCaptureButton.addEventListener(
+navButtons.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      showScreen(
+        button.dataset.screen
+      );
+
+    }
+  );
+
+});
+
+
+seeProjectsButton.addEventListener(
   "click",
-  () => showScreen("capture")
+  () =>
+    showScreen("projects")
 );
 
 
-openVaultButton.addEventListener(
+globalAddButton.addEventListener(
   "click",
-  () => showScreen("vault")
+  openCapture
 );
 
 
 captureBackButton.addEventListener(
   "click",
-  () => showScreen("home")
+  () =>
+    showScreen("home")
 );
 
 
-vaultBackButton.addEventListener(
-  "click",
-  () => showScreen("home")
-);
+/* ======================
+   HOME / SUGGESTIES
+======================= */
 
+function isAction(item) {
 
-/* =========================
-   GROET
-========================= */
-
-function setGreeting() {
-
-  const hour =
-    new Date().getHours();
-
-  let text = "Hallo";
-
-  if (hour < 12) {
-    text = "Goedemorgen";
-  }
-
-  else if (hour < 18) {
-    text = "Goedemiddag";
-  }
-
-  else {
-    text = "Goedenavond";
-  }
-
-  greeting.textContent =
-    text + " ✨";
+  return [
+    "taak",
+    "aankoop",
+    "betaling",
+    "event"
+  ].includes(
+    item.type
+  );
 
 }
 
 
-/* =========================
-   HOME
-========================= */
+function getSuggestions() {
 
-function getOpenTasks() {
+  if (!currentEnergy) {
+    return [];
+  }
 
-  return items
-    .filter(
+
+  const openActions =
+    items.filter(
       item =>
-        item.type === "taak" &&
+        isAction(item) &&
         !item.done
-    )
-    .sort(
-      (a, b) =>
-        a.priority - b.priority
     );
+
+
+  /*
+    Eerst acties die qua energie
+    goed passen.
+  */
+
+  let suitable =
+    openActions.filter(
+      item =>
+        item.effort <=
+        currentEnergy
+    );
+
+
+  suitable.sort(
+    (a, b) => {
+
+      /*
+        Lage prioriteitswaarde
+        = belangrijker.
+      */
+
+      if (
+        a.priority !==
+        b.priority
+      ) {
+
+        return (
+          a.priority -
+          b.priority
+        );
+
+      }
+
+      /*
+        Bij gelijke prioriteit:
+        eerst iets dat minder
+        energie vraagt.
+      */
+
+      return (
+        a.effort -
+        b.effort
+      );
+
+    }
+  );
+
+
+  /*
+    Als er weinig passende acties
+    zijn, vullen we voorzichtig aan
+    met de lichtste overige acties.
+  */
+
+  if (
+    suitable.length < 2
+  ) {
+
+    const remainder =
+      openActions
+        .filter(
+          item =>
+            !suitable.includes(item)
+        )
+        .sort(
+          (a, b) =>
+            a.effort -
+            b.effort
+        );
+
+    suitable =
+      [
+        ...suitable,
+        ...remainder
+      ];
+
+  }
+
+
+  return suitable.slice(
+    0,
+    4
+  );
 
 }
 
 
 function renderHome() {
 
-  setGreeting();
+  setQuote();
+  updateEnergyUI();
 
-  todayList.innerHTML = "";
+  suggestionList.innerHTML =
+    "";
 
-  const tasks =
-    getOpenTasks();
+  const suggestions =
+    getSuggestions();
 
-  todayCount.textContent =
-    tasks.length;
 
-  if (tasks.length === 0) {
+  if (
+    suggestions.length === 0
+  ) {
 
-    todayEmpty.classList.remove("hidden");
-
-    return;
+    suggestionEmpty.classList.remove(
+      "hidden"
+    );
 
   }
 
-  todayEmpty.classList.add("hidden");
+  else {
+
+    suggestionEmpty.classList.add(
+      "hidden"
+    );
 
 
-  /*
-    Voor nu tonen we maximaal vijf taken.
-    Later kan "Vandaag" slimmer worden.
-  */
+    suggestions.forEach(item => {
 
-  tasks
-    .slice(0, 5)
-    .forEach(item => {
-
-      todayList.appendChild(
-        createItemCard(
-          item,
-          true
-        )
+      suggestionList.appendChild(
+        createHomeCard(item)
       );
 
     });
 
+  }
+
+
+  renderProjectPreview();
+
 }
 
 
-/* =========================
+function createHomeCard(item) {
+
+  const li =
+    document.createElement("li");
+
+  li.className =
+    "suggestion-card";
+
+
+  const check =
+    document.createElement("button");
+
+  check.className =
+    "check";
+
+  check.type =
+    "button";
+
+
+  check.addEventListener(
+    "click",
+    () => {
+
+      item.done = true;
+
+      saveItems();
+      renderHome();
+
+    }
+  );
+
+
+  const content =
+    document.createElement("div");
+
+  content.className =
+    "suggestion-content";
+
+
+  const badge =
+    document.createElement("span");
+
+  badge.className =
+    "type-badge " +
+    item.type;
+
+  badge.textContent =
+    typeLabel(
+      item.type
+    );
+
+
+  const text =
+    document.createElement("div");
+
+  text.className =
+    "suggestion-text";
+
+  text.textContent =
+    item.text;
+
+
+  content.append(
+    badge,
+    text
+  );
+
+
+  li.append(
+    check,
+    content
+  );
+
+
+  return li;
+
+}
+
+
+/* ======================
+   PROJECTEN
+======================= */
+
+function projectCard(project) {
+
+  const card =
+    document.createElement("article");
+
+  card.className =
+    "project-card " +
+    project.accent;
+
+
+  const title =
+    document.createElement("h3");
+
+  title.textContent =
+    project.title;
+
+
+  const actions =
+    document.createElement("p");
+
+  actions.textContent =
+    project.openActions +
+    " open acties";
+
+
+  const next =
+    document.createElement("small");
+
+  next.textContent =
+    "Volgende: " +
+    project.subtitle;
+
+
+  card.append(
+    title,
+    actions,
+    next
+  );
+
+
+  return card;
+
+}
+
+
+function renderProjectPreview() {
+
+  projectCarousel.innerHTML =
+    "";
+
+  projects.forEach(project => {
+
+    projectCarousel.appendChild(
+      projectCard(project)
+    );
+
+  });
+
+}
+
+
+function renderProjects() {
+
+  projectsList.innerHTML =
+    "";
+
+  projects.forEach(project => {
+
+    projectsList.appendChild(
+      projectCard(project)
+    );
+
+  });
+
+}
+
+
+/* ======================
    CAPTURE
-========================= */
+======================= */
+
+function openCapture() {
+
+  resetCapture();
+
+  showScreen("capture");
+
+  setTimeout(
+    () => itemInput.focus(),
+    100
+  );
+
+}
+
+
+function resetCapture() {
+
+  captureText = "";
+  captureType = null;
+  capturePriority = 3;
+  captureEffort = 3;
+
+  itemInput.value = "";
+
+  typeChoices.forEach(
+    button =>
+      button.classList.remove(
+        "selected"
+      )
+  );
+
+  priorityChoices.forEach(
+    button =>
+      button.classList.toggle(
+        "selected",
+        button.dataset.priority === "3"
+      )
+  );
+
+  effortChoices.forEach(
+    button =>
+      button.classList.toggle(
+        "selected",
+        button.dataset.effort === "3"
+      )
+  );
+
+  showCaptureStep(
+    "text"
+  );
+
+}
+
 
 function showCaptureStep(step) {
 
   [
     captureStepText,
     captureStepType,
-    captureStepPriority
+    captureStepPriority,
+    captureStepEffort
   ].forEach(
     element =>
-      element.classList.remove("active")
+      element.classList.remove(
+        "active"
+      )
   );
 
 
@@ -715,34 +1437,9 @@ function showCaptureStep(step) {
     captureStepPriority.classList.add("active");
   }
 
-}
-
-
-function resetCapture() {
-
-  captureText = "";
-  captureType = null;
-  capturePriority = 3;
-
-  itemInput.value = "";
-
-  typeChoices.forEach(
-    button =>
-      button.classList.remove("selected")
-  );
-
-  priorityChoices.forEach(
-    button => {
-
-      button.classList.toggle(
-        "selected",
-        Number(button.dataset.priority) === 3
-      );
-
-    }
-  );
-
-  showCaptureStep("text");
+  if (step === "effort") {
+    captureStepEffort.classList.add("active");
+  }
 
 }
 
@@ -757,12 +1454,13 @@ continueToTypeButton.addEventListener(
     if (!captureText) {
 
       itemInput.focus();
-
       return;
 
     }
 
-    showCaptureStep("type");
+    showCaptureStep(
+      "type"
+    );
 
   }
 );
@@ -777,21 +1475,29 @@ typeChoices.forEach(button => {
       captureType =
         button.dataset.type;
 
+
       typeChoices.forEach(
-        choice =>
-          choice.classList.remove("selected")
+        other =>
+          other.classList.remove(
+            "selected"
+          )
       );
 
-      button.classList.add("selected");
+
+      button.classList.add(
+        "selected"
+      );
 
 
-      /*
-        Alleen taken krijgen urgentie.
-      */
+      if (
+        isAction({
+          type: captureType
+        })
+      ) {
 
-      if (captureType === "taak") {
-
-        showCaptureStep("priority");
+        showCaptureStep(
+          "priority"
+        );
 
       }
 
@@ -819,11 +1525,15 @@ priorityChoices.forEach(button => {
         );
 
       priorityChoices.forEach(
-        choice =>
-          choice.classList.remove("selected")
+        other =>
+          other.classList.remove(
+            "selected"
+          )
       );
 
-      button.classList.add("selected");
+      button.classList.add(
+        "selected"
+      );
 
     }
   );
@@ -831,7 +1541,44 @@ priorityChoices.forEach(button => {
 });
 
 
-saveTaskButton.addEventListener(
+continueToEffortButton.addEventListener(
+  "click",
+  () =>
+    showCaptureStep(
+      "effort"
+    )
+);
+
+
+effortChoices.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      captureEffort =
+        Number(
+          button.dataset.effort
+        );
+
+      effortChoices.forEach(
+        other =>
+          other.classList.remove(
+            "selected"
+          )
+      );
+
+      button.classList.add(
+        "selected"
+      );
+
+    }
+  );
+
+});
+
+
+saveActionButton.addEventListener(
   "click",
   saveCapturedItem
 );
@@ -846,12 +1593,15 @@ function saveCapturedItem() {
     return;
   }
 
-  items.push({
+
+  const item = {
 
     id:
-      Date.now().toString() +
+      Date.now() +
       "-" +
-      Math.random().toString(16).slice(2),
+      Math.random()
+        .toString(16)
+        .slice(2),
 
     text:
       captureText,
@@ -860,8 +1610,17 @@ function saveCapturedItem() {
       captureType,
 
     priority:
-      captureType === "taak"
+      isAction({
+        type: captureType
+      })
         ? capturePriority
+        : 3,
+
+    effort:
+      isAction({
+        type: captureType
+      })
+        ? captureEffort
         : 3,
 
     done:
@@ -870,18 +1629,84 @@ function saveCapturedItem() {
     createdAt:
       Date.now()
 
-  });
+  };
+
+
+  items.push(
+    item
+  );
 
   saveItems();
 
-  showScreen("home");
+  showScreen(
+    "home"
+  );
+
+  showToast(
+    item
+  );
 
 }
 
 
-/* =========================
-   FILTERS
-========================= */
+/* ======================
+   TOAST
+======================= */
+
+function showToast(item) {
+
+  toastText.textContent =
+    item.text +
+    " · " +
+    typeLabel(
+      item.type
+    );
+
+
+  toast.classList.remove(
+    "hidden"
+  );
+
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+
+  window.toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.add(
+          "hidden"
+        );
+
+      },
+      5000
+    );
+
+}
+
+
+toastVaultButton.addEventListener(
+  "click",
+  () => {
+
+    toast.classList.add(
+      "hidden"
+    );
+
+    showScreen(
+      "vault"
+    );
+
+  }
+);
+
+
+/* ======================
+   VAULT
+======================= */
 
 filterButtons.forEach(button => {
 
@@ -892,12 +1717,18 @@ filterButtons.forEach(button => {
       currentFilter =
         button.dataset.filter;
 
+
       filterButtons.forEach(
         other =>
-          other.classList.remove("active")
+          other.classList.remove(
+            "active"
+          )
       );
 
-      button.classList.add("active");
+
+      button.classList.add(
+        "active"
+      );
 
       renderVault();
 
@@ -907,121 +1738,67 @@ filterButtons.forEach(button => {
 });
 
 
-hideCompleted.addEventListener(
-  "change",
-  renderVault
-);
+function renderVault() {
+
+  vaultList.innerHTML =
+    "";
 
 
-/* =========================
-   VAULT
-========================= */
-
-function getVaultItems() {
-
-  let result =
+  let visible =
     [...items];
 
 
-  if (currentFilter !== "alles") {
+  if (
+    currentFilter !==
+    "alles"
+  ) {
 
-    result =
-      result.filter(
+    visible =
+      visible.filter(
         item =>
-          item.type === currentFilter
+          item.type ===
+          currentFilter
       );
 
   }
 
 
-  if (hideCompleted.checked) {
-
-    result =
-      result.filter(
-        item =>
-          !(
-            item.type === "taak" &&
-            item.done
-          )
-      );
-
-  }
-
-
-  result.sort((a, b) => {
-
-    if (
-      a.type === "taak" &&
-      b.type === "taak"
-    ) {
-
-      if (a.done !== b.done) {
-
-        return a.done
-          ? 1
-          : -1;
-
-      }
-
-      if (!a.done && !b.done) {
-
-        return (
-          a.priority -
-          b.priority
-        );
-
-      }
-
-    }
-
-    return (
+  visible.sort(
+    (a, b) =>
       b.createdAt -
       a.createdAt
-    );
-
-  });
-
-
-  return result;
-
-}
-
-
-function renderVault() {
-
-  vaultList.innerHTML = "";
-
-  const visibleItems =
-    getVaultItems();
+  );
 
 
   if (
-    visibleItems.length === 0
+    visible.length === 0
   ) {
 
     const empty =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
-    empty.className = "empty";
+    empty.className =
+      "soft-empty";
 
     empty.textContent =
-      currentFilter === "alles"
-        ? "Je Vault is leeg ✨"
-        : "Hier staat nog niets ✨";
+      "Hier staat nog niets ✨";
 
-    vaultList.appendChild(empty);
+    vaultList.appendChild(
+      empty
+    );
 
     return;
 
   }
 
 
-  visibleItems.forEach(item => {
+  visible.forEach(item => {
 
     vaultList.appendChild(
-      createItemCard(
-        item,
-        false
+      createVaultCard(
+        item
       )
     );
 
@@ -1030,198 +1807,116 @@ function renderVault() {
 }
 
 
-/* =========================
-   KAARTEN
-========================= */
-
-function createItemCard(
-  item,
-  compact
-) {
+function createVaultCard(item) {
 
   const li =
     document.createElement("li");
 
   li.className =
-    "task" +
-    (item.done
-      ? " completed"
-      : "") +
-    (compact
-      ? " compact"
-      : "");
+    "vault-card" +
+    (
+      item.done
+        ? " completed"
+        : ""
+    );
 
 
-  const check =
-    document.createElement("button");
+  const icon =
+    document.createElement(
+      "div"
+    );
 
-  check.className = "check";
-  check.type = "button";
+  icon.className =
+    "vault-icon";
 
-
-  if (item.type !== "taak") {
-
-    check.classList.add("not-task");
-    check.disabled = true;
-
-  }
-
-
-  check.addEventListener(
-    "click",
-    event => {
-
-      event.stopPropagation();
-
-      item.done = !item.done;
-
-      saveItems();
-      renderHome();
-      renderVault();
-
-    }
-  );
-
-
-  const content =
-    document.createElement("div");
-
-  content.className =
-    "task-content";
-
-
-  const meta =
-    document.createElement("div");
-
-  meta.className =
-    "item-meta";
-
-
-  const typeBadge =
-    document.createElement("span");
-
-  typeBadge.className =
-    "type-badge " +
-    item.type;
-
-  typeBadge.textContent =
-    typeLabel(
+  icon.textContent =
+    typeIcon(
       item.type
     );
 
-  meta.appendChild(
-    typeBadge
-  );
 
-
-  if (item.type === "taak") {
-
-    const priorityBadge =
-      document.createElement("span");
-
-    priorityBadge.className =
-      "priority-badge priority-" +
-      item.priority;
-
-    priorityBadge.textContent =
-      priorityLabel(
-        item.priority
-      );
-
-    meta.appendChild(
-      priorityBadge
+  const content =
+    document.createElement(
+      "div"
     );
 
-  }
+  content.className =
+    "vault-content";
 
 
   const text =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   text.className =
-    "task-text";
+    "vault-text";
 
   text.textContent =
     item.text;
 
 
+  const badge =
+    document.createElement(
+      "span"
+    );
+
+  badge.className =
+    "type-badge " +
+    item.type;
+
+  badge.textContent =
+    typeLabel(
+      item.type
+    );
+
+
   content.append(
-    meta,
-    text
+    text,
+    badge
+  );
+
+
+  const remove =
+    document.createElement(
+      "button"
+    );
+
+  remove.className =
+    "delete-button";
+
+  remove.type =
+    "button";
+
+  remove.textContent =
+    "×";
+
+
+  remove.addEventListener(
+    "click",
+    () => {
+
+      items =
+        items.filter(
+          stored =>
+            stored.id !==
+            item.id
+        );
+
+      saveItems();
+
+      renderVault();
+      renderHome();
+
+    }
   );
 
 
   li.append(
-    check,
-    content
+    icon,
+    content,
+    remove
   );
-
-
-  /*
-    Op Home houden we kaarten rustig.
-    Bewerken/verwijderen gebeurt in de Vault.
-  */
-
-  if (!compact) {
-
-    const edit =
-      document.createElement("button");
-
-    edit.className =
-      "icon-button";
-
-    edit.type =
-      "button";
-
-    edit.textContent =
-      "✎";
-
-    edit.addEventListener(
-      "click",
-      () =>
-        openEdit(
-          item.id
-        )
-    );
-
-
-    const remove =
-      document.createElement("button");
-
-    remove.className =
-      "icon-button delete";
-
-    remove.type =
-      "button";
-
-    remove.textContent =
-      "×";
-
-    remove.addEventListener(
-      "click",
-      () => {
-
-        items =
-          items.filter(
-            stored =>
-              stored.id !==
-              item.id
-          );
-
-        saveItems();
-        renderVault();
-        renderHome();
-
-      }
-    );
-
-
-    li.append(
-      edit,
-      remove
-    );
-
-  }
 
 
   return li;
@@ -1229,196 +1924,63 @@ function createItemCard(
 }
 
 
-/* =========================
+/* ======================
    LABELS
-========================= */
+======================= */
 
 function typeLabel(type) {
 
   const labels = {
-
     taak: "Taak",
-    gedachte: "Gedachte",
+    aankoop: "Aankoop",
+    betaling: "Betaling",
+    event: "Event",
     idee: "Idee",
     doel: "Doel"
-
   };
 
-  return (
-    labels[type] ||
-    "Taak"
-  );
+  return labels[type] || "Taak";
 
 }
 
 
-function priorityLabel(priority) {
+function typeIcon(type) {
 
-  const labels = {
-
-    1: "1 · Nu",
-    2: "2 · Belangrijk",
-    3: "3 · Normaal",
-    4: "4 · Kan wachten",
-    5: "5 · Geen haast"
-
+  const icons = {
+    taak: "✓",
+    aankoop: "🛒",
+    betaling: "€",
+    event: "◷",
+    idee: "✦",
+    doel: "☆"
   };
 
-  return (
-    labels[priority] ||
-    "3 · Normaal"
-  );
+  return icons[type] || "•";
 
 }
 
 
-/* =========================
-   BEWERKEN
-========================= */
-
-function openEdit(id) {
-
-  const item =
-    items.find(
-      stored =>
-        stored.id === id
-    );
-
-  if (!item) return;
-
-  editingId = id;
-
-  editText.value =
-    item.text;
-
-  editType.value =
-    item.type;
-
-  editPriority.value =
-    String(
-      item.priority || 3
-    );
-
-  updateEditPriorityVisibility();
-
-  editOverlay.classList.remove(
-    "hidden"
-  );
-
-}
-
-
-function closeEdit() {
-
-  editingId = null;
-
-  editOverlay.classList.add(
-    "hidden"
-  );
-
-}
-
-
-function updateEditPriorityVisibility() {
-
-  editPriorityWrapper.style.display =
-    editType.value === "taak"
-      ? "block"
-      : "none";
-
-}
-
-
-editType.addEventListener(
-  "change",
-  updateEditPriorityVisibility
-);
-
-
-cancelEdit.addEventListener(
-  "click",
-  closeEdit
-);
-
-
-saveEdit.addEventListener(
-  "click",
-  () => {
-
-    const item =
-      items.find(
-        stored =>
-          stored.id ===
-          editingId
-      );
-
-    if (!item) return;
-
-    const text =
-      editText.value.trim();
-
-    if (!text) return;
-
-
-    item.text =
-      text;
-
-    item.type =
-      editType.value;
-
-
-    if (
-      item.type === "taak"
-    ) {
-
-      item.priority =
-        Number(
-          editPriority.value
-        );
-
-    }
-
-    else {
-
-      item.priority = 3;
-      item.done = false;
-
-    }
-
-
-    saveItems();
-
-    closeEdit();
-
-    renderVault();
-    renderHome();
-
-  }
-);
-
-
-editOverlay.addEventListener(
-  "click",
-  event => {
-
-    if (
-      event.target ===
-      editOverlay
-    ) {
-
-      closeEdit();
-
-    }
-
-  }
-);
-
-
-/* =========================
+/* ======================
    START
-========================= */
+======================= */
+
+setQuote();
 
 renderHome();
+
+renderProjectPreview();
+
+updateEnergyUI();
+
+
+if (!currentEnergy) {
+
+  setTimeout(
+    openEnergyModal,
+    300
+  );
+
+}
 
 </script>
 
