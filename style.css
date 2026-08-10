@@ -15,30 +15,24 @@ body {
     "Segoe UI",
     sans-serif;
 
-  background: #f5f5f7;
-  color: #1d1d1f;
+  background: #0f1118;
+  color: #f7f7fb;
 }
 
 button,
-input,
-textarea,
-select {
+textarea {
   font: inherit;
 }
 
-button,
-select {
-  cursor: pointer;
-}
-
 button {
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
 
-/* =========================
-   APP / SCHERMEN
-========================= */
+/* ======================
+   APP
+======================= */
 
 .app {
   width: 100%;
@@ -51,7 +45,7 @@ button {
   padding:
     54px
     20px
-    120px;
+    150px;
 }
 
 .screen {
@@ -62,8 +56,13 @@ button {
   display: block;
 }
 
+.hidden {
+  display: none !important;
+}
+
 h1,
 h2,
+h3,
 p {
   margin-top: 0;
 }
@@ -71,66 +70,365 @@ p {
 h1 {
   margin-bottom: 0;
 
-  font-size: 38px;
-  letter-spacing: -1.4px;
+  font-size: 35px;
+  line-height: 1.05;
+
+  letter-spacing: -1.3px;
 }
 
 h2 {
+  margin-bottom: 0;
+
   font-size: 24px;
-  letter-spacing: -0.5px;
 }
 
 .eyebrow {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 
-  color: #8e8e93;
+  color: #858896;
 
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 650;
+
   letter-spacing: 0.3px;
 }
 
 
-/* =========================
-   HEADERS
-========================= */
+/* ======================
+   HOME TOP
+======================= */
 
-.home-header,
+.home-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  margin-bottom: 42px;
+}
+
+.quote-wrap {
+  max-width: 68%;
+}
+
+.home-quote {
+  margin: 0;
+
+  color: #d6d7df;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  line-height: 1.35;
+}
+
+.energy-pill {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  min-height: 42px;
+
+  padding: 0 14px;
+
+  border: 1px solid #2b2e3b;
+  border-radius: 999px;
+
+  background: #1a1d26;
+  color: #eeeef3;
+
+  font-size: 14px;
+}
+
+.energy-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #dac064;
+}
+
+
+/* ======================
+   VOOR VANDAAG
+======================= */
+
+.suggestions-section {
+  margin-bottom: 44px;
+}
+
+.suggestions-section h1 {
+  max-width: 470px;
+
+  margin-bottom: 10px;
+}
+
+.section-intro {
+  max-width: 480px;
+
+  margin-bottom: 22px;
+
+  color: #8f929e;
+
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#suggestionList,
+#vaultList {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.suggestion-card {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  min-height: 78px;
+
+  margin-bottom: 10px;
+  padding: 15px;
+
+  border: 1px solid #282b36;
+  border-radius: 18px;
+
+  background: #171a22;
+}
+
+.check {
+  position: relative;
+
+  width: 29px;
+  height: 29px;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: 2px solid #727684;
+  border-radius: 50%;
+
+  background: transparent;
+}
+
+.suggestion-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.suggestion-text {
+  margin-top: 7px;
+
+  color: #f3f3f7;
+
+  font-size: 17px;
+
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ======================
+   TYPE BADGES
+======================= */
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 21px;
+
+  padding: 3px 8px;
+
+  border-radius: 999px;
+
+  background: #292c37;
+
+  color: #aeb1bd;
+
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.type-badge.aankoop {
+  background: #153b35;
+  color: #62d0b2;
+}
+
+.type-badge.betaling {
+  background: #29214c;
+  color: #ad97ff;
+}
+
+.type-badge.event {
+  background: #493019;
+  color: #ffb564;
+}
+
+.type-badge.idee {
+  background: #41381a;
+  color: #eed46a;
+}
+
+.type-badge.doel {
+  background: #19352b;
+  color: #73d3a8;
+}
+
+
+/* ======================
+   PROJECTEN
+======================= */
+
+.projects-preview {
+  margin-top: 30px;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 16px;
+}
+
+.text-button {
+  padding: 6px 0;
+
+  border: 0;
+
+  background: transparent;
+  color: #8d78ff;
+
+  font-size: 14px;
+}
+
+.project-carousel {
+  display: flex;
+
+  gap: 12px;
+
+  overflow-x: auto;
+
+  margin:
+    0
+    -20px;
+
+  padding:
+    0
+    20px
+    8px;
+
+  scrollbar-width: none;
+}
+
+.project-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.project-card {
+  width: 225px;
+  min-width: 225px;
+
+  min-height: 165px;
+
+  padding: 19px;
+
+  border-radius: 20px;
+
+  background: #1c2030;
+}
+
+.project-card.purple {
+  background:
+    linear-gradient(
+      145deg,
+      #33285c,
+      #201b3d
+    );
+}
+
+.project-card.blue {
+  background:
+    linear-gradient(
+      145deg,
+      #17395d,
+      #16263b
+    );
+}
+
+.project-card.green {
+  background:
+    linear-gradient(
+      145deg,
+      #184638,
+      #162c27
+    );
+}
+
+.project-card h3 {
+  margin-bottom: 10px;
+
+  font-size: 20px;
+}
+
+.project-card p {
+  margin-bottom: 24px;
+
+  color: #b0b3bf;
+
+  font-size: 13px;
+}
+
+.project-card small {
+  display: block;
+
+  color: #d0d1d9;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+.projects-list {
+  display: grid;
+
+  gap: 14px;
+
+  margin-top: 28px;
+}
+
+.projects-list .project-card {
+  width: 100%;
+}
+
+
+/* ======================
+   HEADERS
+======================= */
+
 .screen-header {
   display: flex;
   align-items: flex-start;
 
-  gap: 14px;
+  gap: 13px;
 
-  margin-bottom: 28px;
+  margin-bottom: 34px;
 }
 
-.home-header {
-  justify-content: space-between;
-}
-
-.screen-header .back-button {
-  margin-top: 3px;
-}
-
-.round-icon-button,
-.back-button {
-  border: 0;
-
-  background: white;
-
-  color: #1d1d1f;
-}
-
-.round-icon-button {
-  width: 48px;
-  height: 48px;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  font-size: 20px;
+.simple-header {
+  display: block;
 }
 
 .back-button {
@@ -139,174 +437,21 @@ h2 {
 
   flex-shrink: 0;
 
-  border-radius: 50%;
-
-  font-size: 22px;
-}
-
-
-/* =========================
-   HOME
-========================= */
-
-.hero-card {
-  margin-bottom: 34px;
-  padding: 22px;
-
-  border-radius: 22px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #11162c,
-      #24204b
-    );
-
-  color: white;
-}
-
-.hero-kicker {
-  margin-bottom: 9px;
-
-  color: #f5d889;
-
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.hero-card h2 {
-  max-width: 340px;
-
-  margin-bottom: 10px;
-
-  font-size: 25px;
-}
-
-.hero-text {
-  margin-bottom: 0;
-
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.67
-    );
-
-  line-height: 1.45;
-}
-
-.today-section {
-  margin-bottom: 26px;
-}
-
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 14px;
-}
-
-.section-heading h2 {
-  margin-bottom: 0;
-}
-
-.count-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 32px;
-  height: 32px;
-
-  padding: 0 9px;
-
-  border-radius: 999px;
-
-  background: #e5e5ea;
-  color: #66666c;
-
-  font-size: 14px;
-  font-weight: 600;
-}
-
-#todayList,
-#vaultList {
-  margin: 0;
   padding: 0;
 
-  list-style: none;
-}
+  border: 1px solid #2a2d38;
+  border-radius: 50%;
 
-.soft-empty {
-  padding: 28px 18px;
+  background: #191c24;
+  color: #f5f5f8;
 
-  border-radius: 18px;
-
-  background: white;
-
-  color: #99999f;
-
-  text-align: center;
-}
-
-.hidden {
-  display: none !important;
+  font-size: 21px;
 }
 
 
-/* =========================
-   BEWAAR-KNOP
-========================= */
-
-.capture-fab {
-  position: fixed;
-
-  left: 50%;
-  bottom:
-    calc(
-      24px +
-      env(safe-area-inset-bottom)
-    );
-
-  z-index: 20;
-
-  display: flex;
-  align-items: center;
-
-  gap: 9px;
-
-  transform: translateX(-50%);
-
-  min-width: 176px;
-  height: 56px;
-
-  padding: 0 22px;
-
-  border: 0;
-  border-radius: 999px;
-
-  background: #1d1d1f;
-  color: white;
-
-  box-shadow:
-    0 12px 35px
-    rgba(0, 0, 0, 0.18);
-
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.capture-fab-plus {
-  font-size: 26px;
-  font-weight: 300;
-}
-
-
-/* =========================
-   CAPTURE FLOW
-========================= */
+/* ======================
+   CAPTURE
+======================= */
 
 .capture-step {
   display: none;
@@ -319,26 +464,28 @@ h2 {
 .field-label {
   display: block;
 
-  margin-bottom: 14px;
+  margin-bottom: 15px;
 
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 700;
+
+  line-height: 1.25;
 }
 
-.main-textarea,
-.edit-textarea {
+.main-textarea {
   width: 100%;
+  min-height: 145px;
+
+  margin-bottom: 16px;
+  padding: 17px;
 
   resize: none;
 
-  padding: 17px;
-
-  border: 1px solid #d1d1d6;
+  border: 1px solid #30333f;
   border-radius: 18px;
 
-  background: white;
-
-  color: #1d1d1f;
+  background: #181b23;
+  color: #f5f5f8;
 
   outline: none;
 
@@ -346,19 +493,28 @@ h2 {
   line-height: 1.45;
 }
 
-.main-textarea {
-  min-height: 140px;
-
-  margin-bottom: 16px;
-}
-
-.main-textarea:focus,
-.edit-textarea:focus {
-  border-color: #99999f;
-}
-
 .main-textarea::placeholder {
-  color: #b0b0b5;
+  color: #646875;
+}
+
+.main-textarea:focus {
+  border-color: #7063b7;
+}
+
+.primary-button {
+  border: 0;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5f50df,
+      #347bed
+    );
+
+  color: white;
+
+  font-weight: 650;
 }
 
 .big-button {
@@ -366,29 +522,14 @@ h2 {
   min-height: 54px;
 }
 
-.primary-button,
-.secondary-button {
-  border: 0;
-  border-radius: 14px;
-}
 
-.primary-button {
-  background: #1d1d1f;
-  color: white;
-}
-
-.secondary-button {
-  background: #e5e5ea;
-  color: #1d1d1f;
-}
-
-
-/* =========================
-   TYPE KIEZEN
-========================= */
+/* ======================
+   TYPES
+======================= */
 
 .type-grid {
   display: grid;
+
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
 
@@ -403,45 +544,49 @@ h2 {
 
   padding: 17px;
 
-  border: 1px solid transparent;
-  border-radius: 19px;
+  border: 1px solid #292c37;
+  border-radius: 18px;
 
-  background: white;
-  color: #1d1d1f;
+  background: #181b23;
+  color: #f5f5f8;
 
   text-align: left;
 }
 
 .type-choice.selected {
-  border-color: #1d1d1f;
+  border-color: #786bed;
+
+  box-shadow:
+    inset 0 0 0 1px #786bed;
 }
 
-.type-choice-icon {
-  margin-bottom: 18px;
+.type-icon {
+  margin-bottom: 17px;
 
-  font-size: 26px;
+  color: #bbaeff;
+
+  font-size: 24px;
 }
 
-.type-choice-title {
-  margin-bottom: 4px;
+.type-choice strong {
+  margin-bottom: 5px;
 
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 16px;
 }
 
-.type-choice-text {
-  color: #8e8e93;
+.type-choice small {
+  color: #777b88;
 
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.35;
 }
 
 
-/* =========================
-   URGENTIE
-========================= */
+/* ======================
+   SCHAAL
+======================= */
 
-.priority-list {
+.scale-list {
   display: flex;
   flex-direction: column;
 
@@ -450,30 +595,36 @@ h2 {
   margin-bottom: 18px;
 }
 
-.priority-choice {
+.scale-choice,
+.effort-choice {
   display: flex;
   align-items: center;
 
-  gap: 14px;
+  gap: 15px;
 
   width: 100%;
 
   padding: 14px;
 
-  border: 1px solid transparent;
+  border: 1px solid #292c37;
   border-radius: 16px;
 
-  background: white;
-  color: #1d1d1f;
+  background: #181b23;
+  color: #f5f5f8;
 
   text-align: left;
 }
 
-.priority-choice.selected {
-  border-color: #1d1d1f;
+.scale-choice.selected,
+.effort-choice.selected {
+  border-color: #7365e5;
+
+  box-shadow:
+    inset 0 0 0 1px #7365e5;
 }
 
-.priority-choice > strong {
+.scale-choice > strong,
+.effort-choice > strong {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -485,26 +636,29 @@ h2 {
 
   border-radius: 50%;
 
-  background: #f0f0f3;
+  background: #252833;
+  color: #dfd9ff;
 }
 
-.priority-choice span {
+.scale-choice span,
+.effort-choice span {
   display: flex;
   flex-direction: column;
 
   gap: 2px;
 }
 
-.priority-choice small {
-  color: #8e8e93;
+.scale-choice small,
+.effort-choice small {
+  color: #737785;
 
   font-size: 12px;
 }
 
 
-/* =========================
-   VAULT FILTERS
-========================= */
+/* ======================
+   VAULT
+======================= */
 
 .filters {
   display: flex;
@@ -516,12 +670,12 @@ h2 {
   margin:
     0
     -20px
-    15px;
+    20px;
 
   padding:
     0
     20px
-    6px;
+    7px;
 
   scrollbar-width: none;
 }
@@ -533,246 +687,230 @@ h2 {
 .filter {
   flex-shrink: 0;
 
-  padding: 9px 14px;
+  padding: 8px 13px;
 
   border: 0;
   border-radius: 999px;
 
-  background: #e5e5ea;
-  color: #55555b;
+  background: #1d2029;
+  color: #8f929d;
 
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .filter.active {
-  background: #1d1d1f;
+  background: #5e51d8;
   color: white;
 }
 
-.list-options {
-  margin-bottom: 18px;
-
-  color: #77777d;
-
-  font-size: 14px;
-}
-
-.list-options label {
+.vault-card {
   display: flex;
   align-items: center;
 
-  gap: 7px;
-}
+  gap: 13px;
 
+  min-height: 75px;
 
-/* =========================
-   KAARTEN
-========================= */
-
-.task {
-  display: flex;
-  align-items: center;
-
-  gap: 11px;
-
-  min-height: 78px;
-
-  margin-bottom: 10px;
+  margin-bottom: 9px;
   padding: 14px;
 
-  border-radius: 18px;
+  border: 1px solid #282b35;
+  border-radius: 17px;
 
-  background: white;
+  background: #171a22;
 }
 
-.task.compact {
-  min-height: 72px;
-}
-
-.check {
-  position: relative;
-
-  width: 28px;
-  height: 28px;
-
-  flex-shrink: 0;
-
-  padding: 0;
-
-  border: 2px solid #aaaab0;
-  border-radius: 50%;
-
-  background: transparent;
-}
-
-.completed .check {
-  background: #1d1d1f;
-  border-color: #1d1d1f;
-}
-
-.completed .check::after {
-  content: "✓";
-
-  position: absolute;
-
-  inset: 0;
-
+.vault-icon {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: white;
+  width: 31px;
 
-  font-size: 16px;
+  flex-shrink: 0;
+
+  color: #969aa8;
+
+  font-size: 18px;
 }
 
-.check.not-task {
-  border: 0;
-
-  opacity: 0;
-}
-
-.task-content {
+.vault-content {
   min-width: 0;
 
   flex: 1;
 }
 
-.item-meta {
-  display: flex;
-  flex-wrap: wrap;
+.vault-text {
+  margin-bottom: 7px;
 
-  gap: 5px;
+  color: #ececf1;
 
-  margin-bottom: 6px;
-}
-
-.task-text {
-  font-size: 17px;
-  line-height: 1.35;
+  font-size: 16px;
 
   overflow-wrap: anywhere;
 }
 
-.completed .task-text {
-  color: #99999f;
-
-  text-decoration: line-through;
-}
-
-
-/* =========================
-   BADGES
-========================= */
-
-.type-badge,
-.priority-badge {
-  display: inline-flex;
-  align-items: center;
-
-  min-height: 22px;
-
-  padding: 3px 8px;
-
-  border-radius: 999px;
-
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.type-badge {
-  background: #eeeef2;
-  color: #65656b;
-}
-
-.type-badge.taak {
-  background: #e8e8ed;
-}
-
-.type-badge.gedachte {
-  background: #eeeaf6;
-}
-
-.type-badge.idee {
-  background: #fff1cf;
-}
-
-.type-badge.doel {
-  background: #e5f2ea;
-}
-
-.priority-badge {
-  background: #f1f1f3;
-  color: #77777d;
-}
-
-.priority-1 {
-  background: #ffe1e1;
-  color: #a53b3b;
-}
-
-.priority-2 {
-  background: #ffead9;
-  color: #a55b2c;
-}
-
-.priority-3 {
-  background: #eeeef2;
-  color: #66666c;
-}
-
-.priority-4 {
-  background: #e8eef7;
-  color: #52667e;
-}
-
-.priority-5 {
-  background: #edf1ed;
-  color: #687468;
-}
-
-
-/* =========================
-   ACTIES
-========================= */
-
-.icon-button {
-  flex-shrink: 0;
-
-  padding: 7px;
+.delete-button {
+  padding: 8px;
 
   border: 0;
 
   background: transparent;
+  color: #676b77;
 
-  color: #aaaab0;
-
-  font-size: 20px;
-}
-
-.delete {
-  font-size: 23px;
+  font-size: 21px;
 }
 
 
-/* =========================
-   EMPTY
-========================= */
+/* ======================
+   SETTINGS
+======================= */
 
-.empty {
-  margin-top: 55px;
+.settings-card {
+  margin-top: 28px;
+  padding: 20px;
 
-  text-align: center;
+  border: 1px solid #282b35;
+  border-radius: 19px;
 
-  color: #99999f;
+  background: #171a22;
+}
 
-  font-size: 17px;
+.settings-card h2 {
+  margin-bottom: 9px;
+}
+
+.settings-card p {
+  color: #858996;
+
+  line-height: 1.5;
+}
+
+.settings-button {
+  min-height: 48px;
+
+  padding: 0 17px;
 }
 
 
-/* =========================
-   EDIT
-========================= */
+/* ======================
+   GLOBAL +
+======================= */
+
+.global-add {
+  position: fixed;
+
+  right: 24px;
+
+  bottom:
+    calc(
+      92px +
+      env(safe-area-inset-bottom)
+    );
+
+  z-index: 40;
+
+  width: 58px;
+  height: 58px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6755e8,
+      #2c7bf0
+    );
+
+  color: white;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.38);
+
+  font-size: 33px;
+  font-weight: 200;
+}
+
+
+/* ======================
+   NAV
+======================= */
+
+.bottom-nav {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 30;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  min-height:
+    calc(
+      72px +
+      env(safe-area-inset-bottom)
+    );
+
+  padding:
+    8px
+    10px
+    env(safe-area-inset-bottom);
+
+  border-top:
+    1px solid #282a34;
+
+  background:
+    rgba(
+      18,
+      20,
+      27,
+      0.96
+    );
+
+  backdrop-filter:
+    blur(20px);
+}
+
+.nav-button {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  border: 0;
+
+  background: transparent;
+  color: #686c78;
+}
+
+.nav-button span {
+  font-size: 22px;
+}
+
+.nav-button small {
+  font-size: 10px;
+}
+
+.nav-button.active {
+  color: #7668ef;
+}
+
+
+/* ======================
+   ENERGY MODAL
+======================= */
 
 .overlay {
   position: fixed;
@@ -785,93 +923,212 @@ h2 {
   align-items: center;
   justify-content: center;
 
-  padding: 20px;
+  padding: 22px;
 
   background:
     rgba(
-      0,
-      0,
-      0,
-      0.35
+      5,
+      6,
+      10,
+      0.78
     );
+
+  backdrop-filter:
+    blur(12px);
 }
 
-.edit-card {
+.energy-card {
   width: 100%;
   max-width: 430px;
 
-  padding: 22px;
+  padding: 25px;
 
-  border-radius: 20px;
+  border: 1px solid #2c2f3b;
+  border-radius: 23px;
 
-  background: #f5f5f7;
+  background: #171a22;
 
   box-shadow:
-    0 20px 60px
-    rgba(0, 0, 0, 0.18);
+    0 24px 70px
+    rgba(0, 0, 0, 0.45);
 }
 
-.edit-card h2 {
-  margin-bottom: 18px;
+.energy-card h2 {
+  margin-bottom: 9px;
+
+  font-size: 25px;
 }
 
-.edit-textarea {
-  margin-bottom: 14px;
+.modal-copy {
+  margin-bottom: 22px;
+
+  color: #898d9a;
+
+  line-height: 1.45;
 }
 
-.small-label {
-  display: block;
+.energy-grid {
+  display: grid;
 
-  margin:
-    12px
-    0
-    6px;
+  grid-template-columns:
+    repeat(5, 1fr);
 
-  color: #77777d;
+  gap: 7px;
+}
+
+.energy-choice {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding:
+    13px
+    4px;
+
+  border: 1px solid #2d303b;
+  border-radius: 14px;
+
+  background: #20232d;
+  color: #f0f0f4;
+}
+
+.energy-choice strong {
+  font-size: 20px;
+}
+
+.energy-choice small {
+  color: #818592;
+
+  font-size: 9px;
+}
+
+
+/* ======================
+   TOAST
+======================= */
+
+.toast {
+  position: fixed;
+
+  left: 50%;
+
+  bottom:
+    calc(
+      90px +
+      env(safe-area-inset-bottom)
+    );
+
+  z-index: 80;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    calc(
+      100% -
+      34px
+    );
+
+  max-width: 520px;
+
+  padding:
+    14px
+    15px;
+
+  border:
+    1px solid #313441;
+
+  border-radius: 17px;
+
+  background: #20232d;
+
+  box-shadow:
+    0 14px 40px
+    rgba(0, 0, 0, 0.4);
+}
+
+.toast div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.toast strong {
+  font-size: 14px;
+}
+
+.toast span {
+  overflow: hidden;
+
+  color: #8e929e;
 
   font-size: 12px;
-  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.edit-card select {
-  width: 100%;
-  height: 48px;
+.toast button {
+  flex-shrink: 0;
 
-  padding: 0 12px;
+  padding:
+    8px
+    11px;
 
-  border: 1px solid #d1d1d6;
-  border-radius: 12px;
+  border: 0;
+  border-radius: 10px;
 
-  background: white;
-}
+  background: #6255dd;
+  color: white;
 
-.edit-actions {
-  display: flex;
-
-  gap: 10px;
-
-  margin-top: 20px;
-}
-
-.edit-actions button {
-  flex: 1;
-
-  min-height: 48px;
+  font-size: 12px;
 }
 
 
-/* =========================
-   GROTERE SCHERMEN
-========================= */
+/* ======================
+   EMPTY
+======================= */
+
+.soft-empty {
+  padding: 25px 18px;
+
+  border: 1px solid #272a34;
+  border-radius: 18px;
+
+  background: #171a22;
+
+  color: #777b88;
+
+  text-align: center;
+
+  line-height: 1.45;
+}
+
+
+/* ======================
+   LARGER
+======================= */
 
 @media (min-width: 500px) {
 
   .app {
-    padding-top: 76px;
+    padding-top: 72px;
   }
 
   h1 {
-    font-size: 43px;
+    font-size: 40px;
   }
 
 }
