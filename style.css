@@ -21,6 +21,7 @@ body {
 
 button,
 input,
+textarea,
 select {
   font: inherit;
 }
@@ -30,113 +31,480 @@ select {
   cursor: pointer;
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+}
 
-/* APP */
+
+/* =========================
+   APP / SCHERMEN
+========================= */
 
 .app {
   width: 100%;
   max-width: 650px;
 
-  margin: 0 auto;
-
   min-height: 100vh;
 
+  margin: 0 auto;
+
   padding:
-    60px
+    54px
     20px
-    50px;
+    120px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
 }
 
 h1 {
-  margin: 0 0 30px;
+  margin-bottom: 0;
 
-  font-size: 36px;
-  letter-spacing: -1px;
+  font-size: 38px;
+  letter-spacing: -1.4px;
+}
+
+h2 {
+  font-size: 24px;
+  letter-spacing: -0.5px;
+}
+
+.eyebrow {
+  margin-bottom: 5px;
+
+  color: #8e8e93;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 
-/* NIEUW ITEM */
+/* =========================
+   HEADERS
+========================= */
 
-.capture-card {
-  margin-bottom: 24px;
+.home-header,
+.screen-header {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  margin-bottom: 28px;
 }
 
-.main-input {
-  width: 100%;
+.home-header {
+  justify-content: space-between;
+}
 
-  height: 58px;
+.screen-header .back-button {
+  margin-top: 3px;
+}
 
-  padding: 0 16px;
-
-  border: 1px solid #d1d1d6;
-  border-radius: 14px;
+.round-icon-button,
+.back-button {
+  border: 0;
 
   background: white;
 
   color: #1d1d1f;
-
-  font-size: 17px;
-
-  outline: none;
 }
 
-.main-input:focus {
-  border-color: #99999f;
-}
-
-.main-input::placeholder {
-  color: #aaaab0;
-}
-
-.capture-options {
-  display: flex;
-  gap: 8px;
-
-  margin-top: 10px;
-}
-
-.capture-options select {
-  min-width: 0;
-
-  height: 48px;
-
-  padding: 0 12px;
-
-  border: 1px solid #d1d1d6;
-  border-radius: 12px;
-
-  background: white;
-}
-
-#typeSelect {
-  flex: 1;
-}
-
-#priorityWrapper {
-  flex: 1.3;
-}
-
-#priorityWrapper select {
-  width: 100%;
-}
-
-#addButton {
+.round-icon-button {
   width: 48px;
   height: 48px;
 
   flex-shrink: 0;
 
+  border-radius: 50%;
+
+  font-size: 20px;
+}
+
+.back-button {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  font-size: 22px;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.hero-card {
+  margin-bottom: 34px;
+  padding: 22px;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #11162c,
+      #24204b
+    );
+
+  color: white;
+}
+
+.hero-kicker {
+  margin-bottom: 9px;
+
+  color: #f5d889;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hero-card h2 {
+  max-width: 340px;
+
+  margin-bottom: 10px;
+
+  font-size: 25px;
+}
+
+.hero-text {
+  margin-bottom: 0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.67
+    );
+
+  line-height: 1.45;
+}
+
+.today-section {
+  margin-bottom: 26px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+}
+
+.section-heading h2 {
+  margin-bottom: 0;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  height: 32px;
+
+  padding: 0 9px;
+
+  border-radius: 999px;
+
+  background: #e5e5ea;
+  color: #66666c;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#todayList,
+#vaultList {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.soft-empty {
+  padding: 28px 18px;
+
+  border-radius: 18px;
+
+  background: white;
+
+  color: #99999f;
+
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================
+   BEWAAR-KNOP
+========================= */
+
+.capture-fab {
+  position: fixed;
+
+  left: 50%;
+  bottom:
+    calc(
+      24px +
+      env(safe-area-inset-bottom)
+    );
+
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  transform: translateX(-50%);
+
+  min-width: 176px;
+  height: 56px;
+
+  padding: 0 22px;
+
   border: 0;
-  border-radius: 12px;
+  border-radius: 999px;
 
   background: #1d1d1f;
   color: white;
 
-  font-size: 27px;
+  box-shadow:
+    0 12px 35px
+    rgba(0, 0, 0, 0.18);
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.capture-fab-plus {
+  font-size: 26px;
+  font-weight: 300;
 }
 
 
-/* FILTERS */
+/* =========================
+   CAPTURE FLOW
+========================= */
+
+.capture-step {
+  display: none;
+}
+
+.capture-step.active {
+  display: block;
+}
+
+.field-label {
+  display: block;
+
+  margin-bottom: 14px;
+
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.main-textarea,
+.edit-textarea {
+  width: 100%;
+
+  resize: none;
+
+  padding: 17px;
+
+  border: 1px solid #d1d1d6;
+  border-radius: 18px;
+
+  background: white;
+
+  color: #1d1d1f;
+
+  outline: none;
+
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.main-textarea {
+  min-height: 140px;
+
+  margin-bottom: 16px;
+}
+
+.main-textarea:focus,
+.edit-textarea:focus {
+  border-color: #99999f;
+}
+
+.main-textarea::placeholder {
+  color: #b0b0b5;
+}
+
+.big-button {
+  width: 100%;
+  min-height: 54px;
+}
+
+.primary-button,
+.secondary-button {
+  border: 0;
+  border-radius: 14px;
+}
+
+.primary-button {
+  background: #1d1d1f;
+  color: white;
+}
+
+.secondary-button {
+  background: #e5e5ea;
+  color: #1d1d1f;
+}
+
+
+/* =========================
+   TYPE KIEZEN
+========================= */
+
+.type-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 11px;
+}
+
+.type-choice {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 145px;
+
+  padding: 17px;
+
+  border: 1px solid transparent;
+  border-radius: 19px;
+
+  background: white;
+  color: #1d1d1f;
+
+  text-align: left;
+}
+
+.type-choice.selected {
+  border-color: #1d1d1f;
+}
+
+.type-choice-icon {
+  margin-bottom: 18px;
+
+  font-size: 26px;
+}
+
+.type-choice-title {
+  margin-bottom: 4px;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.type-choice-text {
+  color: #8e8e93;
+
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+
+/* =========================
+   URGENTIE
+========================= */
+
+.priority-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  margin-bottom: 18px;
+}
+
+.priority-choice {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid transparent;
+  border-radius: 16px;
+
+  background: white;
+  color: #1d1d1f;
+
+  text-align: left;
+}
+
+.priority-choice.selected {
+  border-color: #1d1d1f;
+}
+
+.priority-choice > strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #f0f0f3;
+}
+
+.priority-choice span {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.priority-choice small {
+  color: #8e8e93;
+
+  font-size: 12px;
+}
+
+
+/* =========================
+   VAULT FILTERS
+========================= */
 
 .filters {
   display: flex;
@@ -145,9 +513,15 @@ h1 {
 
   overflow-x: auto;
 
-  padding-bottom: 5px;
+  margin:
+    0
+    -20px
+    15px;
 
-  margin-bottom: 14px;
+  padding:
+    0
+    20px
+    6px;
 
   scrollbar-width: none;
 }
@@ -159,7 +533,7 @@ h1 {
 .filter {
   flex-shrink: 0;
 
-  padding: 9px 13px;
+  padding: 9px 14px;
 
   border: 0;
   border-radius: 999px;
@@ -174,9 +548,6 @@ h1 {
   background: #1d1d1f;
   color: white;
 }
-
-
-/* LIJSTOPTIES */
 
 .list-options {
   margin-bottom: 18px;
@@ -194,39 +565,35 @@ h1 {
 }
 
 
-/* LIJST */
-
-#itemList {
-  margin: 0;
-  padding: 0;
-
-  list-style: none;
-}
+/* =========================
+   KAARTEN
+========================= */
 
 .task {
   display: flex;
   align-items: center;
 
-  gap: 12px;
+  gap: 11px;
 
-  min-height: 76px;
+  min-height: 78px;
 
   margin-bottom: 10px;
   padding: 14px;
 
-  border-radius: 16px;
+  border-radius: 18px;
 
   background: white;
 }
 
-
-/* CHECK */
+.task.compact {
+  min-height: 72px;
+}
 
 .check {
   position: relative;
 
-  width: 27px;
-  height: 27px;
+  width: 28px;
+  height: 28px;
 
   flex-shrink: 0;
 
@@ -265,9 +632,6 @@ h1 {
   opacity: 0;
 }
 
-
-/* INHOUD */
-
 .task-content {
   min-width: 0;
 
@@ -297,7 +661,9 @@ h1 {
 }
 
 
-/* BADGES */
+/* =========================
+   BADGES
+========================= */
 
 .type-badge,
 .priority-badge {
@@ -315,7 +681,7 @@ h1 {
 }
 
 .type-badge {
-  background: #eeeeF2;
+  background: #eeeef2;
   color: #65656b;
 }
 
@@ -335,9 +701,6 @@ h1 {
   background: #e5f2ea;
 }
 
-
-/* PRIORITEIT */
-
 .priority-badge {
   background: #f1f1f3;
   color: #77777d;
@@ -354,7 +717,7 @@ h1 {
 }
 
 .priority-3 {
-  background: #eeeeF2;
+  background: #eeeef2;
   color: #66666c;
 }
 
@@ -369,7 +732,9 @@ h1 {
 }
 
 
-/* ACTIES */
+/* =========================
+   ACTIES
+========================= */
 
 .icon-button {
   flex-shrink: 0;
@@ -390,7 +755,9 @@ h1 {
 }
 
 
-/* EMPTY */
+/* =========================
+   EMPTY
+========================= */
 
 .empty {
   margin-top: 55px;
@@ -403,7 +770,9 @@ h1 {
 }
 
 
-/* EDIT OVERLAY */
+/* =========================
+   EDIT
+========================= */
 
 .overlay {
   position: fixed;
@@ -418,11 +787,13 @@ h1 {
 
   padding: 20px;
 
-  background: rgba(0, 0, 0, 0.35);
-}
-
-.overlay.hidden {
-  display: none;
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.35
+    );
 }
 
 .edit-card {
@@ -441,18 +812,30 @@ h1 {
 }
 
 .edit-card h2 {
+  margin-bottom: 18px;
+}
+
+.edit-textarea {
+  margin-bottom: 14px;
+}
+
+.small-label {
+  display: block;
+
   margin:
+    12px
     0
-    0
-    18px;
+    6px;
+
+  color: #77777d;
+
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .edit-card select {
   width: 100%;
-
   height: 48px;
-
-  margin-top: 10px;
 
   padding: 0 12px;
 
@@ -473,33 +856,22 @@ h1 {
 .edit-actions button {
   flex: 1;
 
-  height: 48px;
-
-  border: 0;
-  border-radius: 12px;
-}
-
-.secondary-button {
-  background: #e5e5ea;
-  color: #1d1d1f;
-}
-
-.primary-button {
-  background: #1d1d1f;
-  color: white;
+  min-height: 48px;
 }
 
 
-/* GROTERE SCHERMEN */
+/* =========================
+   GROTERE SCHERMEN
+========================= */
 
 @media (min-width: 500px) {
 
   .app {
-    padding-top: 80px;
+    padding-top: 76px;
   }
 
   h1 {
-    font-size: 42px;
+    font-size: 43px;
   }
 
 }
