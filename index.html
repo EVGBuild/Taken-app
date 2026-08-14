@@ -13,8 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="style.css?v=34">
+  <link rel="stylesheet" href="style.css?v=36">
 </head>
 <body>
 <main class="app">
@@ -256,7 +257,7 @@ function requireChoice(container,value){if(value){clearChoiceError(container);re
 document.addEventListener('input',e=>{if(e.target.matches('input,textarea'))clearFieldError(e.target)});
 $('wishlistName').placeholder='Typ hier';
 function toast(title,text,button,run,duration=5000){$('toastTitle').textContent=title;$('toastText').textContent=text||'';$('toastActionButton').textContent=button||'';$('toastActionButton').classList.toggle('hidden',!button);$('toastActionButton').onclick=()=>{run?.();close('toast')};open('toast');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>close('toast'),duration)}
-function lumiSuccess(){document.querySelector('.lumi-success')?.remove();const effect=document.createElement('div');effect.className='lumi-success';effect.setAttribute('aria-hidden','true');effect.innerHTML='<i></i><span></span><span></span><span></span>';document.body.append(effect);setTimeout(()=>effect.remove(),1250)}
+function lumiSuccess(){document.querySelector('.lumi-success')?.remove();const effect=document.createElement('div');effect.className='lumi-success';effect.setAttribute('aria-hidden','true');effect.innerHTML='<i></i><span></span><span></span><span></span>';document.body.append(effect);setTimeout(()=>effect.remove(),3200)}
 function empty(parent,title,detail='',action=null){const e=document.createElement(action?'button':'div');e.className='soft-empty'+(action?' clickable-empty':'');const strong=document.createElement('strong');strong.textContent=title;e.append(strong);if(detail){const small=document.createElement('small');small.textContent=detail;e.append(small)}if(action)e.onclick=action;parent.append(e);return e}
 function formatDate(s){return new Date(s+'T12:00').toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'})}function formatPrice(n){return new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(+n)}
 function populateProjects(){$('actionProject').innerHTML='<option value="">Kies een project</option>';projects.filter(p=>!p.archived).forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.title;$('actionProject').append(o)})}
@@ -276,6 +277,27 @@ const baseSuggestionCard=suggestionCard;suggestionCard=function(item,secondary=f
 const baseOpenTaskDetail=openTaskDetail;openTaskDetail=function(item){baseOpenTaskDetail(item);const meta=$('taskDetailMeta'),add=(label,value)=>{if(value==null)return;const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);meta.insertBefore(row,meta.children[1]||null)};add('Belasting',item.load?['','Weinig','Redelijk','Veel','Heel veel'][item.load]:null);add('Opbrengst',item.impact?['','Weinig','Een beetje','Veel','Heel veel'][item.impact]:null);add('Noodzaak',item.necessity?['','Kan rustig wachten','Uitstel geeft nadelen','Moet echt gebeuren','Uitstel veroorzaakt problemen'][item.necessity]:null)};
 // TODO: koppel submitFeedbackButton hier later aan de echte feedback-API; tot die tijd blijft verzenden bewust uitgeschakeld.
 const navIcons={home:'<path d="M3.5 10.5 12 3.8l8.5 6.7V20a1 1 0 0 1-1 1h-5v-6h-5v6h-5a1 1 0 0 1-1-1z"/>',masterlist:'<path d="m5 7 2 2 4-4M5 13l2 2 4-4M13 7h6M13 13h6M5 19h14"/>',vault:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 4v16M12 10h5"/>',projects:'<path d="M4 7.5h6l1.5 2H20v9.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 7.5V6a1 1 0 0 1 1-1h5l1.5 2.5"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/>'};document.querySelectorAll('.nav-button').forEach(button=>{button.querySelector('span').innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">${navIcons[button.dataset.screen]}</svg>`});document.querySelectorAll('.module-card>span').forEach(icon=>icon.remove());document.querySelectorAll('.back-button').forEach(button=>{button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 7.5 12l7 7"/></svg>'});$('globalAddButton').innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';$('globalAddButton').setAttribute('aria-label','Toevoegen');populateProjects();refresh();renderSettings();if(!energy)setTimeout(()=>open('energyOverlay'),400);
+/* VDS v1 mobile application: scoped navigation icons and living-light motion. */
+const vdsNavIcons={home:'house',masterlist:'check-square',vault:'vault',projects:'folder',settings:'gear'};
+function syncVdsNavIcons(){document.querySelectorAll('.nav-button').forEach(button=>{const active=button.classList.contains('active'),icon=button.querySelector('span');icon.innerHTML=`<i class="${active?'ph-fill':'ph'} ph-${vdsNavIcons[button.dataset.screen]}" aria-hidden="true"></i>`})}
+
+let ambientLumiTimer=null;
+const ambientMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+function clearAmbientLumi(){clearTimeout(ambientLumiTimer);ambientLumiTimer=null;document.querySelector('.ambient-lumi')?.remove()}
+function ambientScreenEligible(){return !document.hidden&&!ambientMotion.matches&&['home','vault'].includes(currentScreen)&&!document.querySelector('.overlay:not(.hidden),.menu-overlay:not(.hidden)')}
+function findAmbientLumiPosition(){const candidates=currentScreen==='vault'?[[84,24],[12,38],[88,57],[18,69]]:[[88,25],[10,47],[91,64],[14,73]];for(const [x,y] of candidates.sort(()=>Math.random()-.5)){const px=innerWidth*x/100,py=innerHeight*y/100,target=document.elementFromPoint(px,py);if(!target?.closest('button,a,input,select,textarea,.suggestion-card,.task-row,.project-card,.module-card,.today-context,.bottom-nav,.global-add'))return{x,y}}return null}
+function scheduleAmbientLumi(){clearTimeout(ambientLumiTimer);ambientLumiTimer=null;if(!ambientScreenEligible())return;ambientLumiTimer=setTimeout(()=>{ambientLumiTimer=null;if(!ambientScreenEligible())return;const position=findAmbientLumiPosition();if(!position){scheduleAmbientLumi();return}const lumi=document.createElement('i');lumi.className='ambient-lumi '+(Math.random()>.58?'ambient-lumi-warm':'ambient-lumi-functional');lumi.setAttribute('aria-hidden','true');lumi.style.setProperty('--lumi-x',position.x+'vw');lumi.style.setProperty('--lumi-y',position.y+'vh');lumi.style.setProperty('--lumi-drift',(Math.random()>.5?1:-1)*(18+Math.round(Math.random()*18))+'px');document.body.append(lumi);ambientLumiTimer=setTimeout(()=>{ambientLumiTimer=null;lumi.remove();scheduleAmbientLumi()},5600)},25000+Math.random()*20000)}
+function syncAmbientLumi(){clearAmbientLumi();scheduleAmbientLumi()}
+document.addEventListener('visibilitychange',syncAmbientLumi);
+ambientMotion.addEventListener?.('change',syncAmbientLumi);
+document.querySelectorAll('.overlay,.menu-overlay').forEach(overlay=>new MutationObserver(syncAmbientLumi).observe(overlay,{attributes:true,attributeFilter:['class']}));
+
+const baseShowScreenVds=showScreen;
+showScreen=function(name){baseShowScreenVds(name);syncVdsNavIcons();syncAmbientLumi()};
+syncVdsNavIcons();
+$('globalAddButton').setAttribute('aria-label','Vastleggen');
+scheduleAmbientLumi();
+window.addEventListener('load',scheduleAmbientLumi,{once:true});
 </script>
 </body>
 </html>
