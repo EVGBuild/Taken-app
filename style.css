@@ -471,3 +471,60 @@ button,input,select,textarea{font:inherit}
   .list-detail-header .header-more{width:44px;min-width:44px}
 }
 
+/* Mobile UX and shared detail recovery. */
+html,body{max-width:100%;overflow-x:hidden}
+.app{padding-top:max(24px,env(safe-area-inset-top));overflow-x:clip}
+.screen-header{width:100%;min-width:0;align-items:start}
+.screen-header>*,.detail-title-wrap,.list-header-actions{min-width:0}
+.screen-header h1,.detail-title-wrap h1{overflow-wrap:anywhere}
+.back-button,.more-button,.column-menu,.modal-close{display:grid;place-items:center;padding:0;line-height:1}
+.soft-empty,.mini-empty,.column-empty{gap:7px}
+.soft-empty strong,.soft-empty small,.column-empty strong,.column-empty small{display:block;max-width:100%;overflow-wrap:anywhere}
+.task-row,.suggestion-card,.project-card,.wishlist-card,.idea-card{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}
+input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default;touch-action:auto}
+.draggable-item{touch-action:pan-y}
+.list-board{max-width:100%;touch-action:pan-x pan-y}
+.board-column{min-width:0;touch-action:pan-x pan-y}
+
+.task-detail-card{max-height:min(86dvh,720px);padding:20px 18px 22px}
+.task-detail-card>.modal-close{top:12px;right:12px;width:44px;height:44px;font-size:24px}
+.task-detail-heading{grid-template-columns:minmax(0,1fr) 44px;padding-right:0;gap:4px 10px}
+.task-detail-heading .eyebrow,.task-detail-heading h2{grid-column:1}
+.task-detail-heading .more-button{grid-column:2;grid-row:2;width:44px;height:44px;align-self:start}
+.task-detail-meta{margin-top:14px}
+.task-detail-meta>div{grid-template-columns:minmax(92px,38%) minmax(0,1fr);gap:12px;padding:9px 0}
+.task-detail-meta dt,.task-detail-meta dd{font-size:13px;line-height:1.45}
+.task-detail-meta dt{color:var(--color-text-secondary);font-weight:600}
+.task-detail-meta dd{color:var(--color-text-primary);font-weight:500;text-align:left;overflow-wrap:anywhere}
+
+#projectDetailScreen .screen-header,.list-detail-header{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:start}
+#projectDetailScreen .detail-title-wrap,.list-detail-header .detail-title-wrap{text-align:left}
+#projectDetailScreen .header-more{width:44px;height:44px}
+.list-header-actions{display:flex;justify-content:flex-end;max-width:100%}
+
+#energyOverlay .modal-card{max-width:480px;max-height:calc(100dvh - 24px);padding:22px 18px}
+#energyOverlay .modal-copy{margin-bottom:18px;padding-right:36px}
+#energyOverlay .energy-grid{margin-bottom:4px}
+.checkin-day-load h3{margin:5px 38px 6px 0;font-size:16px;line-height:1.35}
+.checkin-day-load>p{margin-bottom:14px;color:var(--color-text-secondary);font-size:13px}
+.day-load-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.day-load-grid button{min-height:50px;padding:10px;border:1px solid var(--color-border-control);border-radius:var(--radius-md);background:var(--color-surface-raised);color:var(--color-text-primary);text-align:left}
+.day-load-grid button.selected{border-color:var(--color-action-active);background:color-mix(in srgb,var(--color-action-primary) 20%,var(--color-surface-raised));box-shadow:inset 0 0 0 1px var(--color-action-active)}
+#energyOverlay .modal-save{margin-top:16px;white-space:normal}
+
+@keyframes capture-lumi-rise{0%{opacity:0;transform:translate3d(0,8px,0) scale(.55)}12%{opacity:1}100%{opacity:0;transform:translate3d(var(--lumi-drift,18px),-52vh,0) scale(.28)}}
+@keyframes ambient-lumi-drift{0%{opacity:0;transform:translate3d(0,10px,0) scale(.55)}16%{opacity:.5}75%{opacity:.55}100%{opacity:0;transform:translate3d(var(--lumi-drift),-48px,0) scale(.38)}}
+.lumi-success i,.ambient-lumi{will-change:transform,opacity}
+
+@media(max-width:560px){
+  .app{padding-top:max(20px,env(safe-area-inset-top));padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+  .overlay{align-items:flex-start;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+  .task-detail-card{margin-top:0}
+  .task-detail-meta>div{grid-template-columns:minmax(88px,36%) minmax(0,1fr);gap:10px}
+  .list-detail-header{grid-template-columns:44px minmax(0,1fr);row-gap:8px}
+  .list-detail-header .list-header-actions{grid-column:1/-1;justify-content:flex-end}
+  .list-detail-header .sublist-add{padding-inline:12px}
+  .day-load-grid{grid-template-columns:1fr}
+  .bottom-nav{padding-left:max(2px,env(safe-area-inset-left));padding-right:max(2px,env(safe-area-inset-right))}
+}
+
