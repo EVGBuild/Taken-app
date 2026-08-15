@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="style.css?v=36">
+  <link rel="stylesheet" href="style.css?v=37">
 </head>
 <body>
 <main class="app">
@@ -257,7 +257,9 @@ function requireChoice(container,value){if(value){clearChoiceError(container);re
 document.addEventListener('input',e=>{if(e.target.matches('input,textarea'))clearFieldError(e.target)});
 $('wishlistName').placeholder='Typ hier';
 function toast(title,text,button,run,duration=5000){if(button==='Ongedaan maken')duration=Math.max(duration,6500);$('toastTitle').textContent=title;$('toastText').textContent=text||'';$('toastActionButton').textContent=button||'';$('toastActionButton').classList.toggle('hidden',!button);$('toastActionButton').onclick=()=>{run?.();close('toast')};open('toast');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>close('toast'),duration)}
-function lumiSuccess(){document.querySelector('.lumi-success')?.remove();const effect=document.createElement('div');effect.className='lumi-success';effect.setAttribute('aria-hidden','true');effect.innerHTML='<i></i><span></span><span></span><span></span>';document.body.append(effect);setTimeout(()=>effect.remove(),4200)}
+const LUMI_PALETTE=['cyan','violet','rose','gold'];
+function createLumi({mode='action',x=50,y=null}={}){const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(mode==='ambient'&&reduced)return null;const effect=document.createElement('i'),tone=LUMI_PALETTE[Math.floor(Math.random()*LUMI_PALETTE.length)];effect.className=`lumi lumi--${mode} lumi--${tone}`;effect.setAttribute('aria-hidden','true');effect.style.setProperty('--lumi-x',x+(typeof x==='number'?'vw':''));if(y!==null)effect.style.setProperty('--lumi-y',y+(typeof y==='number'?'vh':''));effect.style.setProperty('--lumi-drift-x',`${(Math.random()>.5?1:-1)*(12+Math.round(Math.random()*18))}px`);effect.style.setProperty('--lumi-drift-y',`${mode==='ambient' ? -(34+Math.round(Math.random()*28)) : -(58+Math.round(Math.random()*24))}px`);document.body.append(effect);effect.addEventListener('animationend',()=>effect.remove(),{once:true});setTimeout(()=>effect.remove(),mode==='ambient'?8000:3000);return effect}
+function lumiSuccess(){document.querySelector('.lumi--action')?.remove();createLumi({mode:'action'})}
 function empty(parent,title,detail='',action=null){const e=document.createElement(action?'button':'div');e.className='soft-empty'+(action?' clickable-empty':'');const strong=document.createElement('strong');strong.textContent=title;e.append(strong);if(detail){const small=document.createElement('small');small.textContent=detail;e.append(small)}if(action)e.onclick=action;parent.append(e);return e}
 function formatDate(s){return new Date(s+'T12:00').toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'})}function formatPrice(n){return new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(+n)}
 function populateProjects(){$('actionProject').innerHTML='<option value="">Kies een project</option>';projects.filter(p=>!p.archived).forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.title;$('actionProject').append(o)})}
@@ -283,10 +285,10 @@ function syncVdsNavIcons(){document.querySelectorAll('.nav-button').forEach(butt
 
 let ambientLumiTimer=null;
 const ambientMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-function clearAmbientLumi(){clearTimeout(ambientLumiTimer);ambientLumiTimer=null;document.querySelector('.ambient-lumi')?.remove()}
+function clearAmbientLumi(){clearTimeout(ambientLumiTimer);ambientLumiTimer=null;document.querySelector('.lumi--ambient')?.remove()}
 function ambientScreenEligible(){return !document.hidden&&!ambientMotion.matches&&['home','vault'].includes(currentScreen)&&!document.querySelector('.overlay:not(.hidden),.menu-overlay:not(.hidden)')}
 function findAmbientLumiPosition(){const candidates=currentScreen==='vault'?[[84,24],[12,38],[88,57],[18,69]]:[[88,25],[10,47],[91,64],[14,73]];for(const [x,y] of candidates.sort(()=>Math.random()-.5)){const px=innerWidth*x/100,py=innerHeight*y/100,target=document.elementFromPoint(px,py);if(!target?.closest('button,a,input,select,textarea,.suggestion-card,.task-row,.project-card,.module-card,.today-context,.bottom-nav,.global-add'))return{x,y}}return null}
-function scheduleAmbientLumi(){clearTimeout(ambientLumiTimer);ambientLumiTimer=null;if(!ambientScreenEligible())return;ambientLumiTimer=setTimeout(()=>{ambientLumiTimer=null;if(!ambientScreenEligible())return;const position=findAmbientLumiPosition();if(!position){scheduleAmbientLumi();return}const lumi=document.createElement('i');lumi.className='ambient-lumi '+(Math.random()>.58?'ambient-lumi-warm':'ambient-lumi-functional');lumi.setAttribute('aria-hidden','true');lumi.style.setProperty('--lumi-x',position.x+'vw');lumi.style.setProperty('--lumi-y',position.y+'vh');lumi.style.setProperty('--lumi-drift',(Math.random()>.5?1:-1)*(18+Math.round(Math.random()*18))+'px');document.body.append(lumi);ambientLumiTimer=setTimeout(()=>{ambientLumiTimer=null;lumi.remove();scheduleAmbientLumi()},5600)},25000+Math.random()*20000)}
+function scheduleAmbientLumi(){clearTimeout(ambientLumiTimer);ambientLumiTimer=null;if(!ambientScreenEligible())return;ambientLumiTimer=setTimeout(()=>{ambientLumiTimer=null;if(!ambientScreenEligible())return;const position=findAmbientLumiPosition();if(!position){scheduleAmbientLumi();return}const lumi=createLumi({mode:'ambient',...position});ambientLumiTimer=setTimeout(()=>{ambientLumiTimer=null;lumi?.remove();scheduleAmbientLumi()},7600)},45000+Math.random()*50000)}
 function syncAmbientLumi(){clearAmbientLumi();scheduleAmbientLumi()}
 document.addEventListener('visibilitychange',syncAmbientLumi);
 ambientMotion.addEventListener?.('change',syncAmbientLumi);
@@ -404,7 +406,7 @@ $('wishlistName').placeholder='Bijv. lamp, tattoo of workshop';
 $('saveWishlistButton').textContent='Bewaren';
 const recoveredOpenWishlistR3=openWishlist;openWishlist=function(item=null){recoveredOpenWishlistR3(item);$('wishlistModalTitle').textContent=item?'Wens of aankoop bewerken':'Nieuwe wens of aankoop'};
 document.querySelector('.purchase-tools').classList.add('manual-order-primary');
-const oldLumiSuccess=lumiSuccess;lumiSuccess=function(label='Opgeslagen'){oldLumiSuccess();toast(label,'Veilig bewaard in je Vault','',null,2600)};
+// Positieve acties krijgen stille Lumi-feedback; herstelgevoelig verwijderen houdt de teksttoast met Ongedaan maken.
 refresh();
 syncVdsNavIcons();
 </script>

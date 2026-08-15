@@ -611,3 +611,27 @@ body{min-height:100dvh;overscroll-behavior-y:none}
 @media(max-width:560px){.lumi-success{bottom:calc(110px + env(safe-area-inset-bottom))}.toast{bottom:calc(100px + env(safe-area-inset-bottom));gap:12px}.toast button{min-width:104px}}
 @media(prefers-reduced-motion:reduce){.lumi-success i{animation:capture-lumi-confirm .55s ease-out forwards!important}}
 
+/* Lumi motion language: one reusable light particle for ambient and positive action feedback. */
+.lumi{--lumi-core:#b9f7ff;--lumi-halo:rgba(83,221,255,.42);position:fixed;z-index:2;left:var(--lumi-x,50vw);top:var(--lumi-y,auto);width:5px;height:5px;border:0;border-radius:50%;pointer-events:none;opacity:0;background:var(--lumi-core);box-shadow:0 0 5px 1px var(--lumi-core),0 0 14px 4px var(--lumi-halo),0 0 30px 8px color-mix(in srgb,var(--lumi-halo) 42%,transparent);will-change:transform,opacity}
+.lumi--cyan{--lumi-core:#c5f8ff;--lumi-halo:rgba(83,221,255,.4)}
+.lumi--violet{--lumi-core:#ddd0ff;--lumi-halo:rgba(156,125,255,.36)}
+.lumi--rose{--lumi-core:#ffd2e2;--lumi-halo:rgba(232,132,174,.31)}
+.lumi--gold{--lumi-core:#ffe6ad;--lumi-halo:rgba(226,183,94,.3)}
+.lumi--ambient{animation:lumi-ambient 7.2s cubic-bezier(.22,.61,.32,1) forwards}
+.lumi--action{z-index:220;top:auto;bottom:calc(112px + env(safe-area-inset-bottom));width:7px;height:7px;animation:lumi-action 2.35s cubic-bezier(.18,.7,.25,1) forwards}
+@keyframes lumi-ambient{0%{opacity:0;transform:translate3d(0,9px,0) scale(.62)}18%{opacity:.48}66%{opacity:.58}100%{opacity:0;transform:translate3d(var(--lumi-drift-x),var(--lumi-drift-y),0) scale(.72)}}
+@keyframes lumi-action{0%{opacity:0;transform:translate3d(-50%,7px,0) scale(.62)}18%{opacity:.9}62%{opacity:.72}100%{opacity:0;transform:translate3d(calc(-50% + var(--lumi-drift-x)),var(--lumi-drift-y),0) scale(.7)}}
+
+/* Functional colour stays semantic: cyan means active/selected, content accents retain identity. */
+.nav-button.active{color:var(--color-action-active)!important;filter:drop-shadow(0 0 7px color-mix(in srgb,var(--color-action-active) 48%,transparent))}
+.list-tab.active,.wishlist-tab.active,.sublist-tabs button.active,.segmented button.selected,.purchase-filter button.selected{border-color:var(--color-action-active);background:color-mix(in srgb,var(--color-action-primary) 72%,var(--color-surface-raised));color:var(--color-text-primary);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--color-action-active) 45%,transparent),0 0 16px color-mix(in srgb,var(--color-action-active) 14%,transparent)}
+.meaning-choice.selected,.scale-choice.selected,.reason-choices button.selected,.day-load-grid button.selected{border-color:var(--color-action-active);background:color-mix(in srgb,var(--color-action-primary) 16%,var(--color-surface-raised));box-shadow:inset 3px 0 0 var(--color-action-active)}
+.primary-button,.primary,.big-button{background:linear-gradient(135deg,var(--color-action-primary),var(--color-action-active));color:#fff}
+:where(button,input,select,textarea):focus-visible{outline:2px solid color-mix(in srgb,var(--color-action-active) 78%,white);outline-offset:2px}
+
+@media(prefers-reduced-motion:reduce){
+  .lumi--ambient{display:none}
+  .lumi--action{animation:lumi-action-reduced .48s ease-out forwards}
+  @keyframes lumi-action-reduced{0%{opacity:0;transform:translateX(-50%) scale(.8)}45%{opacity:.58;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-50%) scale(.9)}}
+}
+
