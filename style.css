@@ -635,3 +635,27 @@ body{min-height:100dvh;overscroll-behavior-y:none}
   @keyframes lumi-action-reduced{0%{opacity:0;transform:translateX(-50%) scale(.8)}45%{opacity:.58;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-50%) scale(.9)}}
 }
 
+/* Rollout 4: aligned Vault cards, native touch strips, and compact item forms. */
+.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.module-card{display:grid!important;grid-template-rows:44px minmax(44px,auto) minmax(34px,auto);align-content:start!important;align-items:start!important;justify-items:start;min-height:184px;padding:18px!important;overflow:hidden!important;border-radius:var(--radius-card)!important;text-align:left!important;clip-path:inset(0 round var(--radius-card))}
+.module-card:before{display:grid!important;place-items:center;position:static!important;width:44px!important;height:44px!important;margin:0 0 16px!important;border-radius:14px;background:color-mix(in srgb,var(--module-accent) 15%,transparent)!important;color:var(--module-accent);font-family:"Phosphor";font-size:22px;line-height:1}
+.module-card strong{align-self:start;min-height:44px;margin:0!important;line-height:1.3}
+.module-card small{align-self:start;margin-top:7px;line-height:1.4}
+.module-card:after{right:-32px!important;bottom:-38px!important;width:112px!important;height:112px!important;border-radius:50%!important;filter:blur(34px)!important;opacity:.22!important}
+.module-pink:before{content:"♡"}.module-green:before{content:"≡"}.module-gold:before{content:"✦"}.module-inbox:before{content:"○"}
+.module-finance{--module-accent:#72cfa8;border:1px solid color-mix(in srgb,var(--module-accent) 40%,transparent)!important}.module-finance:before{content:"€"}
+.module-documents{--module-accent:#8aa7ff;border:1px solid color-mix(in srgb,var(--module-accent) 40%,transparent)!important}.module-documents:before{content:"▤"}
+
+.project-carousel{overflow-x:auto!important;overflow-y:hidden;overscroll-behavior-inline:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;scroll-snap-type:x proximity}
+.project-carousel::-webkit-scrollbar{display:none}.project-carousel .project-card{scroll-snap-align:start;touch-action:pan-x pan-y}.project-carousel .project-card-main{touch-action:pan-x pan-y}
+
+.capture-close.capture-save{border-color:color-mix(in srgb,var(--color-action-active) 62%,var(--color-border-control));background:color-mix(in srgb,var(--color-action-primary) 25%,var(--color-surface-raised));color:var(--color-action-active);font-size:23px!important;font-weight:800}
+.capture-close.capture-save:after{content:none!important}
+.modal-close:before{content:none!important}.modal-close:after{content:"×"!important;display:block;font-size:23px;line-height:1}.task-detail-card>.modal-close{overflow:hidden}
+
+.form-two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.form-two-col label{display:grid;gap:7px;color:var(--color-text-secondary);font-size:12px}.finance-direction{display:grid;grid-template-columns:1fr 1fr;margin:14px 0}.finance-direction button{min-height:46px}.finance-direction button.selected{border-color:var(--color-action-active);background:color-mix(in srgb,var(--color-action-primary) 22%,var(--color-surface-raised));color:var(--color-text-primary)}
+.vault-item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:12px;min-height:76px;padding:14px 12px 14px 16px;border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);background:linear-gradient(145deg,var(--color-surface-raised),var(--color-surface-base));box-shadow:var(--elevation-1)}
+.vault-item>div{display:grid;gap:5px;min-width:0}.vault-item strong,.vault-item small{overflow-wrap:anywhere}.vault-item small{color:var(--color-text-secondary);font-size:12px;line-height:1.4}.document-open{min-height:40px;padding:10px 12px;border:1px solid var(--color-border-control);border-radius:11px;color:var(--color-action-active);font-size:12px;font-weight:700;text-decoration:none}.file-input{height:auto;padding:10px}.field-label small{color:var(--color-text-secondary);font-weight:500}
+
+@media(max-width:560px){.module-card{min-height:174px;padding:16px!important}.form-two-col{grid-template-columns:1fr}.vault-item{grid-template-columns:minmax(0,1fr) auto}.document-open{grid-column:1}.finance-direction{grid-template-columns:1fr}}
+
