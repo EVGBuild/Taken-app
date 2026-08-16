@@ -300,6 +300,17 @@ openCheckin=checkinFeature.openCheckin;
 if($('settingsEnergyButton'))$('settingsEnergyButton').onclick=openCheckin;
 $('homeCheckinButton').onclick=openCheckin;
 $('adjustCheckinButton').onclick=openCheckin;
+// Keep the visible Home check-in control independent from Home re-renders.
+// A permanent listener avoids losing the action when render functions are replaced/refactored.
+const todayAdjustButton=$('todayAdjustButton');
+if(todayAdjustButton){
+  todayAdjustButton.onclick=null;
+  todayAdjustButton.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    openCheckin();
+  });
+}
 
 function recommendationSets(){return recommendationEngine.sets(actions,{checkin,dayLoad:dayLoad(),swappedIds:homeSwappedIds,orderIndex:todayOrderIndex,broaden:broadenToday})}
 suggestions=function(){return recommendationSets().visible.map(entry=>entry.item)};
