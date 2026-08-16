@@ -730,3 +730,7 @@ body{min-height:100dvh;overscroll-behavior-y:none}
 @media(max-width:560px){.today-copy{grid-template-columns:auto minmax(0,1fr) auto;column-gap:10px}.today-meaning{font-size:13.5px}.bottom-nav .nav-button[data-screen="vault"]{margin-left:5px}.list-detail-header{grid-template-columns:42px minmax(0,1fr) auto!important}.list-detail-header .list-header-actions{grid-column:3!important;grid-row:1;align-self:start}.list-title-line{align-items:flex-start}.list-title-line .subtle-more{margin-top:-5px}}
 @media(max-width:350px){.today-copy{grid-template-columns:auto 1fr}.today-adjust{grid-column:2;justify-self:start}.today-meaning{font-size:13px}}
 
+
+/* B1 regression fix: keep the Home check-in action above neighbouring grid content on touch screens. */
+.today-copy{position:relative}
+.today-adjust{position:relative;z-index:3;pointer-events:auto;touch-action:manipulation}
