@@ -238,7 +238,6 @@ wireDrag=function(element,scope,handle=element){
   handle.onmousedown=event=>{if(blocked(event))return;startX=event.clientX;startY=event.clientY;const move=moveEvent=>{if(!active&&Math.hypot(moveEvent.clientX-startX,moveEvent.clientY-startY)>7){active=true;drag={id:element.dataset.id,scope};element.classList.add('dragging')}if(!active)return;const target=document.elementFromPoint(moveEvent.clientX,moveEvent.clientY)?.closest('[data-id]');if(target?.dataset.id&&target.dataset.id!==element.dataset.id)targetId=target.dataset.id},up=()=>{document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);finish()};document.addEventListener('mousemove',move);document.addEventListener('mouseup',up)};
 };
 /* Rollout 3: mobile interaction, calm feedback and user control. */
-KEYS.todayOrder='lumiTodayOrder';
 let todayOrder=read(KEYS.todayOrder,[]),broadenToday=false,captureDraft={};
 const saveTodayOrder=()=>write(KEYS.todayOrder,todayOrder);
 function todayOrderIndex(item){const index=todayOrder.indexOf(item.id);return index<0?todayOrder.length+item.order:index}
@@ -300,17 +299,6 @@ openCheckin=checkinFeature.openCheckin;
 if($('settingsEnergyButton'))$('settingsEnergyButton').onclick=openCheckin;
 $('homeCheckinButton').onclick=openCheckin;
 $('adjustCheckinButton').onclick=openCheckin;
-// Keep the visible Home check-in control independent from Home re-renders.
-// A permanent listener avoids losing the action when render functions are replaced/refactored.
-const todayAdjustButton=$('todayAdjustButton');
-if(todayAdjustButton){
-  todayAdjustButton.onclick=null;
-  todayAdjustButton.addEventListener('click',event=>{
-    event.preventDefault();
-    event.stopPropagation();
-    openCheckin();
-  });
-}
 
 function recommendationSets(){return recommendationEngine.sets(actions,{checkin,dayLoad:dayLoad(),swappedIds:homeSwappedIds,orderIndex:todayOrderIndex,broaden:broadenToday})}
 suggestions=function(){return recommendationSets().visible.map(entry=>entry.item)};
