@@ -2,6 +2,11 @@ import { KEYS, read, write } from './core/storage.js';
 import { uid, numericOrNull } from './utils/helpers.js';
 import { todayKey, nextDue, parseDutchDate, formatDateLong, formatDate, recurrenceLabel } from './utils/dates.js';
 import { formatPrice, durationLabel } from './utils/formatting.js';
+import { createRecommendationEngine } from './features/recommendations.js';
+import { setupCheckinFeature } from './features/checkin.js';
+import { renderHomeScreen } from './features/home.js';
+
+const recommendationEngine = createRecommendationEngine({ todayKey });
 
 const calendarService={provider:'apple',mode:'backend-required',capabilities:{readEvents:true,writeEvents:true,multipleCalendars:true,eventKitReady:true},status:async()=>({connected:false,calendars:[],lastSync:null}),connect:async()=>{throw new Error('SECURE_BACKEND_REQUIRED')},sync:async()=>[],disconnect:async()=>true,createEvent:async()=>{throw new Error('SECURE_BACKEND_REQUIRED')}};
 document.addEventListener('click',e=>{if(e.target.closest('.task-row,.suggestion-card')&&!e.target.closest('.check,.more-button,.swap-button'))detailOrigin=currentScreen},true);
@@ -201,30 +206,7 @@ lists=lists.map((list,index)=>{const normalized=normalizeList(list,index),known=
 saveLists();
 
 function dayLoad(){return checkin.date===todayKey()?Math.max(0,Math.min(3,Number(checkin.dayLoad??checkin.eventImpact)||0)):0}
-function taskRecommendation(item){
-  if(item.blocker?.enabled&&(!item.blocker.availableFrom||item.blocker.availableFrom>todayKey()))return{eligible:false,score:-999,priority:0,fit:-99,reason:'Wacht nog op iets anders.'};
-  const capacity=checkin.date===todayKey()?Number(checkin.energy)||3:3;
-  const available=Math.max(1,capacity-Math.ceil(dayLoad()/2));
-  const necessity=Number(item.necessity??item.importance)||2,impact=Number(item.impact)||2,load=Number(item.load)||2,resistance=Number(item.resistance)||3;
-  const age=Math.max(0,(Date.now()-(item.createdAt||Date.now()))/864e5),skips=(item.recommendationHistory?.skips||[]).length+Number(item.postponeCount||0);
-  let deadline=0,days=null;
-  if(item.deadline?.enabled&&item.deadline.date){days=(new Date(item.deadline.date+'T12:00')-new Date(todayKey()+'T12:00'))/864e5;deadline=days<=0?18:days<=2?14:days<=7?8:3}
-  const priority=necessity*5+impact*2.4+deadline+Math.min(4,age/21+skips*.8);
-  const mismatch=Math.max(0,load-available),fit=(available-load)*4+(5-resistance)*.9+(item.durationExplicit&&item.duration<=15?3:0)-(item.durationExplicit&&item.duration>90&&available<=2?4:0);
-  const lowPriorityHeavy=available<=2&&load>=3&&necessity<=2&&deadline<8;
-  const score=priority+fit-mismatch*mismatch*4-(lowPriorityHeavy?12:0);
-  let reason;
-  if(days!=null&&days<=2&&load>available)reason='Dit vraagt veel van je, maar de deadline maakt aandacht nu belangrijk.';
-  else if(necessity>=4&&load>available)reason='Dit vraagt veel van je, maar uitstellen heeft duidelijke gevolgen.';
-  else if(load<=available&&item.durationExplicit&&item.duration<=15&&resistance<=3)reason='Kort om te doen en passend bij wat je nu aankunt.';
-  else if(load<=available&&available<=2)reason='Licht genoeg voor je huidige energie.';
-  else if(load<=available&&impact>=3)reason='Past bij je huidige capaciteit en levert merkbaar iets op.';
-  else if(deadline>=8)reason='De nabije deadline geeft deze taak nu voorrang.';
-  else if(necessity>=3)reason='Uitstel begint gevolgen te geven, daarom verdient dit aandacht.';
-  else if(load>available)reason='Vraagt meer energie dan je nu hebt; kies dit alleen als het nodig voelt.';
-  else reason='Een redelijke match met je huidige capaciteit en prioriteiten.';
-  return{eligible:true,score,priority,fit,load,available,lowPriorityHeavy,reason};
-}
+function taskRecommendation(item){return recommendationEngine.profile(item,{checkin,dayLoad:dayLoad()})}
 recommendationProfile=taskRecommendation;
 suggestions=function(){const all=actions.filter(item=>!item.done).map(item=>({item,profile:taskRecommendation(item)})).filter(entry=>entry.profile.eligible).sort((a,b)=>b.profile.score-a.profile.score||b.profile.priority-a.profile.priority||a.item.order-b.item.order),best=all.find(entry=>!entry.profile.lowPriorityHeavy)?.profile.score??all[0]?.profile.score??-999;return all.filter(entry=>!homeSwappedIds.has(entry.item.id)&&!entry.profile.lowPriorityHeavy&&entry.profile.score>=best-16).map(entry=>entry.item)};
 
@@ -297,19 +279,31 @@ document.querySelector('.purchase-tools').classList.add('manual-order-primary');
 // Positieve acties krijgen stille Lumi-feedback; herstelgevoelig verwijderen houdt de teksttoast met Ongedaan maken.
 
 /* Rollout 4: simplified capacity check-in, durable task drafts, and expanded Vault. */
-energyCard.querySelector('.eyebrow').textContent='Even inchecken';
-energyCard.querySelector('h2').textContent='Hoeveel ruimte heb je vandaag?';
-energyCard.querySelector('.modal-copy').textContent='Kies wat het dichtst in de buurt komt.';
-[['1','Heel weinig'],['2','Weinig'],['3','Redelijk'],['4','Best veel'],['5','Veel']].forEach(([value,label])=>document.querySelector(`.energy-choice[data-energy="${value}"] small`).textContent=label);
-energyCard.querySelector('.checkin-planning')?.remove();$('checkinEventFields')?.remove();energyCard.querySelector('.checkin-day-load')?.remove();$('checkinNextButton')?.remove();
-openCheckin=function(){const isToday=checkin.date===todayKey();pendingEnergy=isToday?Number(checkin.energy):null;document.querySelectorAll('.energy-choice').forEach(button=>button.classList.toggle('selected',+button.dataset.energy===pendingEnergy));$('saveCheckinButton').classList.remove('hidden');open('energyOverlay')};
-if($('settingsEnergyButton'))$('settingsEnergyButton').onclick=openCheckin;$('homeCheckinButton').onclick=openCheckin;$('adjustCheckinButton').onclick=openCheckin;
-$('saveCheckinButton').onclick=()=>{if(!pendingEnergy)return;energy=pendingEnergy;checkin={...checkin,date:todayKey(),energy,updatedAt:Date.now()};delete checkin.dayLoad;delete checkin.eventImpact;delete checkin.hasEnergyEvent;delete checkin.eventNote;write(KEYS.energy,energy);write(KEYS.checkin,checkin);close('energyOverlay');renderHome();renderSettings();lumiSuccess()};
+const checkinFeature=setupCheckinFeature({
+  $,
+  energyCard,
+  todayKey,
+  getCheckin:()=>checkin,
+  getPendingEnergy:()=>pendingEnergy,
+  setPendingEnergy:value=>{pendingEnergy=value},
+  setEnergy:value=>{energy=value},
+  setCheckin:value=>{checkin=value},
+  write,
+  keys:KEYS,
+  open,
+  close,
+  renderHome:()=>renderHome(),
+  renderSettings:()=>renderSettings(),
+  lumiSuccess
+});
+openCheckin=checkinFeature.openCheckin;
+if($('settingsEnergyButton'))$('settingsEnergyButton').onclick=openCheckin;
+$('homeCheckinButton').onclick=openCheckin;
+$('adjustCheckinButton').onclick=openCheckin;
 
-function recommendationSets(){const all=actions.filter(item=>!item.done&&!homeSwappedIds.has(item.id)).map(item=>({item,profile:taskRecommendation(item)})).filter(entry=>entry.profile.eligible).sort((a,b)=>todayOrderIndex(a.item)-todayOrderIndex(b.item)||b.profile.score-a.profile.score),best=all.filter(entry=>!entry.profile.lowPriorityHeavy)[0]?.profile.score??-999,standard=all.filter(entry=>!entry.profile.lowPriorityHeavy&&entry.profile.score>=best-16),extra=all.filter(entry=>!standard.some(candidate=>candidate.item.id===entry.item.id));return{standard,extra,visible:broadenToday?[...standard,...extra]:standard}}
+function recommendationSets(){return recommendationEngine.sets(actions,{checkin,dayLoad:dayLoad(),swappedIds:homeSwappedIds,orderIndex:todayOrderIndex,broaden:broadenToday})}
 suggestions=function(){return recommendationSets().visible.map(entry=>entry.item)};
-const todaySpaceLabels=['','heel weinig','weinig','redelijke','best veel','veel'];
-renderHome=function(){const sets=recommendationSets(),primary=sets.visible.slice(0,3).map(entry=>entry.item),current=checkin.date===todayKey()?Number(checkin.energy)||null:null;$('todayDate').textContent=new Intl.DateTimeFormat('nl-NL',{day:'numeric',month:'long'}).format(new Date());$('todayEnergy').innerHTML=current?`<span class="energy-battery level-${current}" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b>${current} van 5</b>`:'<b>Nog niet ingecheckt</b>';$('todayEnergy').onclick=null;$('todayMeaning').textContent=current?`${todaySpaceLabels[current][0].toUpperCase()+todaySpaceLabels[current].slice(1)} ruimte vandaag`:'Hoeveel ruimte heb je vandaag?';$('todayConsideration').textContent='';$('todayConsideration').classList.add('hidden');$('todayAdjustButton').textContent=current?'Aanpassen':'Inchecken';$('todayAdjustButton').onclick=openCheckin;$('suggestionList').innerHTML='';$('moreTodayList').innerHTML='';$('moreTodayButton').classList.add('hidden');primary.forEach(item=>$('suggestionList').append(suggestionCard(item)));const noOptions=current&&!primary.length;$('suggestionEmpty').classList.toggle('hidden',!noOptions);if(noOptions)$('suggestionEmpty').innerHTML='<strong>Voor nu geen passende uitvoeringstaak</strong><small>Je hoeft nu niets te forceren.</small>';const canBroaden=!broadenToday&&sets.standard.length<3&&sets.extra.length>0;$('broadenSuggestionsButton').classList.toggle('hidden',!canBroaden);$('todayRecoveryActions').classList.toggle('hidden',!canBroaden);renderProjectPreview()};
+renderHome=function(){renderHomeScreen({$,sets:recommendationSets(),checkin,todayKey,suggestionCard,openCheckin,renderProjectPreview,broaden:broadenToday})};
 $('broadenSuggestionsButton').onclick=()=>{const before=recommendationSets().visible.length,extra=recommendationSets().extra.length;if(!extra)return renderHome();broadenToday=true;homeSwappedIds.clear();renderHome();if(recommendationSets().visible.length>before)showTodayFeedback('Je ziet nu bewust ook opties die wat meer kunnen vragen.')};
 
 function collectActionDraft(){return{editingId:editingActionId,title:$('actionTitle').value,importance:formImportance,impact:formImpact,resistance:formResistance,load:formLoad,reasons:selectedResistanceReasons.slice(),extras:[...activeActionExtras],duration:$('duration').value,deadline:$('deadlineDate').value,deadlineText:$('deadlineDateText').value,project:$('actionProject').value,repeatEvery:$('repeatEvery').value,repeatUnit:$('repeatUnit').value,lastDone:$('lastDone').value,note:$('actionNote').value,updatedAt:Date.now()}}
