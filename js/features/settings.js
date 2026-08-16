@@ -16,4 +16,3 @@ applyAccessibilitySettings();renderAppSettings();
 // Lifecycle semantics stay separate: waiting is represented by blocker/lifecycle.state,
 // while a future deferredUntil is not a deadline. Recommendation interaction events can
 // later be attached locally at suggestionCard without changing task or calendar data.
-refresh();
