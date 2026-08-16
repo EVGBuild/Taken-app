@@ -15,7 +15,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="style.css?v=41">
+  <link rel="stylesheet" href="css/foundation.css?v=1">
+<link rel="stylesheet" href="css/vds.css?v=1">
+<link rel="stylesheet" href="css/theme.css?v=1">
+<link rel="stylesheet" href="css/mobile-polish.css?v=1">
 </head>
 <body>
 <main class="app">
@@ -133,6 +136,29 @@
 <div id="confirmOverlay" class="overlay hidden"><div class="modal-card confirm-card"><p class="eyebrow">Verwijderen</p><h2 id="confirmMessage">Weet je zeker dat je dit wilt verwijderen?</h2><div class="confirm-actions"><button id="cancelDeleteButton" class="secondary-button">Annuleren</button><button id="confirmDeleteButton" class="danger-button">Verwijderen</button></div></div></div>
 <div id="toast" class="toast hidden"><div><strong id="toastTitle"></strong><span id="toastText"></span></div><button id="toastActionButton"></button></div>
 
-<script type="module" src="./js/app.js"></script>
+<script defer src="./js/core/storage.js"></script>
+<script defer src="./js/utils/helpers.js"></script>
+<script defer src="./js/utils/dates.js"></script>
+<script defer src="./js/utils/formatting.js"></script>
+<script defer src="./js/features/recommendations.js"></script>
+<script defer src="./js/features/checkin.js"></script>
+<script defer src="./js/features/home.js"></script>
+<script defer src="./js/core/bootstrap.js"></script>
+<script defer src="./js/features/tasks.js"></script>
+<script defer src="./js/features/projects.js"></script>
+<script defer src="./js/features/wishlist.js"></script>
+<script defer src="./js/features/lists.js"></script>
+<script defer src="./js/features/ideas.js"></script>
+<script defer src="./js/features/inbox.js"></script>
+<script defer src="./js/features/capture.js"></script>
+<script defer src="./js/core/ui.js"></script>
+<script defer src="./js/core/navigation.js"></script>
+<script defer src="./js/features/checkin-context.js"></script>
+<script defer src="./js/features/today.js"></script>
+<script defer src="./js/features/task-capture.js"></script>
+<script defer src="./js/features/finance-documents.js"></script>
+<script defer src="./js/features/presentation.js"></script>
+<script defer src="./js/features/settings.js"></script>
+<script defer src="./js/core/init.js"></script>
 </body>
 </html>

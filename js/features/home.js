@@ -6,7 +6,7 @@
  */
 const TODAY_SPACE_LABELS = ['', 'heel weinig', 'weinig', 'redelijke', 'best veel', 'veel'];
 
-export function renderHomeScreen({
+function renderHomeScreen({
   $,
   sets,
   checkin,

@@ -4,7 +4,7 @@
  * This preserves the current simplified 1-5 capacity check-in. App state is
  * supplied through getters/setters so this module does not own global state.
  */
-export function setupCheckinFeature({
+function setupCheckinFeature({
   $,
   energyCard,
   todayKey,

@@ -1,4 +1,4 @@
-export function todayKey() {
+function todayKey() {
   const d = new Date();
   return [
     d.getFullYear(),
@@ -7,7 +7,7 @@ export function todayKey() {
   ].join('-');
 }
 
-export function formatDate(iso) {
+function formatDate(iso) {
   return new Date(iso + 'T12:00').toLocaleDateString('nl-NL', {
     day: 'numeric',
     month: 'short',
@@ -15,7 +15,7 @@ export function formatDate(iso) {
   });
 }
 
-export function formatDateLong(iso) {
+function formatDateLong(iso) {
   return new Date(iso + 'T12:00').toLocaleDateString('nl-NL', {
     day: 'numeric',
     month: 'long',
@@ -23,7 +23,7 @@ export function formatDateLong(iso) {
   });
 }
 
-export function parseDutchDate(value) {
+function parseDutchDate(value) {
   const raw = value.trim();
   if (!raw) return { iso: '', display: '' };
 
@@ -68,7 +68,7 @@ export function parseDutchDate(value) {
   return { iso, display: formatDateLong(iso) };
 }
 
-export function nextDue(date, every, unit) {
+function nextDue(date, every, unit) {
   const d = new Date(date + 'T12:00');
   const n = Number(every) || 1;
   if (unit === 'days') d.setDate(d.getDate() + n);
@@ -77,7 +77,7 @@ export function nextDue(date, every, unit) {
   return d.toISOString().slice(0, 10);
 }
 
-export function recurrenceLabel(repeat) {
+function recurrenceLabel(repeat) {
   const every = +(repeat?.every) || 1;
   const unit = repeat?.unit || 'weeks';
   if (unit === 'days') return every === 1 ? 'Dagelijks' : `Elke ${every} dagen`;

@@ -4,7 +4,7 @@
  * This module owns recommendation scoring and grouping. It intentionally does
  * not render Home and does not read/write storage directly.
  */
-export function createRecommendationEngine({ todayKey }) {
+function createRecommendationEngine({ todayKey }) {
   function profile(item, { checkin, dayLoad = 0 }) {
     if (item.blocker?.enabled && (!item.blocker.availableFrom || item.blocker.availableFrom > todayKey())) {
       return { eligible: false, score: -999, priority: 0, fit: -99, reason: 'Wacht nog op iets anders.' };

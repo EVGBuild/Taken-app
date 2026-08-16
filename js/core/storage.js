@@ -2,7 +2,7 @@
  * LumiVault storage contract.
  * Keep these key names stable unless a deliberate data migration is introduced.
  */
-export const KEYS = Object.freeze({
+const KEYS = Object.freeze({
   actions: 'mijnTaken',
   energy: 'lumiEnergy',
   checkin: 'lumiMorningCheckin',
@@ -16,10 +16,11 @@ export const KEYS = Object.freeze({
   actionDraft: 'lumiActionDraft',
   tip: 'lumiWishlistDragTip',
   feedback: 'lumiFeedbackDraft',
-  settings: 'lumiSettings'
+  settings: 'lumiSettings',
+  todayOrder: 'lumiTodayOrder'
 });
 
-export function read(key, fallback = []) {
+function read(key, fallback = []) {
   try {
     return JSON.parse(localStorage.getItem(key)) ?? fallback;
   } catch {
@@ -27,6 +28,6 @@ export function read(key, fallback = []) {
   }
 }
 
-export function write(key, value) {
+function write(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }

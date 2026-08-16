@@ -1,88 +1,103 @@
-# LumiVault
+# LumiVault — technische architectuur
 
-LumiVault is currently a browser-based HTML/CSS/JavaScript application. The codebase is being modularised incrementally without changing product behaviour or stored user data.
+LumiVault is momenteel een browser-app in HTML, CSS en JavaScript zonder framework of buildstap. De architectuur is bewust licht gehouden: bestanden worden rechtstreeks door `index.html` geladen, in een vaste volgorde. Dat maakt de app ook zonder Codex onderhoudbaar.
 
-## Entry points
+## Belangrijkste regels
 
-- `index.html` — application markup and screen/modal structure.
-- `style.css` — current application styling. CSS will be split in a later refactor batch.
-- `js/app.js` — JavaScript application entry point/orchestration and remaining legacy feature logic.
+- `index.html` bevat de schermen en modals, maar geen applicatielogica.
+- Nieuwe featurelogica hoort in `js/features/`; algemene infrastructuur in `js/core/`; pure helpers in `js/utils/`.
+- De localStorage-sleutels in `js/core/storage.js` zijn een compatibiliteitscontract. Niet hernoemen zonder expliciete datamigratie.
+- Voeg geen nieuwe directe localStorage-toegang toe als `read()`/`write()` volstaan.
+- Houd recommendation-logica los van Home-weergave.
+- Houd datum-/herhalingsberekeningen in `js/utils/dates.js`; datum-UI hoort bij task/capture-logica totdat een zelfstandige date-picker component nodig is.
+- Refactors mogen niet stilletjes productgedrag of styling veranderen.
+
+## Entry point
+
+`index.html` laadt alle scripts met `defer` in een vaste volgorde. `js/app.js` is alleen nog een retired/compatibility-bestand en wordt niet geladen.
 
 ## Core
 
-### `js/core/storage.js`
-Owns LumiVault's localStorage contract:
-
-- storage key names;
-- safe JSON reads;
-- JSON writes.
-
-**Rule:** do not rename storage keys or change persisted data shapes without an explicit migration plan.
+- `js/core/storage.js` — localStorage keys, `read()` en `write()`.
+- `js/core/bootstrap.js` — data inlezen/normaliseren, gedeelde runtime-state en eerste basisverbindingen.
+- `js/core/ui.js` — generieke UI-bouwstenen zoals overlays, menu's, bevestigen, undo, toast, empty states en drag/reorder.
+- `js/core/navigation.js` — navigatiepresentatie, actieve tab, VDS-iconen en ambient Lumi-gedrag.
+- `js/core/init.js` — laatste initialisatie nadat alle features geladen zijn.
 
 ## Utilities
 
-### `js/utils/dates.js`
-Pure/shared date behaviour:
-
-- today's local date key;
-- short and long Dutch date formatting;
-- Dutch free-text/numeric date parsing;
-- recurrence next-date calculation;
-- recurrence labels.
-
-### `js/utils/formatting.js`
-Shared display formatting such as prices and duration labels.
-
-### `js/utils/helpers.js`
-Small generic helpers such as id creation and nullable numeric conversion.
+- `js/utils/dates.js` — datum parsing/formatting en recurrence/next-due berekeningen.
+- `js/utils/formatting.js` — prijs- en duurweergave.
+- `js/utils/helpers.js` — generieke helpers zoals IDs en number-normalisatie.
 
 ## Features
 
-### `js/features/recommendations.js`
-Owns recommendation scoring and grouping. It does **not** render Home and does not access storage directly.
+- `js/features/tasks.js` — basis taakweergave, taakdetail, taakformulier, deadlinekalender, herhaling en basis-saveflow.
+- `js/features/task-capture.js` — latere capture/draft-functionaliteit en definitieve actieve taak-submitflow.
+- `js/features/projects.js` — projecten en projectdetail.
+- `js/features/wishlist.js` — aankopen/wensen.
+- `js/features/lists.js` — lijstjes, sublijstjes en list-detail.
+- `js/features/ideas.js` — ideeën.
+- `js/features/inbox.js` — Nog uitzoeken en conversie naar andere objecttypen.
+- `js/features/capture.js` — universele capture en objecttypekeuze.
+- `js/features/recommendations.js` — recommendation scoring en sets; rendert Home niet.
+- `js/features/home.js` — Home-presentatie; berekent recommendations niet zelf.
+- `js/features/checkin.js` — check-in UI-controller.
+- `js/features/checkin-context.js` — huidige dagbelasting/check-in context en mobile recovery-gedrag.
+- `js/features/today.js` — Today-interactie, wisselen/ordenen en feedbackgedrag.
+- `js/features/finance-documents.js` — Financiën en Documenten.
+- `js/features/presentation.js` — gedeelde recente Vault/presentatie-updates die meerdere features raken.
+- `js/features/settings.js` — instellingen, accessibility-voorkeuren en lokale-data-controls.
 
-### `js/features/home.js`
-Owns the current Home screen presentation: energy summary, suggested-task area, empty state, and the UI decision whether broader suggestions are available. It receives recommendation results rather than calculating them itself.
+## CSS
 
-### `js/features/checkin.js`
-Owns the currently active simplified 1–5 capacity check-in UI and save flow. Persisted values still use the existing storage keys/data contract.
+De oude cascade is zonder inhoudelijke wijziging in vier opeenvolgende bestanden gesplitst. De concatenatie van deze vier bestanden is byte-for-byte gelijk aan de vorige `style.css`.
 
-## Temporary legacy / Batch B
+- `css/foundation.css` — oorspronkelijke basis, formulieren, algemene componenten en vroege responsive regels.
+- `css/vds.css` — VDS/thema-overgang en bijbehorende layouts.
+- `css/theme.css` — latere design-system/presentatielagen.
+- `css/mobile-polish.css` — meest recente mobile/polish overrides.
 
-`js/app.js` still contains a substantial amount of feature logic and temporary application state. Recommendations, the active Check-in flow, and Home presentation now have their own feature modules. Subsequent refactoring can continue one domain at a time, for example:
+`style.css` blijft alleen als retired compatibility-bestand bestaan en wordt niet meer geladen.
 
-- tasks;
-- projects;
-- wishlist;
-- lists;
-- ideas/inbox;
-- finance;
-- documents;
-- settings;
-- navigation.
+## Waar wijzig ik…?
 
-Keeping this intermediate state functional is more important than splitting everything at once.
+- Recommendation ranking → `js/features/recommendations.js`
+- Home recommendations/weergave → `js/features/home.js` + `js/features/today.js`
+- Check-in → `js/features/checkin.js` + `js/features/checkin-context.js`
+- Taakformulier / verplichte taakvelden → `js/features/tasks.js` en de definitieve submitflow in `js/features/task-capture.js`
+- Datum parsing / recurrence → `js/utils/dates.js`
+- Projecten → `js/features/projects.js`
+- Aankopen/wensen → `js/features/wishlist.js`
+- Lijstjes → `js/features/lists.js`
+- Inbox/Nog uitzoeken → `js/features/inbox.js`
+- Financiën/documenten → `js/features/finance-documents.js`
+- Settings → `js/features/settings.js`
+- Bottom navigation / globale add / actieve navigatiecontext → `js/core/navigation.js` en `js/core/ui.js`
+- Algemene styling → `css/foundation.css`
+- Recente/mobile overrides → `css/mobile-polish.css`
 
-## Architecture rules
+## Bekende architectuurkeuze
 
-1. Prefer using `js/core/storage.js` for new persistent storage access.
-2. Generic date logic belongs in `js/utils/dates.js`, not inside a screen or feature.
-3. `js/app.js` is an interim orchestration/legacy file, not the permanent home for new feature logic.
-4. Extract features incrementally and keep each change behaviour-preserving unless a product change is explicitly requested.
-5. Do not combine architecture refactors with visual redesigns or feature changes.
-6. Existing localStorage keys are a compatibility contract.
+De JavaScriptbestanden zijn op dit moment klassieke browser-scripts die in een vaste volgorde worden geladen en dezelfde globale lexical scope delen. Dit is bewust gekozen als tussenweg: het maakt de monoliet direct fysiek modulair zonder een framework, bundler of grote rewrite te introduceren. Voor de huidige schaal van LumiVault is lokale vindbaarheid en veilige handmatige vervanging belangrijker dan een complex modulesysteem.
 
-## Where do I change…?
+Wanneer een domein later verder groeit, kan dat specifieke bestand alsnog intern naar ES modules/factories worden omgezet. Dat hoeft niet applicatiebreed tegelijk.
 
-- Shared date parsing/recurrence calculations → `js/utils/dates.js`
-- Shared money/duration formatting → `js/utils/formatting.js`
-- Storage keys/read/write behaviour → `js/core/storage.js`
-- Recommendation ranking/grouping → `js/features/recommendations.js`
-- Home presentation → `js/features/home.js`
-- Active 1–5 check-in flow → `js/features/checkin.js`
-- Other current feature behaviour → still primarily `js/app.js` until later Batch B steps
-- Styling → `style.css` until the CSS refactor batch
+## Regression discipline
 
-## Refactor principle
+Na architectuurwijzigingen minimaal controleren:
 
-Codex or other coding agents should be accelerators, not a single point of failure. The repository should remain understandable enough that small changes can be made safely by editing one or a few clearly responsible files.
+- Home en bottom navigation
+- check-in en Aanpassen
+- recommendations wisselen/afronden
+- taak nieuw/bewerken/verwijderen
+- verplichte taakvelden
+- deadline en recurrence
+- projecten
+- aankopen/wensen
+- lijstjes/sublijstjes
+- ideeën en Nog uitzoeken
+- Financiën en Documenten
+- Settings
+- refresh: bestaande localStorage-data blijft intact
+- browserconsole: geen uncaught JavaScript-errors

@@ -1,0 +1,6 @@
+function openUniversalCapture(){$('universalCaptureText').value='';open('universalCaptureOverlay');setTimeout(()=>$('universalCaptureText').focus(),50)}
+$('universalCaptureForm').onsubmit=e=>{e.preventDefault();if(!requireField($('universalCaptureText')))return;close('universalCaptureOverlay');open('captureTypeOverlay')};
+$('captureTypeBack').onclick=()=>{close('captureTypeOverlay');open('universalCaptureOverlay');setTimeout(()=>$('universalCaptureText').focus(),50)};
+function openCapturedType(type){const text=$('universalCaptureText').value.trim();close('captureTypeOverlay');if(type==='task'){openAction();$('actionTitle').value=text}else if(type==='project'){openProject();$('projectName').value=text}else if(type==='idea'){openIdea();$('ideaText').value=text}else if(type==='wishlist'){openWishlist();$('wishlistName').value=text}else if(type==='list'){openList();$('listName').value=text}else if(type==='unknown'){inbox.push({id:uid(),text,createdAt:Date.now(),order:inbox.length});saveInbox();lumiSuccess();toast('Bewaard bij Nog uitzoeken.','','Bekijk',()=>showScreen('inbox'),5000)}}
+document.querySelectorAll('[data-capture-type]').forEach(b=>b.onclick=()=>openCapturedType(b.dataset.captureType));
+

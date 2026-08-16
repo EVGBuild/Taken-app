@@ -1,11 +1,11 @@
-export function formatPrice(value) {
+function formatPrice(value) {
   return new Intl.NumberFormat('nl-NL', {
     style: 'currency',
     currency: 'EUR'
   }).format(+value);
 }
 
-export function durationLabel(minutes) {
+function durationLabel(minutes) {
   const n = Number(minutes);
   if (n < 60) return `Ongeveer ${n} minuten`;
   if (n === 60) return 'Ongeveer 1 uur';
