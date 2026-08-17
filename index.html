@@ -15,10 +15,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="./css/foundation.css?v=43">
-  <link rel="stylesheet" href="./css/vds.css?v=43">
-  <link rel="stylesheet" href="./css/theme.css?v=43">
-  <link rel="stylesheet" href="./css/mobile-polish.css?v=43">
+  <link rel="stylesheet" href="./css/foundation.css?v=44">
+  <link rel="stylesheet" href="./css/vds.css?v=44">
+  <link rel="stylesheet" href="./css/theme.css?v=44">
+  <link rel="stylesheet" href="./css/mobile-polish.css?v=44">
 </head>
 <body>
 <main class="app">
@@ -81,7 +81,7 @@
 
   <section id="listsScreen" class="screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Lijstjes</h1></div></header><div id="listsGrid" class="lists-grid"></div></section>
   <section id="listDetailScreen" class="screen"><header class="screen-header list-detail-header"><button id="listBackButton" class="back-button">←</button><div class="detail-title-wrap"><p id="listDetailType" class="eyebrow"></p><div class="list-title-line"><h1 id="listDetailTitle"></h1><button id="editListButton" class="more-button subtle-more" aria-label="Lijstacties">•••</button></div></div><div class="list-header-actions"><button id="addSublistButton" class="sublist-add" type="button">+ Sublijst</button></div></header><div id="listBoard" class="list-board"></div></section>
-  <section id="ideasScreen" class="screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Ideeën</h1></div></header><p class="section-intro">Een parkeerplaats voor misschien ooit.</p><div id="ideasList" class="stack-list"></div></section>
+  <section id="ideasScreen" class="screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Ideeën</h1></div></header><p class="section-intro">Een plek voor losse gedachten, ingevingen en mogelijkheden.</p><div id="ideasList" class="stack-list"></div></section>
   <section id="inboxScreen" class="screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Nog uitzoeken</h1></div></header><p class="section-intro">Hier staat wat nog geen vaste plek heeft.</p><div id="inboxList" class="stack-list"></div></section>
   <section id="financeScreen" class="screen vault-detail-screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Financiën</h1><p class="section-intro">Financiële losse eindjes die je niet wilt vergeten.</p></div></header><div class="list-tabs vault-filter"><button class="finance-tab active" data-finance-filter="open">Open</button><button class="finance-tab" data-finance-filter="done">Afgehandeld</button></div><div id="financeList" class="stack-list"></div></section>
   <section id="documentsScreen" class="screen vault-detail-screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Documenten</h1><p class="section-intro">Vind belangrijke documenten later terug.</p></div></header><div class="search-wrap document-search"><span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4.5 4.5"/></svg></span><input id="documentSearch" type="search" placeholder="Zoek documenten"></div><div id="documentsList" class="stack-list"></div></section>
@@ -136,36 +136,36 @@
 
 <div id="sublistOverlay" class="overlay hidden"><div class="modal-card"><button class="modal-close" data-close="sublistOverlay">×</button><p class="eyebrow">Lijstjes</p><h2 id="sublistModalTitle">Nieuw sublijstje</h2><label class="field-label" for="sublistName">Naam</label><input id="sublistName" class="main-input" placeholder="Typ hier…"><label class="small-label">Kleur (optioneel)</label><div id="sublistColorChoices" class="color-picker"><button class="color-choice none selected" data-sublist-color=""></button><button class="color-choice purple" data-sublist-color="purple"></button><button class="color-choice pink" data-sublist-color="pink"></button><button class="color-choice blue" data-sublist-color="blue"></button><button class="color-choice teal" data-sublist-color="teal"></button><button class="color-choice green" data-sublist-color="green"></button><button class="color-choice gold" data-sublist-color="gold"></button><button class="color-choice rose" data-sublist-color="rose"></button></div><button id="saveSublistButton" class="primary-button big-button modal-save">Toevoegen</button></div></div>
 
-<div id="ideaOverlay" class="overlay hidden"><div class="modal-card"><button class="modal-close" data-close="ideaOverlay">×</button><p class="eyebrow">Ideeën</p><h2 id="ideaModalTitle">Idee bewaren</h2><p class="modal-copy">Een losse gedachte, ingeving of mogelijkheid waar je nu nog niets mee hoeft.</p><label class="field-label" for="ideaText">Wat schoot je te binnen?</label><textarea id="ideaText" class="main-textarea" rows="3" placeholder="Bijv. wat als LumiVault rekening houdt met het weer?"></textarea><label class="small-label" for="ideaNote">Gedachten erbij <span class="muted-inline">(optioneel)</span></label><textarea id="ideaNote" class="main-textarea" rows="3" placeholder="Waarom wil je dit onthouden?"></textarea><button id="saveIdeaButton" class="primary-button big-button modal-save">Bewaren</button><button id="cancelIdeaButton" class="secondary-button big-button form-cancel" type="button">Annuleren</button></div></div>
+<div id="ideaOverlay" class="overlay hidden"><div class="modal-card"><button class="modal-close" data-close="ideaOverlay">×</button><p class="eyebrow">Ideeën</p><h2 id="ideaModalTitle">Idee bewaren</h2><p class="modal-copy">Een losse gedachte, ingeving of mogelijkheid waar je nu nog niets mee hoeft.</p><label class="field-label" for="ideaText">Wat schoot je te binnen?</label><textarea id="ideaText" class="main-textarea" rows="3" placeholder="Bijv. wat als ik mijn slaapkamer anders indeel?"></textarea><label class="small-label" for="ideaNote">Meer informatie <span class="muted-inline">(optioneel)</span></label><textarea id="ideaNote" class="main-textarea" rows="3" placeholder="Voeg context, details of losse gedachten toe."></textarea><button id="saveIdeaButton" class="primary-button big-button modal-save">Bewaren</button><button id="cancelIdeaButton" class="idea-cancel-button" type="button">Annuleren</button></div></div>
 
 <div id="menuOverlay" class="menu-overlay hidden"><div id="bottomMenu" class="bottom-menu"></div></div>
 <div id="confirmOverlay" class="overlay hidden"><div class="modal-card confirm-card"><p class="eyebrow">Verwijderen</p><h2 id="confirmMessage">Weet je zeker dat je dit wilt verwijderen?</h2><div class="confirm-actions"><button id="cancelDeleteButton" class="secondary-button">Annuleren</button><button id="confirmDeleteButton" class="danger-button">Verwijderen</button></div></div></div>
 <div id="toast" class="toast hidden"><div><strong id="toastTitle"></strong><span id="toastText"></span></div><button id="toastActionButton"></button></div>
 
-<script src="./js/core/storage.js?v=43"></script>
-<script src="./js/utils/helpers.js?v=43"></script>
-<script src="./js/utils/dates.js?v=43"></script>
-<script src="./js/utils/formatting.js?v=43"></script>
-<script src="./js/features/recommendations.js?v=43"></script>
-<script src="./js/features/checkin.js?v=43"></script>
-<script src="./js/features/home.js?v=43"></script>
-<script src="./js/core/bootstrap.js?v=43"></script>
-<script src="./js/features/tasks.js?v=43"></script>
-<script src="./js/features/projects.js?v=43"></script>
-<script src="./js/features/wishlist.js?v=43"></script>
-<script src="./js/features/lists.js?v=43"></script>
-<script src="./js/features/ideas.js?v=43"></script>
-<script src="./js/features/inbox.js?v=43"></script>
-<script src="./js/features/capture.js?v=43"></script>
-<script src="./js/features/finance-documents.js?v=43"></script>
-<script src="./js/features/settings.js?v=43"></script>
-<script src="./js/core/ui.js?v=43"></script>
-<script src="./js/core/navigation.js?v=43"></script>
-<script src="./js/features/checkin-context.js?v=43"></script>
-<script src="./js/features/today.js?v=43"></script>
-<script src="./js/features/task-capture.js?v=43"></script>
-<script src="./js/features/bucketlist-chores.js?v=43"></script>
-<script src="./js/features/presentation.js?v=43"></script>
-<script src="./js/core/init.js?v=43"></script>
+<script src="./js/core/storage.js?v=44"></script>
+<script src="./js/utils/helpers.js?v=44"></script>
+<script src="./js/utils/dates.js?v=44"></script>
+<script src="./js/utils/formatting.js?v=44"></script>
+<script src="./js/features/recommendations.js?v=44"></script>
+<script src="./js/features/checkin.js?v=44"></script>
+<script src="./js/features/home.js?v=44"></script>
+<script src="./js/core/bootstrap.js?v=44"></script>
+<script src="./js/features/tasks.js?v=44"></script>
+<script src="./js/features/projects.js?v=44"></script>
+<script src="./js/features/wishlist.js?v=44"></script>
+<script src="./js/features/lists.js?v=44"></script>
+<script src="./js/features/ideas.js?v=44"></script>
+<script src="./js/features/inbox.js?v=44"></script>
+<script src="./js/features/capture.js?v=44"></script>
+<script src="./js/features/finance-documents.js?v=44"></script>
+<script src="./js/features/settings.js?v=44"></script>
+<script src="./js/core/ui.js?v=44"></script>
+<script src="./js/core/navigation.js?v=44"></script>
+<script src="./js/features/checkin-context.js?v=44"></script>
+<script src="./js/features/today.js?v=44"></script>
+<script src="./js/features/task-capture.js?v=44"></script>
+<script src="./js/features/bucketlist-chores.js?v=44"></script>
+<script src="./js/features/presentation.js?v=44"></script>
+<script src="./js/core/init.js?v=44"></script>
 </body>
 </html>

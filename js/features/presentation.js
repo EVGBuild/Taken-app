@@ -14,3 +14,40 @@ const renderWishlistR7=renderWishlist;renderWishlist=function(){renderWishlistR7
 const vaultIcons={wishlistModule:'shopping-bag',listsModule:'list-checks',ideasModule:'lightbulb',inboxModule:'tray',financeModule:'wallet',documentsModule:'files',bucketlistModule:'star',choresModule:'broom'};Object.entries(vaultIcons).forEach(([id,icon])=>{const card=$(id);card.querySelector('.vault-icon')?.remove();const holder=document.createElement('span');holder.className='vault-icon';holder.innerHTML=`<i class="ph ph-${icon}" aria-hidden="true"></i>`;card.prepend(holder)});
 document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.contains('capture-save'))button.textContent=''});
 
+
+
+/* Ambient Lumi motion: subtle, sporadic twinkles near the top of active screens. */
+(function installLumies(){
+  if(document.getElementById('lumiAmbientLayer')) return;
+  const layer=document.createElement('div');
+  layer.id='lumiAmbientLayer';
+  layer.className='lumi-ambient-layer';
+  layer.setAttribute('aria-hidden','true');
+  document.body.append(layer);
+  let timer=null;
+  const reduced=()=>document.documentElement.classList.contains('reduce-motion')||document.body.classList.contains('reduce-motion')||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const schedule=()=>{
+    clearTimeout(timer);
+    timer=setTimeout(()=>{spawn();schedule()},3500+Math.random()*5000);
+  };
+  const spawn=()=>{
+    if(reduced()||document.hidden) return;
+    const active=document.querySelector('.screen.active');
+    if(!active) return;
+    const rect=active.getBoundingClientRect();
+    const dot=document.createElement('i');
+    const size=4+Math.random()*7;
+    const top=Math.max(32,rect.top+18+Math.random()*Math.min(155,Math.max(70,rect.height*.2)));
+    const left=Math.max(18,Math.min(window.innerWidth-18,rect.left+24+Math.random()*Math.max(40,rect.width-48)));
+    dot.className='lumie';
+    dot.style.setProperty('--lumie-size',`${size}px`);
+    dot.style.left=`${left}px`;
+    dot.style.top=`${top}px`;
+    dot.style.animationDuration=`${1.7+Math.random()*1.25}s`;
+    layer.append(dot);
+    dot.addEventListener('animationend',()=>dot.remove(),{once:true});
+  };
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule()});
+  setTimeout(spawn,1100);
+  schedule();
+})();

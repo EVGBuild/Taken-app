@@ -220,3 +220,82 @@ html,body{overflow-y:auto;overscroll-behavior-y:auto}.app{overflow-y:visible}
 .bucketlist-groups{display:grid;gap:14px;margin:18px 0}.bucket-group{padding:15px;border:1px solid var(--color-border-subtle);border-radius:18px;background:var(--color-surface-raised)}.bucket-group>header{display:flex;align-items:center;justify-content:space-between;gap:12px}.bucket-group h2{margin:0;font-size:17px}.bucket-items{display:grid;gap:7px;margin:10px 0}.bucket-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;min-height:48px;padding:7px 4px;border-top:1px solid rgba(255,255,255,.06)}.bucket-item.done span{text-decoration:line-through;opacity:.55}.bucket-hint{margin:8px 0;color:var(--color-text-secondary);font-size:12px;line-height:1.5}.bucket-add{min-height:38px;padding:7px 0;border:0;background:transparent;color:var(--color-action-active);font-weight:650}.chore-item{cursor:pointer}.muted-inline{color:var(--color-text-secondary);font-weight:400}.form-extra-chevron{font-size:24px;transition:transform .18s}.form-extra-toggle.open .form-extra-chevron{transform:rotate(90deg)}
 #suggestionEmpty.soft-empty{min-height:116px;justify-content:center}.projects-preview .soft-empty,.project-carousel .soft-empty{min-height:110px;justify-content:center}
 @media(min-width:768px){.bottom-nav{grid-template-columns:repeat(6,minmax(0,1fr));width:min(calc(100% - 40px),900px);bottom:12px;height:72px;min-height:72px;border:1px solid rgba(142,188,199,.2);border-radius:24px;padding:6px 10px}.nav-button{min-height:58px;margin:0;border-radius:16px}.nav-add-spacer{display:block}.global-add{bottom:48px}}
+
+
+/* Rollout 9 — feedback polish: hierarchy, glass nav, compact cards, shared controls. */
+:root{--lv-petrol:#49c5cb;--lv-petrol-soft:#79d5d9}
+
+/* Home context: one coherent visual hierarchy. */
+.today-context{padding:15px 17px!important}
+.today-head{margin-bottom:8px!important}
+.today-head time{color:var(--color-text-secondary)!important;font-size:11px!important;font-weight:600!important}
+.today-copy{grid-template-columns:auto minmax(0,1fr) auto!important;align-items:center!important;column-gap:12px!important;row-gap:3px!important}
+.today-energy{min-height:30px!important;color:var(--color-text-primary)!important}
+.today-energy b{font-size:13px!important;font-weight:700!important;white-space:nowrap}
+.today-meaning{margin:0!important;color:var(--color-text-secondary)!important;font-size:13px!important;font-weight:600!important;line-height:1.25!important}
+.today-adjust{justify-self:end!important;min-height:34px!important;padding:6px 10px!important;border-color:color-mix(in srgb,var(--color-action-active) 38%,var(--color-border-control))!important;background:color-mix(in srgb,var(--color-action-primary) 7%,transparent)!important;color:var(--color-action-active)!important}
+#homeScreen>h1{margin-bottom:5px!important}
+#homeScreen>h1 + .section-intro{margin-top:0!important;margin-bottom:20px!important}
+
+/* Petrol is the shared contextual/meta colour for tasks. */
+.suggestion-project,.task-row-content .suggestion-project,.task-meta{color:var(--lv-petrol-soft)!important}
+.task-meta{font-size:11px!important}
+
+/* Compact Home/Projects cards with one shared glow language. */
+.project-card,.project-card[class*="project-"],.project-card-main,.project-carousel .project-card,.project-carousel .project-card-main{min-height:74px!important}
+.project-card-main{padding:12px 15px!important}
+.project-card h3,.project-card-main h3{font-size:15px!important;line-height:1.2!important}
+.project-card:after{right:-34px!important;bottom:-40px!important;width:92px!important;height:92px!important;filter:blur(24px)!important;opacity:.27!important}
+.project-card,.project-card[class*="project-"]{background:radial-gradient(circle at 100% 100%,color-mix(in srgb,var(--project-accent) 20%,transparent),transparent 47%),linear-gradient(145deg,var(--surface-2),var(--surface-1))!important;box-shadow:var(--shadow),0 0 24px color-mix(in srgb,var(--project-accent) 10%,transparent)!important}
+.project-carousel{grid-auto-columns:min(62%,205px)!important}
+
+/* Vault cards: slightly tighter, with a clearer but still calm colour bloom. */
+.module-card{min-height:112px!important;padding:13px!important}
+.module-card:after{right:-34px!important;bottom:-42px!important;width:96px!important;height:96px!important;filter:blur(22px)!important;opacity:.43!important}
+.module-card span,.module-card:before{width:39px!important;height:39px!important;margin-bottom:15px!important;border-radius:13px!important}
+.module-card strong{font-size:16px!important;margin-bottom:0!important}
+
+/* One actual glass bottom navigation, equal alignment on every screen. */
+.bottom-nav{grid-template-columns:repeat(6,minmax(0,1fr))!important;bottom:max(9px,env(safe-area-inset-bottom))!important;width:min(calc(100% - 18px),720px)!important;height:66px!important;min-height:66px!important;padding:5px 7px!important;border:1px solid rgba(160,214,222,.22)!important;border-radius:23px!important;background:linear-gradient(145deg,rgba(12,27,37,.46),rgba(5,13,22,.32))!important;box-shadow:0 10px 28px rgba(1,7,14,.18),inset 0 1px 0 rgba(255,255,255,.055)!important;backdrop-filter:blur(30px) saturate(150%)!important;-webkit-backdrop-filter:blur(30px) saturate(150%)!important}
+.bottom-nav .nav-button{margin:0!important;min-height:52px!important;border-radius:15px!important;background:transparent!important;transform:none!important}
+.bottom-nav .nav-button span,.bottom-nav .nav-button small{transform:none!important}
+.bottom-nav .nav-button.active{background:color-mix(in srgb,var(--color-action-primary) 12%,transparent)!important;color:var(--color-action-active)!important}
+.bottom-nav .nav-button[data-screen="vault"].active:after{display:none!important}
+.nav-button span{width:23px!important;height:23px!important}
+.nav-button small{font-size:9px!important}
+.global-add{bottom:calc(max(9px,env(safe-area-inset-bottom)) + 35px)!important;width:56px!important;height:56px!important;min-width:56px!important;min-height:56px!important}
+
+/* All contextual ellipsis buttons visually blend into their parent surface. */
+.more-button,.column-menu,.subtle-more,.task-row>.more-button,.wishlist-card>.more-button,.project-card>.more-button,.idea-card>.more-button{border:0!important;background:transparent!important;box-shadow:none!important;color:var(--color-text-secondary)!important}
+.more-button:hover,.more-button:focus-visible,.column-menu:hover,.column-menu:focus-visible{background:rgba(255,255,255,.04)!important;color:var(--color-text-primary)!important}
+
+/* Ideas: tighter overview hierarchy and a properly secondary cancel action. */
+#ideasScreen .section-intro{margin-top:-3px!important;margin-bottom:18px!important}
+.idea-card{min-height:58px!important;padding:10px 13px!important}
+.idea-card p{margin:0!important}
+#ideaOverlay .modal-copy{margin-bottom:20px!important}
+#ideaOverlay .small-label{margin-top:18px!important}
+.idea-cancel-button{display:block;width:auto;min-height:36px;margin:10px auto 0;padding:7px 14px;border:1px solid rgba(255,100,124,.34);border-radius:11px;background:rgba(255,100,124,.07);color:#ff879a;font-size:12px;font-weight:700}
+.idea-cancel-button:hover,.idea-cancel-button:focus-visible{background:rgba(255,100,124,.12);outline:none}
+
+/* Empty states optically center their copy. */
+.soft-empty,.mini-empty{display:grid!important;place-items:center!important;text-align:center!important}
+
+/* Subtle ambient Lumi twinkles. */
+.lumi-ambient-layer{position:fixed;inset:0;z-index:8;pointer-events:none;overflow:hidden}
+.lumie{position:fixed;width:var(--lumie-size,7px);height:var(--lumie-size,7px);border-radius:50%;background:rgba(133,244,246,.94);box-shadow:0 0 7px rgba(96,229,233,.9),0 0 18px rgba(66,203,210,.52),0 0 34px rgba(66,203,210,.22);opacity:0;animation:lumie-pop 2.2s ease-in-out forwards}
+.lumie:before,.lumie:after{content:"";position:absolute;left:50%;top:50%;background:rgba(183,255,255,.68);transform:translate(-50%,-50%);border-radius:99px}
+.lumie:before{width:1px;height:calc(var(--lumie-size,7px)*2.6)}
+.lumie:after{width:calc(var(--lumie-size,7px)*2.6);height:1px}
+@keyframes lumie-pop{0%{opacity:0;transform:scale(.45)}28%{opacity:.82;transform:scale(1)}62%{opacity:.48;transform:scale(.78)}100%{opacity:0;transform:scale(.35)}}
+.reduce-motion .lumi-ambient-layer{display:none!important}
+@media(prefers-reduced-motion:reduce){.lumi-ambient-layer{display:none!important}}
+
+@media(max-width:560px){
+  .today-copy{column-gap:9px!important}
+  .today-energy b{font-size:12.5px!important}
+  .today-meaning{font-size:12.5px!important}
+  .module-card{min-height:108px!important}
+  .project-card,.project-card[class*="project-"],.project-card-main,.project-carousel .project-card,.project-carousel .project-card-main{min-height:70px!important}
+  .project-carousel{grid-auto-columns:min(64%,195px)!important}
+}

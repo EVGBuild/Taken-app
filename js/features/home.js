@@ -19,7 +19,7 @@ function renderHomeScreen({
   const primary = sets.visible.slice(0, 3).map(entry => entry.item);
   const current = checkin.date === todayKey() ? Number(checkin.energy) || null : null;
 
-  $('todayDate').textContent = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long' }).format(new Date());
+  $('todayDate').textContent = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   $('todayEnergy').innerHTML = current
     ? `<span class="energy-battery level-${current}" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b>${current} van 5</b>`
     : '<b>Nog niet ingecheckt</b>';
