@@ -1,5 +1,5 @@
 /* Settings rollout: durable preferences, honest capability states, and local data controls. */
-const SETTINGS_SCREENS=['settingsHelp','settingsNotifications','settingsCalendar','settingsAppearance','settingsPrivacy','settingsAbout'];
+const SETTINGS_SCREENS=['settingsProfile','settingsHelp','settingsNotifications','settingsCalendar','settingsAppearance','settingsPrivacy','settingsFaq','settingsContact','settingsAbout'];
 function saveAppSettings(){write(KEYS.settings,appSettings);applyAccessibilitySettings()}
 function applyAccessibilitySettings(){document.documentElement.classList.toggle('reduce-motion',!!appSettings.reducedMotion)}
 function renderAppSettings(){
@@ -7,6 +7,7 @@ function renderAppSettings(){
   document.querySelectorAll('[data-setting-toggle]').forEach(input=>{input.checked=!!appSettings[input.dataset.settingToggle]});
 }
 document.querySelectorAll('[data-settings-page]').forEach(button=>button.onclick=()=>{showScreen(button.dataset.settingsPage);document.querySelector('[data-screen="settings"]')?.classList.add('active');$('globalAddButton').classList.add('hidden');renderAppSettings()});
+document.querySelectorAll('[data-settings-action="feedback"]').forEach(button=>button.onclick=()=>{$('feedbackOverlay')?.classList.remove('hidden')});
 document.querySelectorAll('.settings-back').forEach(button=>button.onclick=()=>showScreen('settings'));
 document.querySelectorAll('[data-setting] [data-value]').forEach(button=>button.onclick=()=>{const group=button.closest('[data-setting]');appSettings[group.dataset.setting]=button.dataset.value;saveAppSettings();renderAppSettings()});
 document.querySelectorAll('[data-setting-toggle]').forEach(input=>input.onchange=()=>{appSettings[input.dataset.settingToggle]=input.checked;saveAppSettings();renderAppSettings()});

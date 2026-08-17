@@ -90,14 +90,70 @@
 
   <section id="choresScreen" class="screen vault-detail-screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Klusjes</h1><p class="section-intro">Terugkerende dingen waarvan LumiVault onthoudt wanneer je ze voor het laatst deed.</p></div></header><div id="choresList" class="stack-list"></div><button id="addChoreButton" class="secondary-button big-button" type="button">+ Klusje toevoegen</button></section>
 
-  <section id="settingsScreen" class="screen settings-screen"><header class="simple-header"><p class="eyebrow">LumiVault</p><h1>Instellingen</h1><p class="section-intro">Pas LumiVault aan op wat voor jou prettig werkt.</p></header><div class="settings-group settings-main-list">
-    <button class="settings-row" data-settings-page="settingsHelp"><span class="settings-icon"><i class="ph ph-compass"></i></span><span class="settings-copy"><b>Hoe LumiVault helpt</b><small>Suggesties en mate van sturing</small></span><span class="settings-chevron">›</span></button>
-    <button class="settings-row" data-settings-page="settingsNotifications"><span class="settings-icon"><i class="ph ph-bell"></i></span><span class="settings-copy"><b>Meldingen</b></span><span class="settings-chevron">›</span></button>
-    <button class="settings-row" data-settings-page="settingsCalendar"><span class="settings-icon"><i class="ph ph-calendar-blank"></i></span><span class="settings-copy"><b>Agenda</b><small>Niet gekoppeld</small></span><span class="settings-chevron">›</span></button>
-    <button class="settings-row" data-settings-page="settingsAppearance"><span class="settings-icon"><i class="ph ph-eye"></i></span><span class="settings-copy"><b>Weergave &amp; toegankelijkheid</b></span><span class="settings-chevron">›</span></button>
-    <button class="settings-row" data-settings-page="settingsPrivacy"><span class="settings-icon"><i class="ph ph-shield-check"></i></span><span class="settings-copy"><b>Data &amp; privacy</b><small>Lokale opslag en beheer</small></span><span class="settings-chevron">›</span></button>
-    <button class="settings-row" data-settings-page="settingsAbout"><span class="settings-icon"><i class="ph ph-info"></i></span><span class="settings-copy"><b>Over LumiVault</b></span><span class="settings-chevron">›</span></button>
-  </div><p class="version">LumiVault · prototype v0.6.2</p></section>
+  <section id="settingsScreen" class="screen settings-screen">
+    <header class="simple-header settings-home-header">
+      <p class="eyebrow">LumiVault</p>
+      <h1>Instellingen</h1>
+      <p class="section-intro">Pas LumiVault aan op wat voor jou prettig werkt.</p>
+    </header>
+
+    <section class="settings-home-section settings-personal">
+      <h2>Jij</h2>
+      <div class="settings-group settings-home-group">
+        <button class="settings-row" data-settings-page="settingsProfile"><span class="settings-icon"><i class="ph ph-user"></i></span><span class="settings-copy"><b>Jouw profiel</b><small>Wat LumiVault over jou mag gebruiken</small></span><span class="settings-chevron">›</span></button>
+      </div>
+    </section>
+
+    <section class="settings-home-section settings-lumivault">
+      <h2>LumiVault</h2>
+      <div class="settings-group settings-home-group">
+        <button class="settings-row" data-settings-page="settingsHelp"><span class="settings-icon"><i class="ph ph-compass"></i></span><span class="settings-copy"><b>Hoe LumiVault helpt</b><small>Suggesties en mate van sturing</small></span><span class="settings-chevron">›</span></button>
+        <button class="settings-row" data-settings-page="settingsNotifications"><span class="settings-icon"><i class="ph ph-bell"></i></span><span class="settings-copy"><b>Meldingen</b><small>Wanneer LumiVault iets van zich laat horen</small></span><span class="settings-chevron">›</span></button>
+        <button class="settings-row" data-settings-page="settingsCalendar"><span class="settings-icon"><i class="ph ph-calendar-blank"></i></span><span class="settings-copy"><b>Agenda</b><small>Niet gekoppeld</small></span><span class="settings-chevron">›</span></button>
+      </div>
+    </section>
+
+    <section class="settings-home-section settings-display">
+      <h2>Weergave</h2>
+      <div class="settings-group settings-home-group">
+        <button class="settings-row" data-settings-page="settingsAppearance"><span class="settings-icon"><i class="ph ph-eye"></i></span><span class="settings-copy"><b>Weergave &amp; toegankelijkheid</b><small>Beweging en leesbaarheid</small></span><span class="settings-chevron">›</span></button>
+      </div>
+    </section>
+
+    <section class="settings-home-section settings-data">
+      <h2>Data &amp; privacy</h2>
+      <div class="settings-group settings-home-group">
+        <button class="settings-row" data-settings-page="settingsPrivacy"><span class="settings-icon"><i class="ph ph-shield-check"></i></span><span class="settings-copy"><b>Data &amp; privacy</b><small>Jouw gegevens en jouw controle</small></span><span class="settings-chevron">›</span></button>
+      </div>
+    </section>
+
+    <section class="settings-home-section settings-support">
+      <h2>Hulp</h2>
+      <div class="settings-group settings-home-group">
+        <button class="settings-row" data-settings-page="settingsFaq"><span class="settings-icon"><i class="ph ph-question"></i></span><span class="settings-copy"><b>Veelgestelde vragen</b><small>Antwoorden en uitleg</small></span><span class="settings-chevron">›</span></button>
+        <button class="settings-row" data-settings-action="feedback"><span class="settings-icon"><i class="ph ph-chat-circle-dots"></i></span><span class="settings-copy"><b>Feedback &amp; ideeën</b><small>Vertel ons wat beter kan</small></span><span class="settings-chevron">›</span></button>
+        <button class="settings-row" data-settings-page="settingsContact"><span class="settings-icon"><i class="ph ph-envelope-simple"></i></span><span class="settings-copy"><b>Contact</b></span><span class="settings-chevron">›</span></button>
+      </div>
+    </section>
+
+    <section class="settings-home-section settings-about-section">
+      <h2>Over</h2>
+      <div class="settings-group settings-home-group">
+        <button class="settings-row" data-settings-page="settingsAbout"><span class="settings-icon"><i class="ph ph-info"></i></span><span class="settings-copy"><b>Over LumiVault</b><small>Waarom we dit bouwen</small></span><span class="settings-chevron">›</span></button>
+      </div>
+    </section>
+
+    <footer class="settings-home-footer">
+      <div class="settings-socials" aria-label="LumiVault op social media">
+        <span aria-label="Instagram" title="Instagram"><i class="ph ph-instagram-logo"></i></span>
+        <span aria-label="TikTok" title="TikTok"><i class="ph ph-tiktok-logo"></i></span>
+        <span aria-label="LinkedIn" title="LinkedIn"><i class="ph ph-linkedin-logo"></i></span>
+      </div>
+      <p class="version">LumiVault · prototype v0.6.2</p>
+    </footer>
+  </section>
+
+  <section id="settingsProfileScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Jij</p><h1>Jouw profiel</h1><p class="section-intro">Hier bepaal je welke persoonlijke context LumiVault mag gebruiken om beter met je mee te denken.</p></div></header><section class="settings-panel settings-prose"><h2>Profiel in ontwikkeling</h2><p>Deze plek is gereserveerd voor voorkeuren, doelen en andere informatie die jij bewust met LumiVault wilt delen. Jij houdt de controle over wat wordt bewaard en gebruikt.</p></section></section>
 
   <section id="settingsHelpScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Instellingen</p><h1>Hoe LumiVault helpt</h1><p class="section-intro">Pas aan hoe LumiVault je helpt kiezen en richting geeft.</p></div></header><section class="settings-panel"><h2>Hoe wil je suggesties krijgen?</h2><div class="settings-choice-list" data-setting="suggestionMode"><button data-value="one"><b>Eén duidelijke suggestie</b></button><button data-value="few"><b>Een paar goede opties</b></button></div></section><section class="settings-panel"><h2>Hoeveel sturing wil je?</h2><div class="settings-choice-list descriptive" data-setting="guidance"><button data-value="calm"><b>Rustig</b><small>Vooral richting wanneer dat nodig is.</small></button><button data-value="balanced"><b>Gebalanceerd</b><small>Actief helpen kiezen, zonder overal tussen te springen.</small></button><button data-value="active"><b>Actief</b><small>Wat vaker helpen, herinneren en richting geven.</small></button></div></section></section>
 
@@ -108,6 +164,10 @@
   <section id="settingsAppearanceScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Instellingen</p><h1>Weergave &amp; toegankelijkheid</h1></div></header><section class="settings-panel"><div class="setting-static"><span><b>Weergave</b><small>LumiVault gebruikt momenteel de bestaande donkere weergave.</small></span></div><label class="setting-toggle"><span><b>Verminder beweging</b><small>Beperk Lumi-effecten en andere animaties.</small></span><input type="checkbox" data-setting-toggle="reducedMotion"><i></i></label></section></section>
 
   <section id="settingsPrivacyScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Instellingen</p><h1>Data &amp; privacy</h1></div></header><section class="settings-panel settings-prose"><h2>Waar je gegevens worden bewaard</h2><p>Deze versie bewaart je LumiVault-gegevens lokaal in deze browser op dit apparaat. Er is geen LumiVault-account of cloudsynchronisatie.</p></section><section class="settings-panel danger-panel"><h2>Alle lokale gegevens verwijderen</h2><p>Dit verwijdert taken, projecten, Vault-items en voorkeuren van dit apparaat. Dit kan niet ongedaan worden gemaakt.</p><button id="clearLocalDataButton" class="danger-button" type="button">Alle lokale gegevens verwijderen</button></section><section class="settings-panel settings-prose"><h2>Privacyverklaring</h2><p>Een definitieve privacyverklaring is nog niet gepubliceerd.</p></section></section>
+
+  <section id="settingsFaqScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Hulp</p><h1>Veelgestelde vragen</h1><p class="section-intro">Een vaste plek voor korte antwoorden zonder dat je eerst een digitale speurtocht hoeft te beginnen.</p></div></header><section class="settings-panel settings-prose"><h2>FAQ wordt opgebouwd</h2><p>De vragen en antwoorden worden toegevoegd zodra de functies en uitleg definitief genoeg zijn. Zo voorkomen we dat oude uitleg straks vrolijk tegen de app in liegt.</p></section></section>
+
+  <section id="settingsContactScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Hulp</p><h1>Contact</h1><p class="section-intro">Voor vragen, problemen of iets dat je liever rechtstreeks met ons deelt.</p></div></header><section class="settings-panel settings-prose"><h2>Contactgegevens volgen</h2><p>Het officiële LumiVault-contactadres wordt hier toegevoegd zodra het is ingericht.</p></section></section>
 
   <section id="settingsAboutScreen" class="screen settings-detail-screen"><header class="screen-header"><button class="back-button settings-back" aria-label="Terug"></button><div><p class="eyebrow">Instellingen</p><h1>Over LumiVault</h1></div></header><section class="settings-panel about-card"><div class="about-mark">L</div><div><h2>LumiVault</h2><p>Jouw wereld. Veilig bewaard.</p><small>Prototype v0.6.2</small></div></section><section class="settings-panel availability-list"><div><b>Privacy</b><small>Nog niet gepubliceerd</small></div><div><b>Voorwaarden</b><small>Nog niet gepubliceerd</small></div><div><b>Licenties</b><small>Iconen door Phosphor Icons</small></div></section></section>
 </main>
@@ -158,7 +218,7 @@
 <script src="./js/features/inbox.js?v=45"></script>
 <script src="./js/features/capture.js?v=45"></script>
 <script src="./js/features/finance-documents.js?v=45"></script>
-<script src="./js/features/settings.js?v=45"></script>
+<script src="./js/features/settings.js?v=46"></script>
 <script src="./js/core/ui.js?v=45"></script>
 <script src="./js/core/navigation.js?v=45"></script>
 <script src="./js/features/checkin-context.js?v=45"></script>
