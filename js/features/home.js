@@ -40,7 +40,7 @@ function renderHomeScreen({
   const noOptions = current && !primary.length;
   $('suggestionEmpty').classList.toggle('hidden', !noOptions);
   if (noOptions) {
-    $('suggestionEmpty').innerHTML = '<strong>Voor nu geen passende uitvoeringstaak</strong><small>Je hoeft nu niets te forceren.</small>';
+    $('suggestionEmpty').innerHTML = '<strong>Geen passende taken voor nu</strong><small>Je hoeft nu niets te forceren.</small>';
   }
 
   const canBroaden = !broaden && sets.standard.length < 3 && sets.extra.length > 0;

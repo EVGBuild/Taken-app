@@ -28,7 +28,7 @@ document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.
   const reduced=()=>document.documentElement.classList.contains('reduce-motion')||document.body.classList.contains('reduce-motion')||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const schedule=()=>{
     clearTimeout(timer);
-    timer=setTimeout(()=>{spawn();schedule()},3500+Math.random()*5000);
+    timer=setTimeout(()=>{spawn();schedule()},3200+Math.random()*6200);
   };
   const spawn=()=>{
     if(reduced()||document.hidden) return;
@@ -36,14 +36,16 @@ document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.
     if(!active) return;
     const rect=active.getBoundingClientRect();
     const dot=document.createElement('i');
-    const size=4+Math.random()*7;
-    const top=Math.max(32,rect.top+18+Math.random()*Math.min(155,Math.max(70,rect.height*.2)));
-    const left=Math.max(18,Math.min(window.innerWidth-18,rect.left+24+Math.random()*Math.max(40,rect.width-48)));
+    const size=3.5+Math.random()*7.5;
+    const palette=['101,179,184','184,112,112','123,88,160','255,179,71'];
+    const top=Math.max(32,rect.top+18+Math.random()*Math.min(165,Math.max(76,rect.height*.21)));
+    const left=Math.max(18,Math.min(window.innerWidth-18,rect.left+22+Math.random()*Math.max(44,rect.width-44)));
     dot.className='lumie';
     dot.style.setProperty('--lumie-size',`${size}px`);
+    dot.style.setProperty('--lumie-rgb',palette[Math.floor(Math.random()*palette.length)]);
     dot.style.left=`${left}px`;
     dot.style.top=`${top}px`;
-    dot.style.animationDuration=`${1.7+Math.random()*1.25}s`;
+    dot.style.animationDuration=`${1.65+Math.random()*1.45}s`;
     layer.append(dot);
     dot.addEventListener('animationend',()=>dot.remove(),{once:true});
   };
