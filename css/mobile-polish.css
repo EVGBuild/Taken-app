@@ -340,3 +340,35 @@ html,body{overflow-y:auto;overscroll-behavior-y:auto}.app{overflow-y:visible}
   .today-meaning{font-size:11.5px!important}
   .bottom-nav{background:linear-gradient(145deg,rgba(16,32,42,.22),rgba(5,13,22,.12))!important}
 }
+
+
+/* Rollout 10: bottom-nav geometry + true glass. Keep the add gap compact. */
+.bottom-nav{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;
+  column-gap:0!important;
+  background:linear-gradient(145deg,rgba(18,36,47,.16),rgba(5,13,22,.08))!important;
+  border-color:rgba(178,226,231,.24)!important;
+  box-shadow:0 10px 30px rgba(1,7,14,.12),inset 0 1px 0 rgba(255,255,255,.075)!important;
+  backdrop-filter:blur(30px) saturate(165%)!important;
+  -webkit-backdrop-filter:blur(30px) saturate(165%)!important;
+}
+.bottom-nav .nav-add-spacer{width:44px!important;min-width:44px!important;display:block!important}
+.bottom-nav .nav-button{min-width:0!important;padding-left:2px!important;padding-right:2px!important}
+.bottom-nav .nav-button small{white-space:nowrap!important}
+@media(max-width:420px){
+  .bottom-nav{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 36px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;padding-inline:5px!important}
+  .bottom-nav .nav-add-spacer{width:36px!important;min-width:36px!important}
+  .bottom-nav .nav-button small{font-size:8.25px!important}
+}
+
+/* Lumi sparkle: soft four-point shape, one continuous fade (no heartbeat). */
+.lumie{position:fixed;width:var(--lumie-size,12px);height:var(--lumie-size,12px);opacity:0;color:rgb(var(--lumie-rgb,101,179,184));filter:drop-shadow(0 0 5px rgba(var(--lumie-rgb,101,179,184),.62)) drop-shadow(0 0 13px rgba(var(--lumie-rgb,101,179,184),.28));animation:lumie-glow 3.2s cubic-bezier(.22,.7,.28,1) forwards!important;background:none!important;border-radius:0!important;box-shadow:none!important;transform:none!important}
+.lumie svg{display:block;width:100%;height:100%;overflow:visible}
+.lumie path{fill:currentColor}
+.lumie:before,.lumie:after{display:none!important}
+@keyframes lumie-glow{
+  0%{opacity:0;transform:scale(.62)}
+  27%{opacity:.9;transform:scale(1)}
+  70%{opacity:.9;transform:scale(1)}
+  100%{opacity:0;transform:scale(.76)}
+}

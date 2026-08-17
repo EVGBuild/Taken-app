@@ -16,7 +16,7 @@ document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.
 
 
 
-/* Ambient Lumi motion: subtle, sporadic twinkles near the top of active screens. */
+/* Ambient Lumi motion: soft, sporadic four-point sparkles near the active header. */
 (function installLumies(){
   if(document.getElementById('lumiAmbientLayer')) return;
   const layer=document.createElement('div');
@@ -28,28 +28,28 @@ document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.
   const reduced=()=>document.documentElement.classList.contains('reduce-motion')||document.body.classList.contains('reduce-motion')||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const schedule=()=>{
     clearTimeout(timer);
-    timer=setTimeout(()=>{spawn();schedule()},3200+Math.random()*6200);
+    timer=setTimeout(()=>{spawn();schedule()},4300+Math.random()*5200);
   };
   const spawn=()=>{
     if(reduced()||document.hidden) return;
     const active=document.querySelector('.screen.active');
     if(!active) return;
     const rect=active.getBoundingClientRect();
-    const dot=document.createElement('i');
-    const size=3.5+Math.random()*7.5;
+    const star=document.createElement('i');
+    const size=8+Math.random()*10;
     const palette=['101,179,184','184,112,112','123,88,160','255,179,71'];
-    const top=Math.max(32,rect.top+18+Math.random()*Math.min(165,Math.max(76,rect.height*.21)));
-    const left=Math.max(18,Math.min(window.innerWidth-18,rect.left+22+Math.random()*Math.max(44,rect.width-44)));
-    dot.className='lumie';
-    dot.style.setProperty('--lumie-size',`${size}px`);
-    dot.style.setProperty('--lumie-rgb',palette[Math.floor(Math.random()*palette.length)]);
-    dot.style.left=`${left}px`;
-    dot.style.top=`${top}px`;
-    dot.style.animationDuration=`${1.65+Math.random()*1.45}s`;
-    layer.append(dot);
-    dot.addEventListener('animationend',()=>dot.remove(),{once:true});
+    const top=Math.max(32,rect.top+28+Math.random()*Math.min(150,Math.max(72,rect.height*.18)));
+    const left=Math.max(24,Math.min(window.innerWidth-24,rect.left+28+Math.random()*Math.max(56,rect.width-56)));
+    star.className='lumie';
+    star.style.setProperty('--lumie-size',`${size}px`);
+    star.style.setProperty('--lumie-rgb',palette[Math.floor(Math.random()*palette.length)]);
+    star.style.left=`${left}px`;
+    star.style.top=`${top}px`;
+    star.innerHTML='<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 2 C46 26 27 46 2 50 C27 54 46 74 50 98 C54 74 73 54 98 50 C73 46 54 26 50 2 Z"/></svg>';
+    layer.append(star);
+    star.addEventListener('animationend',()=>star.remove(),{once:true});
   };
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule()});
-  setTimeout(spawn,1100);
+  setTimeout(spawn,1400);
   schedule();
 })();
