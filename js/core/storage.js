@@ -17,7 +17,8 @@ const KEYS = Object.freeze({
   tip: 'lumiWishlistDragTip',
   feedback: 'lumiFeedbackDraft',
   settings: 'lumiSettings',
-  todayOrder: 'lumiTodayOrder'
+  todayOrder: 'lumiTodayOrder',
+  bucketlist: 'lumiBucketlist'
 });
 
 function read(key, fallback = []) {
