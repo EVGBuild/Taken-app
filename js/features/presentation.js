@@ -33,7 +33,7 @@ document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.
   const spawn=()=>{
     if(reduced()||document.hidden) return;
     const active=document.querySelector('.screen.active');
-    if(!active) return;
+    if(!active || active.id==='homeScreen') return;
     const rect=active.getBoundingClientRect();
     const star=document.createElement('i');
     const size=8+Math.random()*10;

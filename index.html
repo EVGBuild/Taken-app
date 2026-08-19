@@ -21,19 +21,47 @@
   <link rel="stylesheet" href="./css/mobile-polish.css?v=46">
   <link rel="stylesheet" href="./css/mockup-rollout.css?v=2">
   <link rel="stylesheet" href="./css/mockup-fidelity-v2.css?v=2">
+  <link rel="stylesheet" href="./css/home-exact.css?v=1">
 </head>
 <body>
 <main class="app">
   <section id="homeScreen" class="screen active">
-    <section class="home-greeting"><h1 id="homeGreeting">Goedemiddag</h1><time id="homeDate"></time></section>
-    <section id="todayContext" class="today-context"><div class="today-head"><div><span class="checkin-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div><p class="checkin-title">Check-in</p><p class="checkin-subtitle">Hoe voel je je vandaag?</p></div></div><time id="todayDate"></time></div><div class="today-copy"><div id="todayEnergy" class="today-energy"></div><strong id="todayMeaning" class="today-meaning"></strong><p id="todayConsideration" class="today-consideration hidden"></p><button id="todayAdjustButton" class="today-adjust" type="button">Aanpassen</button></div></section>
-    <h1>Voor nu</h1>
-    <p class="section-intro">Dit lijkt nu het meest logisch.</p>
-    <ul id="suggestionList" class="stack-list"></ul>
+    <section class="home-greeting">
+      <h1 id="homeGreeting">Goedemiddag Elise</h1>
+      <time id="homeDate"></time>
+    </section>
+
+    <section id="todayContext" class="today-context home-checkin-card" aria-label="Dagelijkse check-in">
+      <div class="checkin-main">
+        <span class="checkin-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div class="checkin-copy">
+          <p class="checkin-title">Check-in</p>
+          <p class="checkin-subtitle">Hoe voel je je vandaag?</p>
+        </div>
+      </div>
+      <div class="checkin-lumi" aria-hidden="true">
+        <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i><i class="spark s5"></i><i class="spark s6"></i><i class="spark s7"></i><i class="spark s8"></i><i class="spark s9"></i>
+      </div>
+      <span class="checkin-arrow" aria-hidden="true">›</span>
+      <time id="todayDate" class="home-support-hidden"></time>
+      <div id="todayEnergy" class="home-support-hidden"></div>
+      <strong id="todayMeaning" class="home-support-hidden"></strong>
+      <p id="todayConsideration" class="home-support-hidden hidden"></p>
+      <button id="todayAdjustButton" class="checkin-card-hit" type="button" aria-label="Check-in openen">Check-in openen</button>
+    </section>
+
+    <section class="home-now-heading">
+      <h1>Voor nu</h1>
+      <p class="section-intro">Dit lijkt nu het meest logisch.</p>
+    </section>
+    <ul id="suggestionList" class="stack-list home-suggestions"></ul>
     <button id="moreTodayButton" class="expand-button hidden legacy-more-options" type="button" aria-hidden="true" tabindex="-1">Meer opties</button>
     <ul id="moreTodayList" class="stack-list hidden legacy-more-options" aria-hidden="true"></ul>
     <button id="homeCheckinButton" class="checkin-button hidden" type="button">Dagelijkse check-in</button>
-    <div id="suggestionEmpty" class="soft-empty hidden"></div><div id="todayFeedback" class="today-feedback hidden" role="status" aria-live="polite"></div><div id="todayRecoveryActions" class="today-recovery-actions hidden"><button id="broadenSuggestionsButton" type="button"><strong>Ook zwaardere opties bekijken</strong><small>Ook taken bekijken die wat meer van je vragen.</small></button><button id="adjustCheckinButton" class="hidden" type="button" aria-hidden="true" tabindex="-1">Check-in aanpassen</button></div>
+    <div id="suggestionEmpty" class="soft-empty hidden"></div>
+    <div id="todayFeedback" class="today-feedback hidden" role="status" aria-live="polite"></div>
+    <div id="todayRecoveryActions" class="today-recovery-actions hidden"><button id="broadenSuggestionsButton" type="button"><strong>Ook zwaardere opties bekijken</strong><small>Ook taken bekijken die wat meer van je vragen.</small></button><button id="adjustCheckinButton" class="hidden" type="button" aria-hidden="true" tabindex="-1">Check-in aanpassen</button></div>
+    <div class="home-ambient-lumi" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i><i class="a4"></i><i class="a5"></i><i class="a6"></i><i class="a7"></i></div>
     <section class="projects-preview"><div class="section-title-row"><h2>Projecten</h2><button id="seeProjectsButton" class="text-button">Alle projecten</button></div><div id="projectCarousel" class="project-carousel"></div></section>
   </section>
 
