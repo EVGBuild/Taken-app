@@ -53,3 +53,19 @@ document.querySelectorAll('.modal-close').forEach(button=>{if(!button.classList.
   setTimeout(spawn,1400);
   schedule();
 })();
+
+/* Home header display is presentation-only and intentionally independent of recommendation rendering. */
+(function syncHomeHeaderPresentation(){
+  const render=()=>{
+    const now=new Date();
+    const hour=now.getHours();
+    const greeting=hour<12?'Goedemorgen':hour<18?'Goedemiddag':'Goedenavond';
+    const greetingNode=document.getElementById('homeGreeting');
+    const dateNode=document.getElementById('homeDate');
+    if(greetingNode) greetingNode.textContent=`${greeting} Elise`;
+    if(dateNode) dateNode.textContent=new Intl.DateTimeFormat('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now).replace(/^./,c=>c.toUpperCase());
+  };
+  render();
+  window.addEventListener('pageshow',render);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden) render()});
+})();

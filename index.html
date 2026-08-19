@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="./css/mobile-polish.css?v=46">
   <link rel="stylesheet" href="./css/mockup-rollout.css?v=2">
   <link rel="stylesheet" href="./css/mockup-fidelity-v2.css?v=2">
-  <link rel="stylesheet" href="./css/home-exact.css?v=1">
+  <link rel="stylesheet" href="./css/home-exact.css?v=3">
 </head>
 <body>
 <main class="app">
@@ -32,17 +32,24 @@
     </section>
 
     <section id="todayContext" class="today-context home-checkin-card" aria-label="Dagelijkse check-in">
-      <div class="checkin-main">
-        <span class="checkin-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <div class="checkin-copy">
-          <p class="checkin-title">Check-in</p>
-          <p class="checkin-subtitle">Hoe voel je je vandaag?</p>
-        </div>
+      <span class="checkin-icon" aria-hidden="true">
+        <svg viewBox="0 0 70 50" focusable="false">
+          <rect class="battery-shell" x="2.5" y="4" width="58" height="42" rx="9"></rect>
+          <rect class="battery-tip" x="63" y="17" width="5" height="16" rx="2.5"></rect>
+          <rect class="battery-bar" x="10" y="12" width="8" height="26" rx="2"></rect>
+          <rect class="battery-bar" x="21" y="12" width="8" height="26" rx="2"></rect>
+          <rect class="battery-bar" x="32" y="12" width="8" height="26" rx="2"></rect>
+          <rect class="battery-bar" x="43" y="12" width="8" height="26" rx="2"></rect>
+        </svg>
+      </span>
+      <div class="checkin-copy">
+        <p class="checkin-title">Check-in</p>
+        <p class="checkin-subtitle">Hoe voel je je vandaag?</p>
       </div>
       <div class="checkin-lumi" aria-hidden="true">
         <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i><i class="spark s5"></i><i class="spark s6"></i><i class="spark s7"></i><i class="spark s8"></i><i class="spark s9"></i>
       </div>
-      <span class="checkin-arrow" aria-hidden="true">›</span>
+      <span class="checkin-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 5l7 7-7 7"/></svg></span>
       <time id="todayDate" class="home-support-hidden"></time>
       <div id="todayEnergy" class="home-support-hidden"></div>
       <strong id="todayMeaning" class="home-support-hidden"></strong>
@@ -257,7 +264,7 @@
 <script src="./js/features/today.js?v=45"></script>
 <script src="./js/features/task-capture.js?v=45"></script>
 <script src="./js/features/bucketlist-chores.js?v=45"></script>
-<script src="./js/features/presentation.js?v=45"></script>
+<script src="./js/features/presentation.js?v=47"></script>
 <script src="./js/core/init.js?v=45"></script>
 </body>
 </html>
