@@ -19,14 +19,15 @@
   <link rel="stylesheet" href="./css/vds.css?v=45">
   <link rel="stylesheet" href="./css/theme.css?v=45">
   <link rel="stylesheet" href="./css/mobile-polish.css?v=46">
+  <link rel="stylesheet" href="./css/mockup-rollout.css?v=1">
 </head>
 <body>
 <main class="app">
   <section id="homeScreen" class="screen active">
-    <section class="home-hero" aria-label="LumiVault"><div class="home-brand"><strong>LumiVault</strong><span>Jouw wereld. Veilig bewaard.</span></div><div class="home-hero-light" aria-hidden="true"></div></section>
-    <section id="todayContext" class="today-context"><div class="today-head"><p class="eyebrow">Vandaag</p><time id="todayDate"></time></div><div class="today-copy"><div id="todayEnergy" class="today-energy"></div><strong id="todayMeaning" class="today-meaning"></strong><p id="todayConsideration" class="today-consideration hidden"></p><button id="todayAdjustButton" class="today-adjust" type="button">Aanpassen</button></div></section>
-    <h1>Voor vandaag</h1>
-    <p class="section-intro">Past bij wat je vandaag aankunt.</p>
+    <section class="home-greeting"><h1 id="homeGreeting">Goedemiddag</h1><time id="homeDate"></time></section>
+    <section id="todayContext" class="today-context"><div class="today-head"><div><span class="checkin-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div><p class="checkin-title">Check-in</p><p class="checkin-subtitle">Hoe voel je je vandaag?</p></div></div><time id="todayDate"></time></div><div class="today-copy"><div id="todayEnergy" class="today-energy"></div><strong id="todayMeaning" class="today-meaning"></strong><p id="todayConsideration" class="today-consideration hidden"></p><button id="todayAdjustButton" class="today-adjust" type="button">Aanpassen</button></div></section>
+    <h1>Voor nu</h1>
+    <p class="section-intro">Dit lijkt nu het meest logisch.</p>
     <ul id="suggestionList" class="stack-list"></ul>
     <button id="moreTodayButton" class="expand-button hidden legacy-more-options" type="button" aria-hidden="true" tabindex="-1">Meer opties</button>
     <ul id="moreTodayList" class="stack-list hidden legacy-more-options" aria-hidden="true"></ul>
@@ -61,22 +62,24 @@
     </form>
   </section>
 
-  <section id="vaultScreen" class="screen"><header class="simple-header"><p class="eyebrow">Alles veilig bewaard</p><h1>Vault</h1></header><div class="module-grid">
+  <section id="vaultScreen" class="screen"><header class="simple-header"><h1>Vault</h1><p class="eyebrow">Alles veilig bewaard</p></header><div class="search-wrap vault-search-shell"><span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></span><input id="vaultVisualSearch" type="search" placeholder="Zoek op wat je nog weet…" aria-label="Zoek in Vault"></div><h2 class="vault-section-title">Verzamelingen</h2><div class="module-grid">
+    <button id="masterlistModule" class="module-card module-masterlist"><strong>Masterlist</strong></button>
     <button id="wishlistModule" class="module-card module-pink"><strong>Kopen</strong></button>
     <button id="listsModule" class="module-card module-green"><strong>Lijstjes</strong></button>
     <button id="ideasModule" class="module-card module-gold"><strong>Ideeën</strong></button>
-    <button id="inboxModule" class="module-card module-inbox"><strong>Nog uitzoeken</strong></button>
-    <button id="financeModule" class="module-card module-finance"><strong>Financiën</strong></button>
-    <button id="documentsModule" class="module-card module-documents"><strong>Documenten</strong></button>
     <button id="bucketlistModule" class="module-card module-bucketlist"><strong>Bucketlist</strong></button>
-    <button id="choresModule" class="module-card module-chores"><strong>Klusjes</strong></button>
+    <button id="choresModule" class="module-card module-chores"><strong>Huishouden</strong></button>
+    <h2 class="vault-more-title">Meer</h2>
+    <button id="inboxModule" class="module-card mockup-secondary module-inbox"><strong>Nog uitzoeken</strong></button>
+    <button id="financeModule" class="module-card mockup-secondary module-finance"><strong>Financiën</strong></button>
+    <button id="documentsModule" class="module-card mockup-secondary module-documents"><strong>Documenten</strong></button>
   </div></section>
 
-  <section id="masterlistScreen" class="screen"><header class="simple-header"><p class="eyebrow">Alles op een rij</p><h1>Masterlist</h1></header><div class="search-wrap"><span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></span><input id="masterSearch" type="search" placeholder="Zoek in je taken"></div><div class="list-tabs master-tabs"><button class="list-tab active" data-master-filter="open">Open</button><button class="list-tab" data-master-filter="done">Gedaan</button></div><ul id="masterlistList" class="stack-list"></ul></section>
+  <section id="masterlistScreen" class="screen"><header class="screen-header masterlist-header"><button id="masterlistBackButton" class="back-button" type="button" aria-label="Terug naar Vault">←</button><div><p class="eyebrow">Vault</p><h1>Masterlist</h1></div></header><div class="search-wrap"><span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></span><input id="masterSearch" type="search" placeholder="Zoek in Masterlist"></div><div class="list-tabs master-tabs"><button class="list-tab active" data-master-filter="open">Open</button><button class="list-tab" data-master-filter="waiting">Wachten</button><button class="list-tab" data-master-filter="later">Later</button><button class="list-tab" data-master-filter="done">Gedaan</button></div><ul id="masterlistList" class="stack-list"></ul></section>
 
   <section id="wishlistScreen" class="screen vault-detail-screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Kopen</h1><p class="section-intro">Wat je nodig hebt en wat er op je wishlist staat.</p></div></header><div class="list-tabs legacy-wishlist-tabs hidden"><button class="wishlist-tab active" data-wishlist-filter="open">Open</button><button class="wishlist-tab" data-wishlist-filter="bought">Geregeld</button></div><div class="purchase-tools"><div id="purchaseTypeFilters" class="purchase-filter unified-filter"><button class="selected" data-purchase-filter="all">Alles</button><button data-purchase-filter="need">Nodig</button><button data-purchase-filter="wish">Wishlist</button><button data-wishlist-unified="done">Geregeld</button></div><select id="purchaseSort" class="select-input compact-select" aria-label="Aankopen sorteren"><option value="manual">Eigen volgorde</option><option value="newest">Laatst toegevoegd</option><option value="oldest">Oudste</option><option value="name">Naam</option><option value="type">Nodig/Wishlist</option></select></div><p id="wishlistDragTip" class="drag-tip hidden">Houd een item vast en sleep om de volgorde te veranderen.</p><div id="wishlistList" class="stack-list"></div></section>
 
-  <section id="projectsScreen" class="screen"><header class="simple-header"><p class="eyebrow">Meerdere stappen</p><h1>Projecten</h1><p class="page-description">Eenvoudige doelen met meerdere stappen.</p></header><div id="projectsList" class="projects-list"></div></section>
+  <section id="projectsScreen" class="screen"><header class="simple-header"><h1>Projecten</h1><p class="page-description">Waar meerdere dingen samenkomen.</p></header><div class="project-tabs"><button class="active" type="button">Actief</button><button type="button" disabled>Afgerond</button></div><div id="projectsList" class="projects-list"></div></section>
   <section id="projectDetailScreen" class="screen"><header class="screen-header"><button id="projectBackButton" class="back-button">←</button><div class="detail-title-wrap"><p class="eyebrow">Project</p><h1 id="projectDetailTitle"></h1></div><button id="projectDetailMenuButton" class="more-button header-more">•••</button></header><div id="projectDeadlineInfo" class="project-info hidden"></div><ul id="projectActionList" class="stack-list"></ul></section>
 
   <section id="listsScreen" class="screen"><header class="screen-header"><button class="back-button vault-back">←</button><div><p class="eyebrow">Vault</p><h1>Lijstjes</h1></div></header><div id="listsGrid" class="lists-grid"></div></section>
@@ -173,7 +176,7 @@
 </main>
 
 <button id="globalAddButton" class="global-add">+</button>
-<nav class="bottom-nav"><button class="nav-button active" data-screen="home"><span>⌂</span><small>Home</small></button><button class="nav-button" data-screen="masterlist"><span>✓</span><small>Masterlist</small></button><span class="nav-add-spacer" aria-hidden="true"></span><button class="nav-button" data-screen="vault"><span>▣</span><small>Vault</small></button><button class="nav-button" data-screen="projects"><span>◱</span><small>Projecten</small></button><button class="nav-button" data-screen="settings"><span>⚙</span><small>Instellingen</small></button></nav>
+<nav class="bottom-nav"><button class="nav-button active" data-screen="home"><span>⌂</span><small>Home</small></button><button class="nav-button" data-screen="vault"><span>▣</span><small>Vault</small></button><span class="nav-add-spacer" aria-hidden="true"></span><button class="nav-button" data-screen="projects"><span>◱</span><small>Projecten</small></button><button class="nav-button" data-screen="settings"><span>⚙</span><small>Instellingen</small></button></nav>
 
 <div id="taskDetailOverlay" class="overlay hidden"><article class="modal-card task-detail-card"><button class="modal-close" type="button" data-close="taskDetailOverlay"></button><div class="task-detail-heading"><p class="eyebrow">Taak</p><small id="taskDetailProject" class="task-detail-project hidden"></small><h2 id="taskDetailTitle"></h2><button id="taskDetailMenuButton" class="more-button hidden" type="button" aria-hidden="true" tabindex="-1">•••</button></div><dl id="taskDetailMeta" class="task-detail-meta hidden"></dl><div class="task-detail-actions"><button id="taskDetailEditButton" class="primary-button" type="button">Bewerken</button><button id="taskDetailDeleteButton" class="task-detail-delete" type="button">Verwijderen</button></div></article></div>
 

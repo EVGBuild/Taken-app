@@ -81,3 +81,7 @@ Existing localStorage key names are a compatibility contract. Do not rename keys
 ## Refactor principle
 
 Codex or another coding agent should be an accelerator, not a single point of failure. Optimise for understandable ownership, local changes, predictable behaviour and a safe manual fallback rather than architectural novelty.
+
+
+## Mockup rollout (19-08-2026)
+Visual shell updated toward approved Home / Vault / Masterlist / Projects mockups. Existing data/storage structure retained.
