@@ -1,5 +1,5 @@
 /* Mobile recovery: preserve stored data, session check-ins and explainable recommendations. */
-const vaultScreens=new Set(['vault','wishlist','lists','listDetail','ideas','inbox','finance','documents']);
+const vaultScreens=new Set(['vault','masterlist','wishlist','lists','listDetail','ideas','bucketlist','chores','inbox','finance','documents']);
 const mainNavContext={projectDetail:'projects'};
 function navContextFor(screen){return vaultScreens.has(screen)?'vault':(mainNavContext[screen]||screen)}
 const recoveredShowScreen=showScreen;
