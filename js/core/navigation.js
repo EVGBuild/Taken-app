@@ -17,7 +17,6 @@ const baseShowScreenVds=showScreen;
 showScreen=function(name){baseShowScreenVds(name);syncVdsNavIcons();syncAmbientLumi()};
 syncVdsNavIcons();
 $('globalAddButton').setAttribute('aria-label','Vastleggen');
-$('globalAddButton').textContent='+';
+$('globalAddButton').innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 scheduleAmbientLumi();
 window.addEventListener('load',scheduleAmbientLumi,{once:true});
-
