@@ -15,13 +15,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
   <link rel="apple-touch-icon" href="icon.png?v=2">
-  <link rel="stylesheet" href="./css/foundation.css?v=47">
+  <link rel="stylesheet" href="./css/foundation.css?v=48">
   <link rel="stylesheet" href="./css/vds.css?v=45">
   <link rel="stylesheet" href="./css/theme.css?v=45">
-  <link rel="stylesheet" href="./css/mobile-polish.css?v=46">
+  <link rel="stylesheet" href="./css/mobile-polish.css?v=47">
   <link rel="stylesheet" href="./css/mockup-rollout.css?v=3">
   <link rel="stylesheet" href="./css/mockup-fidelity-v2.css?v=4">
-  <link rel="stylesheet" href="./css/home-exact.css?v=10">
+  <link rel="stylesheet" href="./css/home-exact.css?v=11">
 </head>
 <body>
 <main class="app">
@@ -76,25 +76,18 @@
     <header class="screen-header capture-screen-header"><button id="captureBackButton" class="back-button" type="button" aria-label="Vorige stap">←</button><div><p id="captureEyebrow" class="eyebrow">Nieuwe taak</p><h1 id="captureTitle">Uit je hoofd</h1></div><button id="captureCloseButton" class="modal-close capture-close" type="button" aria-label="Capture sluiten">×</button></header>
     <form id="actionForm">
       <div class="form-card"><label class="field-label" for="actionTitle">Wat wil je doen?</label><input id="actionTitle" class="main-input" placeholder="Typ hier" autocomplete="off"></div>
-      <div class="form-card"><p class="field-label">Wat gebeurt er als dit blijft liggen?</p><div id="importanceChoices" class="meaning-list">
-        <button type="button" class="meaning-choice" data-value="1"><span class="meaning-dot"></span><span><b>Kan rustig wachten</b><small>Uitstel heeft voorlopig geen gevolgen.</small></span></button>
-        <button type="button" class="meaning-choice" data-value="2"><span class="meaning-dot"></span><span><b>Uitstel begint nadelen te geven</b><small>Het wordt fijner of makkelijker als dit gebeurt.</small></span></button>
-        <button type="button" class="meaning-choice" data-value="3"><span class="meaning-dot"></span><span><b>Moet echt gebeuren</b><small>Dit verdient binnenkort aandacht.</small></span></button>
-        <button type="button" class="meaning-choice" data-value="4"><span class="meaning-dot"></span><span><b>Uitstel veroorzaakt problemen</b><small>Dit kan niet blijven liggen.</small></span></button>
-      </div></div>
-      <div class="form-card"><p class="field-label">Wat levert het je op als dit gedaan is?</p><div id="impactChoices" class="scale-list compact-scale"><button type="button" class="scale-choice" data-value="1"><strong>1</strong><span><b>Weinig</b><small>Nauwelijks verschil</small></span></button><button type="button" class="scale-choice" data-value="2"><strong>2</strong><span><b>Een beetje</b><small>Merkbaar prettig</small></span></button><button type="button" class="scale-choice" data-value="3"><strong>3</strong><span><b>Veel</b><small>Maakt duidelijk verschil</small></span></button><button type="button" class="scale-choice" data-value="4"><strong>4</strong><span><b>Heel veel</b><small>Levert veel ruimte of rust op</small></span></button></div></div>
-      <div class="form-card"><p class="field-label">Hoeveel weerstand voel je?</p><div id="resistanceChoices" class="scale-list">
-        <button type="button" class="scale-choice" data-value="1"><strong>1</strong><span><b>Nauwelijks</b><small>Geen probleem</small></span></button><button type="button" class="scale-choice" data-value="2"><strong>2</strong><span><b>Weinig</b><small>Redelijk makkelijk</small></span></button><button type="button" class="scale-choice" data-value="3"><strong>3</strong><span><b>Gemiddeld</b><small>Er zit wel een drempel</small></span></button><button type="button" class="scale-choice" data-value="4"><strong>4</strong><span><b>Veel</b><small>Ik stel dit snel uit</small></span></button><button type="button" class="scale-choice" data-value="5"><strong>5</strong><span><b>Enorm</b><small>Hier zie ik echt tegenop</small></span></button>
-      </div></div>
-      <div class="form-card"><p class="field-label">Hoeveel vraagt dit van je als je ermee bezig bent?</p><div id="loadChoices" class="scale-list compact-scale"><button type="button" class="scale-choice" data-value="1"><strong>1</strong><span><b>Weinig</b><small>Licht om te doen</small></span></button><button type="button" class="scale-choice" data-value="2"><strong>2</strong><span><b>Redelijk</b><small>Vraagt wat aandacht</small></span></button><button type="button" class="scale-choice" data-value="3"><strong>3</strong><span><b>Veel</b><small>Vraagt duidelijke capaciteit</small></span></button><button type="button" class="scale-choice" data-value="4"><strong>4</strong><span><b>Heel veel</b><small>Zwaar tijdens uitvoering</small></span></button></div></div>
-      <section class="action-extras"><header class="action-extras-intro"><h2>Extra context</h2><p>Dit hoeft niet, maar wat meer informatie helpt LumiVault om beter met je mee te denken.</p></header>
-        <div id="resistanceReasonOption" class="disclosure-item hidden"><button class="disclosure-toggle" type="button" data-disclosure="resistanceReason"><span><b>Weet je waarom je hier tegenop ziet?</b><small id="resistanceReasonSummary">Meerdere opties mogelijk</small></span><span class="disclosure-chevron">›</span></button><div id="resistanceReasonFields" class="disclosure-panel hidden"><div id="resistanceReasonChoices" class="reason-choices" aria-label="Redenen voor weerstand"></div><button id="resistanceHelpButton" class="context-help-button hidden" type="button"></button></div></div>
+      <div class="capture-choice-actions"><button id="saveTaskNowButton" class="primary-button big-button" type="button" data-i18n="capture.saveNow">Nu bewaren</button><button id="addTaskContextButton" class="secondary-button big-button" type="button" data-i18n="capture.addContext">Context toevoegen</button></div>
+      <section id="taskContextSection" class="action-extras hidden"><header class="action-extras-intro"><h2 data-i18n="context.title">Extra context</h2><p data-i18n="context.help">Alles hieronder is optioneel.</p></header>
+        <div class="context-property"><p class="field-label" data-i18n="task.energyQuestion">Hoeveel vraagt het van je als je ermee bezig bent?</p><div id="loadChoices" class="numeric-scale"><button type="button" data-value="1">1</button><button type="button" data-value="2">2</button><button type="button" data-value="3">3</button><button type="button" data-value="4">4</button><button type="button" data-value="5">5</button></div></div>
+        <div class="context-property"><p class="field-label" data-i18n="task.resistanceQuestion">Hoeveel weerstand voel je?</p><div id="resistanceChoices" class="numeric-scale"><button type="button" data-value="1">1</button><button type="button" data-value="2">2</button><button type="button" data-value="3">3</button><button type="button" data-value="4">4</button><button type="button" data-value="5">5</button></div></div>
+        <div class="context-property"><p class="field-label" data-i18n="task.impactQuestion">Wat levert het op als het gedaan is?</p><div id="impactChoices" class="label-scale"><button type="button" data-value="1" data-i18n="impact.low">Weinig</button><button type="button" data-value="2" data-i18n="impact.some">Een beetje</button><button type="button" data-value="3" data-i18n="impact.much">Veel</button><button type="button" data-value="4" data-i18n="impact.veryMuch">Heel veel</button></div></div>
+        <div id="importanceChoices" class="hidden" aria-hidden="true"></div>
         <div class="disclosure-item"><button class="disclosure-toggle" type="button" data-disclosure="duration"><span><b>Tijdsduur</b><small id="durationSummary">Kies een tijdsduur</small></span><span class="disclosure-chevron">›</span></button><div id="durationFields" class="disclosure-panel hidden"><select id="duration" class="select-input"><option value="">Kies een tijdsduur</option><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 uur</option><option value="90">1,5 uur</option><option value="120">2 uur</option><option value="180">3 uur</option><option value="240">4 uur</option><option value="300">5 uur</option><option value="360">6 uur</option><option value="420">7 uur</option><option value="480">8 uur</option></select><button id="clearDuration" class="disclosure-clear" type="button">Tijdsduur verwijderen</button></div></div>
         <div class="disclosure-item"><button class="disclosure-toggle" type="button" data-disclosure="deadline"><span><b>Deadline</b><small id="deadlineSummary">Moet dit voor een bepaalde datum klaar zijn?</small></span><span class="disclosure-chevron">›</span></button><div id="deadlineFields" class="disclosure-panel hidden"><div class="smart-date"><input id="deadlineDateText" class="main-input" type="text" inputmode="numeric" placeholder="DD-MM-JJJJ" autocomplete="off" aria-label="Deadline"><input id="deadlineDate" class="visually-hidden" type="date"><div id="deadlineCalendar" class="date-popover hidden"><header><button id="calendarPrev" type="button" aria-label="Vorige maand">‹</button><strong id="calendarMonth"></strong><button id="calendarNext" type="button" aria-label="Volgende maand">›</button></header><div class="calendar-weekdays"><span>ma</span><span>di</span><span>wo</span><span>do</span><span>vr</span><span>za</span><span>zo</span></div><div id="calendarDays" class="calendar-days"></div></div></div></div></div>
         <div class="disclosure-item"><button class="disclosure-toggle" type="button" data-disclosure="project"><span><b>Project</b><small id="projectSummary">Hoort dit bij een project?</small></span><span class="disclosure-chevron">›</span></button><div id="projectFields" class="disclosure-panel hidden"><select id="actionProject" class="select-input"></select></div></div>
         <div class="disclosure-item"><button class="disclosure-toggle" type="button" data-disclosure="repeat"><span><b>Herhalen</b><small id="repeatSummary">Moet je dit vaker doen?</small></span><span class="disclosure-chevron">›</span></button><div id="repeatFields" class="disclosure-panel hidden"><div class="repeat-shortcuts" aria-label="Snelle herhaling"><button type="button" data-repeat="1,days">Dagelijks</button><button type="button" data-repeat="1,weeks">Wekelijks</button><button type="button" data-repeat="1,months">Maandelijks</button><button type="button" data-repeat="3,months">Per kwartaal</button><button type="button" data-repeat="6,months">Halfjaarlijks</button><button type="button" data-repeat="1,years">Jaarlijks</button></div><div class="repeat-grid"><span>Elke</span><input id="repeatEvery" class="main-input" type="number" min="1" value="1" aria-label="Herhalingsinterval"><select id="repeatUnit" class="select-input" aria-label="Herhalingseenheid"><option value="days">dag(en)</option><option value="weeks" selected>week/weken</option><option value="months">maand(en)</option><option value="years">jaar/jaren</option></select></div><label class="small-label">Voor het laatst gedaan</label><input id="lastDone" class="main-input" type="date"><button id="clearRepeat" class="disclosure-clear" type="button">Herhaling verwijderen</button></div></div>
         <div class="disclosure-item"><button class="disclosure-toggle" type="button" data-disclosure="note"><span><b>Notitie</b><small id="noteSummary">Wil je hier nog iets bij onthouden?</small></span><span class="disclosure-chevron">›</span></button><div id="noteFields" class="disclosure-panel hidden"><textarea id="actionNote" class="main-textarea" rows="4"></textarea></div></div>
-      </section><button class="primary-button big-button" type="submit">Bewaar in mijn Vault</button><button id="cancelActionButton" class="secondary-button big-button form-cancel" type="button">Annuleren</button>
+      </section><button id="saveTaskWithContextButton" class="primary-button big-button hidden" type="submit" data-i18n="capture.saveTask">Bewaar in mijn Vault</button><button id="cancelActionButton" class="secondary-button big-button form-cancel" type="button">Annuleren</button>
     </form>
   </section>
 
@@ -214,6 +207,7 @@
 
 <div id="universalCaptureOverlay" class="overlay hidden"><form id="universalCaptureForm" class="modal-card universal-capture-card"><button class="modal-close" type="button" data-close="universalCaptureOverlay">×</button><p class="eyebrow">Nieuwe Lumi</p><h2>Wat wil je vastleggen?</h2><label class="visually-hidden" for="universalCaptureText">Wat wil je vastleggen?</label><textarea id="universalCaptureText" class="main-textarea universal-capture-input" rows="3" placeholder="Bijv. aanrecht opruimen, nieuwe lamp of vakantie-idee"></textarea><button class="primary-button big-button capture-continue" type="submit">Verder</button></form></div>
 <div id="captureTypeOverlay" class="overlay hidden"><div class="modal-card capture-type-card"><button class="modal-close" type="button" data-close="captureTypeOverlay">×</button><button id="captureTypeBack" class="back-button capture-type-back" type="button" aria-label="Terug">←</button><p class="eyebrow">Nieuwe Lumi</p><h2>Wat is het?</h2><div class="capture-type-list"><button type="button" data-capture-type="task"><strong>Taak</strong><small>Iets wat je wilt of moet doen</small></button><button type="button" data-capture-type="project"><strong>Project</strong><small>Iets met meerdere stappen</small></button><button type="button" data-capture-type="wishlist"><strong>Wens of aankoop</strong><small>Een product, dienst of ervaring</small></button><button type="button" data-capture-type="idea"><strong>Idee</strong><small>Iets om te bewaren voor later</small></button><button type="button" data-capture-type="list"><strong>Lijstje</strong><small>Dingen die bij elkaar horen</small></button><button class="capture-type-unknown" type="button" data-capture-type="unknown"><strong>Weet ik nog niet</strong><small>Nu bewaren, later bepalen</small></button></div></div></div>
+<div id="resurfaceOverlay" class="overlay hidden"><div class="modal-card resurface-card"><button class="modal-close" type="button" data-close="resurfaceOverlay">×</button><h2 data-i18n="resurface.question">Wanneer wil je hier weer aan denken?</h2><div class="inline-calendar"><header><button id="resurfacePrev" type="button" aria-label="Vorige maand">‹</button><strong id="resurfaceMonth"></strong><button id="resurfaceNext" type="button" aria-label="Volgende maand">›</button></header><div class="calendar-weekdays"><span>ma</span><span>di</span><span>wo</span><span>do</span><span>vr</span><span>za</span><span>zo</span></div><div id="resurfaceDays" class="calendar-days"></div></div><button id="resurfaceNoDate" class="text-button" type="button" data-i18n="later.noDate">Geen datum</button></div></div>
 
 <div id="energyOverlay" class="overlay hidden"><div class="modal-card"><button class="modal-close" data-close="energyOverlay">×</button><p class="eyebrow">Morning Check-in</p><h2>Hoe is je energie vandaag?</h2><p class="modal-copy">Kies wat het dichtst in de buurt komt.</p><div class="energy-grid"><button class="energy-choice" data-energy="1"><strong>1</strong><small>Minimaal</small></button><button class="energy-choice" data-energy="2"><strong>2</strong><small>Laag</small></button><button class="energy-choice" data-energy="3"><strong>3</strong><small>Redelijk</small></button><button class="energy-choice" data-energy="4"><strong>4</strong><small>Goed</small></button><button class="energy-choice" data-energy="5"><strong>5</strong><small>Hoog</small></button></div><label class="checkin-planning"><span><b>Staat er vandaag iets gepland dat energie kost?</b><small>Bijvoorbeeld een afspraak of verplichting</small></span><input id="checkinHasEvent" type="checkbox"></label><div id="checkinEventFields" class="conditional hidden"><input id="checkinEventNote" class="main-input" placeholder="Wat staat er gepland? (optioneel)"><p class="impact-question">Hoeveel vraagt dit ongeveer van je?</p><div id="eventImpactChoices" class="impact-grid"><button type="button" data-impact="1"><strong>1</strong><small>Nauwelijks</small></button><button type="button" data-impact="2"><strong>2</strong><small>Een beetje</small></button><button type="button" data-impact="3"><strong>3</strong><small>Redelijk</small></button><button type="button" data-impact="4"><strong>4</strong><small>Veel</small></button><button type="button" data-impact="5"><strong>5</strong><small>Heel veel</small></button></div></div><button id="saveCheckinButton" class="primary-button big-button modal-save">Check-in opslaan</button></div></div>
 
@@ -238,18 +232,18 @@
 <div id="toast" class="toast hidden"><div><strong id="toastTitle"></strong><span id="toastText"></span></div><button id="toastActionButton"></button></div>
 
 <script src="./js/core/storage.js?v=45"></script>
-<script src="./js/core/i18n.js?v=2"></script>
+<script src="./js/core/i18n.js?v=4"></script>
 <script src="./js/utils/helpers.js?v=45"></script>
 <script src="./js/utils/dates.js?v=46"></script>
 <script src="./js/core/task-model.js?v=2"></script>
 <script src="./js/utils/formatting.js?v=45"></script>
-<script src="./js/features/recommendations.js?v=47"></script>
+<script src="./js/features/recommendations.js?v=48"></script>
 <script src="./js/features/checkin.js?v=45"></script>
 <script src="./js/features/home.js?v=46"></script>
-<script src="./js/core/bootstrap.js?v=47"></script>
-<script src="./js/features/tasks.js?v=49"></script>
+<script src="./js/core/bootstrap.js?v=49"></script>
+<script src="./js/features/tasks.js?v=50"></script>
 <script src="./js/features/projects.js?v=45"></script>
-<script src="./js/features/wishlist.js?v=45"></script>
+<script src="./js/features/wishlist.js?v=47"></script>
 <script src="./js/features/lists.js?v=45"></script>
 <script src="./js/features/ideas.js?v=45"></script>
 <script src="./js/features/inbox.js?v=45"></script>
@@ -259,10 +253,10 @@
 <script src="./js/core/ui.js?v=45"></script>
 <script src="./js/core/navigation.js?v=46"></script>
 <script src="./js/features/checkin-context.js?v=46"></script>
-<script src="./js/features/today.js?v=48"></script>
-<script src="./js/features/task-capture.js?v=45"></script>
-<script src="./js/features/bucketlist-chores.js?v=45"></script>
+<script src="./js/features/today.js?v=49"></script>
+<script src="./js/features/task-capture.js?v=46"></script>
+<script src="./js/features/bucketlist-chores.js?v=46"></script>
 <script src="./js/features/presentation.js?v=49"></script>
-<script src="./js/core/init.js?v=45"></script>
+<script src="./js/core/init.js?v=46"></script>
 </body>
 </html>

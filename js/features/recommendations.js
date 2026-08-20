@@ -13,9 +13,9 @@ function createRecommendationEngine({ todayKey }) {
     const available = Math.max(1, capacity - Math.ceil(dayLoad / 2));
     const necessity = Number(item.necessity ?? item.importance) || 2;
     const impact = Number(item.impact) || 2;
-    const mentalLoad=Number(item.mentalLoad??item.load)||2,physicalLoad=Number(item.physicalLoad??item.load)||2;
+    const taskDemand=Number(item.energyDemand??item.load)||2,mentalLoad=Number(item.mentalLoad??taskDemand)||taskDemand,physicalLoad=Number(item.physicalLoad??taskDemand)||taskDemand;
     const mentalCapacity=Number(checkin.mentalEnergy)||available,physicalCapacity=Number(checkin.physicalEnergy)||available;
-    const load = Math.max(Number(item.load)||2,mentalLoad>mentalCapacity?mentalLoad:0,physicalLoad>physicalCapacity?physicalLoad:0);
+    const load = Math.max(taskDemand,mentalLoad>mentalCapacity?mentalLoad:0,physicalLoad>physicalCapacity?physicalLoad:0);
     const resistance = Number(item.resistance) || 3;
     const enjoyment=Number(item.enjoyment??item.pleasure)||0;
     const age = Math.max(0, (Date.now() - (item.createdAt || Date.now())) / 864e5);
