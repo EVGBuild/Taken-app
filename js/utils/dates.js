@@ -74,20 +74,30 @@ function nextDue(date, every, unit) {
   if (unit === 'days') d.setDate(d.getDate() + n);
   if (unit === 'weeks') d.setDate(d.getDate() + 7 * n);
   if (unit === 'months') d.setMonth(d.getMonth() + n);
+  if (unit === 'years') d.setFullYear(d.getFullYear() + n);
   return d.toISOString().slice(0, 10);
 }
 
+function nextRecurrenceDate(recurrence, { plannedDate = '', completedDate = todayKey() } = {}) {
+  const model = recurrence?.frequency ? recurrence : normalizeRecurrence({ recurrence });
+  if(model.anchor==='completion')return nextDue(completedDate,model.interval,legacyUnit(model.frequency));
+  let next=nextDue(model.nextDate||model.startDate||plannedDate||completedDate,model.interval,legacyUnit(model.frequency));
+  while(next<=completedDate)next=nextDue(next,model.interval,legacyUnit(model.frequency));
+  return next;
+}
+
 function recurrenceLabel(repeat) {
-  const every = +(repeat?.every) || 1;
-  const unit = repeat?.unit || 'weeks';
-  if (unit === 'days') return every === 1 ? 'Dagelijks' : `Elke ${every} dagen`;
-  if (unit === 'weeks') return every === 1 ? 'Wekelijks' : `Elke ${every} weken`;
+  const recurrence=repeat?.frequency?repeat:normalizeRecurrence({repeat});
+  const every=recurrence.interval,unit=legacyUnit(recurrence.frequency);
+  const suffix=recurrence.anchor==='completion'?` · ${t('recurrence.afterCompletion')}`:'';
+  if (unit === 'days') return (every === 1 ? t('recurrence.daily') : t('recurrence.every',{interval:every,unit:t('recurrence.day.many')}))+suffix;
+  if (unit === 'weeks') return (every === 1 ? t('recurrence.weekly') : t('recurrence.every',{interval:every,unit:t('recurrence.week.many')}))+suffix;
   if (unit === 'months') {
-    if (every === 1) return 'Maandelijks';
-    if (every === 3) return 'Per kwartaal';
-    if (every === 6) return 'Halfjaarlijks';
-    return `Elke ${every} maanden`;
+    if (every === 1) return t('recurrence.monthly')+suffix;
+    if (every === 3) return t('recurrence.quarterly')+suffix;
+    if (every === 6) return t('recurrence.halfYearly')+suffix;
+    return t('recurrence.every',{interval:every,unit:t('recurrence.month.many')})+suffix;
   }
-  if (unit === 'years') return every === 1 ? 'Jaarlijks' : `Elke ${every} jaar`;
-  return `Elke ${every} weken`;
+  if (unit === 'years') return (every === 1 ? t('recurrence.yearly') : t('recurrence.every',{interval:every,unit:t('recurrence.year.many')}))+suffix;
+  return t('recurrence.every',{interval:every,unit:t('recurrence.week.many')})+suffix;
 }

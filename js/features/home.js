@@ -16,7 +16,7 @@ function renderHomeScreen({
   renderProjectPreview,
   broaden
 }) {
-  const primary = sets.visible.slice(0, 3).map(entry => entry.item);
+  const attention=sets.attention||[],primary=sets.visible.slice(0,Math.max(0,3-attention.length)).map(entry => entry.item);
   const current = checkin.date === todayKey() ? Number(checkin.energy) || null : null;
 
   $('todayDate').textContent = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
@@ -35,9 +35,10 @@ function renderHomeScreen({
   $('moreTodayList').innerHTML = '';
   $('moreTodayButton').classList.add('hidden');
 
+  attention.slice(0,3).forEach(item=>$('suggestionList').append(waitingAttentionCard(item)));
   primary.forEach(item => $('suggestionList').append(suggestionCard(item)));
 
-  const noOptions = current && !primary.length;
+  const noOptions = current && !primary.length&&!attention.length;
   $('suggestionEmpty').classList.toggle('hidden', !noOptions);
   if (noOptions) {
     $('suggestionEmpty').innerHTML = '<strong>Geen passende taken voor nu</strong><small>Je hoeft nu niets te forceren.</small>';

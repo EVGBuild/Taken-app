@@ -27,6 +27,7 @@ h2{font-size:21px;letter-spacing:-.3px}
 .suggestion-card.finishing,.task-row.finishing{opacity:0;transform:translateX(35px) scale(.97)}
 .suggestion-card.leaving{opacity:0;transform:translateX(-20px)}
 .suggestion-content,.task-row-content,.wishlist-content{min-width:0;flex:1}
+.waiting-attention{align-items:center}.waiting-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.waiting-actions button{min-height:40px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--cyan);font:inherit;font-size:11px}
 .suggestion-text,.task-row-title{font-size:16px;font-weight:700}
 .suggestion-content small,.task-row-content small,.wishlist-content small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
 .not-today{font-size:11px;color:#838795;padding:8px 0}
