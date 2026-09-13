@@ -73,8 +73,20 @@ function nextDue(date, every, unit) {
   const n = Number(every) || 1;
   if (unit === 'days') d.setDate(d.getDate() + n);
   if (unit === 'weeks') d.setDate(d.getDate() + 7 * n);
-  if (unit === 'months') d.setMonth(d.getMonth() + n);
-  if (unit === 'years') d.setFullYear(d.getFullYear() + n);
+  if (unit === 'months') {
+    const day = d.getDate();
+    d.setDate(1);
+    d.setMonth(d.getMonth() + n);
+    d.setDate(Math.min(day, new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()));
+  }
+  if (unit === 'years') {
+    const month = d.getMonth();
+    const day = d.getDate();
+    d.setDate(1);
+    d.setFullYear(d.getFullYear() + n);
+    d.setMonth(month);
+    d.setDate(Math.min(day, new Date(d.getFullYear(), month + 1, 0).getDate()));
+  }
   return d.toISOString().slice(0, 10);
 }
 

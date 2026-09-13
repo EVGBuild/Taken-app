@@ -30,6 +30,17 @@ function getTaskRelevance(task,context={}){
   return{actionable:true,attention:false,reason:'open',state};
 }
 function isTaskActionableNow(task,context={}){return getTaskRelevance(task,context).actionable}
+function completeTaskOccurrence(task,{completedDate=todayKey()}={}){
+  const item=normalizeTaskModel(task),history=Array.isArray(item.completionHistory)?item.completionHistory.slice():[];
+  if(!history.includes(completedDate))history.push(completedDate);
+  const completionCount=(Number(item.completionCount)||0)+1;
+  if(item.recurrence.enabled){
+    const recurrence={...item.recurrence,lastCompletedDate:completedDate};
+    recurrence.nextDate=nextRecurrenceDate(recurrence,{plannedDate:item.plannedDate,completedDate});
+    return normalizeTaskModel({...item,completionCount,completionHistory:history,recurrence,done:false,lifecycle:{...item.lifecycle,state:TASK_STATES.OPEN,deferredUntil:''}});
+  }
+  return normalizeTaskModel({...item,completionCount,completionHistory:history,done:true,lifecycle:{...item.lifecycle,state:TASK_STATES.COMPLETED,deferredUntil:''}});
+}
 function setTaskWaiting(task,{waitingFor='',followUpDate='',today=todayKey()}={}){Object.assign(task,normalizeTaskModel({...task,waitingFor,waitingSince:today,followUpDate,lifecycle:{...task.lifecycle,state:TASK_STATES.WAITING,deferredUntil:''},resurfaceDate:''}));return task}
 function keepTaskWaiting(task,followUpDate=''){task.followUpDate=validIsoDate(followUpDate)?followUpDate:'';task.blocker={...task.blocker,enabled:true,availableFrom:task.followUpDate};return task}
 function makeTaskActionable(task){Object.assign(task,normalizeTaskModel({...task,waitingFor:'',waitingSince:'',followUpDate:'',resurfaceDate:'',lifecycle:{...task.lifecycle,state:TASK_STATES.OPEN,deferredUntil:''},blocker:{...task.blocker,enabled:false,text:'',availableFrom:''}}));return task}
