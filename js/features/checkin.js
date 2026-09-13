@@ -1,74 +1,14 @@
-/**
- * Check-in UI controller.
- *
- * This preserves the current simplified 1-5 capacity check-in. App state is
- * supplied through getters/setters so this module does not own global state.
- */
-function setupCheckinFeature({
-  $,
-  energyCard,
-  todayKey,
-  getCheckin,
-  getPendingEnergy,
-  setPendingEnergy,
-  setEnergy,
-  setCheckin,
-  write,
-  keys,
-  open,
-  close,
-  renderHome,
-  renderSettings,
-  lumiSuccess
-}) {
-  energyCard.querySelector('.eyebrow').textContent = 'Even inchecken';
-  energyCard.querySelector('h2').textContent = 'Hoeveel ruimte heb je vandaag?';
-  energyCard.querySelector('.modal-copy').textContent = 'Kies wat het dichtst in de buurt komt.';
-
-  [['1', 'Heel weinig'], ['2', 'Weinig'], ['3', 'Redelijk'], ['4', 'Best veel'], ['5', 'Veel']]
-    .forEach(([value, label]) => {
-      const labelElement = document.querySelector(`.energy-choice[data-energy="${value}"] small`);
-      if (labelElement) labelElement.textContent = label;
-    });
-
-  energyCard.querySelector('.checkin-planning')?.remove();
-  $('checkinEventFields')?.remove();
-  energyCard.querySelector('.checkin-day-load')?.remove();
-  $('checkinNextButton')?.remove();
-
-  function openCheckin() {
-    const checkin = getCheckin();
-    const isToday = checkin.date === todayKey();
-    const pending = isToday ? Number(checkin.energy) : null;
-    setPendingEnergy(pending);
-    document.querySelectorAll('.energy-choice').forEach(button => {
-      button.classList.toggle('selected', +button.dataset.energy === pending);
-    });
-    $('saveCheckinButton').classList.remove('hidden');
-    open('energyOverlay');
-  }
-
-  function saveCheckin() {
-    const pending = getPendingEnergy();
-    if (!pending) return;
-
-    const energy = pending;
-    const nextCheckin = { ...getCheckin(), date: todayKey(), energy, updatedAt: Date.now() };
-    delete nextCheckin.dayLoad;
-    delete nextCheckin.eventImpact;
-    delete nextCheckin.hasEnergyEvent;
-    delete nextCheckin.eventNote;
-
-    setEnergy(energy);
-    setCheckin(nextCheckin);
-    write(keys.energy, energy);
-    write(keys.checkin, nextCheckin);
-    close('energyOverlay');
-    renderHome();
-    renderSettings();
-    lumiSuccess();
-  }
-
-  $('saveCheckinButton').onclick = saveCheckin;
-  return { openCheckin, saveCheckin };
+/** Simple, persisted 1–5 energy check-in. Legacy fields remain readable but are not written. */
+let openCheckin;
+function normalizeEnergyLevel(value){const level=Number(value);return Number.isInteger(level)&&level>=1&&level<=5?level:null}
+function setupCheckinFeature({$,energyCard,todayKey,getCheckin,getPendingEnergy,setPendingEnergy,setEnergy,setCheckin,write,keys,open,close,renderHome,renderSettings,lumiSuccess}){
+  energyCard.querySelector('.eyebrow').textContent=t('energy.eyebrow');
+  energyCard.querySelector('h2').textContent=t('energy.question');
+  energyCard.querySelector('.modal-copy').textContent=t('energy.help');
+  [1,2,3,4,5].forEach(value=>{const label=document.querySelector(`.energy-choice[data-energy="${value}"] small`);if(label)label.textContent=t(`energy.level.${value}`)});
+  energyCard.querySelector('.checkin-planning')?.remove();$('checkinEventFields')?.remove();energyCard.querySelector('.checkin-day-load')?.remove();$('checkinNextButton')?.remove();
+  function openEnergyCheckin(){const saved=getCheckin(),pending=saved.date===todayKey()?normalizeEnergyLevel(saved.energy):null;setPendingEnergy(pending);document.querySelectorAll('.energy-choice').forEach(button=>button.classList.toggle('selected',+button.dataset.energy===pending));$('saveCheckinButton').classList.remove('hidden');open('energyOverlay')}
+  function saveCheckin(){const pending=getPendingEnergy();if(!pending)return;const current=getCheckin(),next={date:todayKey(),energy:pending,updatedAt:Date.now()};if(current&&typeof current==='object'&&current.calendarLoads)next.calendarLoads=current.calendarLoads;setEnergy(pending);setCheckin(next);write(keys.energy,pending);write(keys.checkin,next);close('energyOverlay');renderHome();renderSettings();lumiSuccess()}
+  document.querySelectorAll('.energy-choice').forEach(button=>button.onclick=()=>{setPendingEnergy(+button.dataset.energy);document.querySelectorAll('.energy-choice').forEach(other=>other.classList.toggle('selected',other===button))});
+  $('saveCheckinButton').onclick=saveCheckin;return{openCheckin:openEnergyCheckin,saveCheckin};
 }

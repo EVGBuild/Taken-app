@@ -13,8 +13,8 @@ document.addEventListener('visibilitychange',syncAmbientLumi);
 ambientMotion.addEventListener?.('change',syncAmbientLumi);
 document.querySelectorAll('.overlay,.menu-overlay').forEach(overlay=>new MutationObserver(syncAmbientLumi).observe(overlay,{attributes:true,attributeFilter:['class']}));
 
-const baseShowScreenVds=showScreen;
-showScreen=function(name){baseShowScreenVds(name);syncVdsNavIcons();syncAmbientLumi()};
+const vaultScreens=new Set(['vault','masterlist','wishlist','lists','listDetail','ideas','bucketlist','chores','inbox','finance','documents']);
+function navContextFor(screen){return vaultScreens.has(screen)?'vault':screen}
 syncVdsNavIcons();
 $('globalAddButton').setAttribute('aria-label','Vastleggen');
 $('globalAddButton').innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';

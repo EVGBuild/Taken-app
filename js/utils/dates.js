@@ -8,7 +8,7 @@ function todayKey() {
 }
 
 function formatDate(iso) {
-  return new Date(iso + 'T12:00').toLocaleDateString('nl-NL', {
+  return new Date(iso + 'T12:00').toLocaleDateString(typeof lumiLocale==='function'&&lumiLocale()==='en'?'en-GB':'nl-NL', {
     day: 'numeric',
     month: 'short',
     year: 'numeric'

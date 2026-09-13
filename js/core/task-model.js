@@ -10,6 +10,7 @@ function normalizeRecurrence(item){
 }
 function normalizeTaskModel(raw,index=0){
   const item={...raw},legacyLifecycle=item.lifecycle||{},legacyBlocker=item.blocker||{};
+  const context=item.context==='household'||item.type==='household'?'household':'general';
   const dueDate=validIsoDate(item.dueDate)?item.dueDate:(item.deadline?.enabled&&validIsoDate(item.deadline.date)?item.deadline.date:'');
   const plannedDate=validIsoDate(item.plannedDate)?item.plannedDate:(validIsoDate(item.scheduledDate)?item.scheduledDate:'');
   const resurfaceDate=validIsoDate(item.resurfaceDate)?item.resurfaceDate:(validIsoDate(legacyLifecycle.deferredUntil)?legacyLifecycle.deferredUntil:'');
@@ -19,8 +20,9 @@ function normalizeTaskModel(raw,index=0){
   const waitingSince=validIsoDate(item.waitingSince)?item.waitingSince:'';
   const followUpDate=validIsoDate(item.followUpDate)?item.followUpDate:(state===TASK_STATES.WAITING&&validIsoDate(legacyBlocker.availableFrom)?legacyBlocker.availableFrom:'');
   const recurrence=normalizeRecurrence(item);
-  return{...item,dueDate,plannedDate,resurfaceDate,waitingFor,waitingSince,followUpDate,recurrence,deadline:{enabled:!!dueDate,date:dueDate},repeat:{...item.repeat,enabled:recurrence.enabled,every:recurrence.interval,unit:legacyUnit(recurrence.frequency),lastDone:recurrence.lastCompletedDate,nextDue:recurrence.nextDate},blocker:{...legacyBlocker,enabled:state===TASK_STATES.WAITING,text:waitingFor,availableFrom:followUpDate},lifecycle:{...legacyLifecycle,state,deferredUntil:state===TASK_STATES.LATER?resurfaceDate:''},done:state===TASK_STATES.COMPLETED||!!item.done,order:Number.isFinite(Number(item.order))?Number(item.order):index};
+  return{...item,context,dueDate,plannedDate,resurfaceDate,waitingFor,waitingSince,followUpDate,recurrence,deadline:{enabled:!!dueDate,date:dueDate},repeat:{...item.repeat,enabled:recurrence.enabled,every:recurrence.interval,unit:legacyUnit(recurrence.frequency),lastDone:recurrence.lastCompletedDate,nextDue:recurrence.nextDate},blocker:{...legacyBlocker,enabled:state===TASK_STATES.WAITING,text:waitingFor,availableFrom:followUpDate},lifecycle:{...legacyLifecycle,state,deferredUntil:state===TASK_STATES.LATER?resurfaceDate:''},done:state===TASK_STATES.COMPLETED||!!item.done,order:Number.isFinite(Number(item.order))?Number(item.order):index};
 }
+function isHouseholdTask(task){return normalizeTaskModel(task).context==='household'}
 function getTaskRelevance(task,context={}){
   const today=context.today||todayKey(),item=normalizeTaskModel(task),state=item.lifecycle.state;
   if(item.done||state===TASK_STATES.COMPLETED)return{actionable:false,attention:false,reason:'completed',state};

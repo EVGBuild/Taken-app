@@ -16,9 +16,9 @@ function bucketColorMenu(group){const palette=['purple','pink','blue','teal','gr
 $('addBucketGroupButton').textContent=t('bucket.addList');$('addBucketGroupButton').onclick=()=>{const name=prompt(t('bucket.listName'))?.trim();if(!name)return;bucketlist.push({id:uid(),name,color:'purple',items:[]});saveBucketlist();renderBucketlist()};
 
 function renderChores(){
-  const box=$('choresList');box.innerHTML='';const chores=actions.filter(item=>item.repeat?.enabled&&!item.done).sort((a,b)=>(a.repeat?.nextDue||'9999').localeCompare(b.repeat?.nextDue||'9999'));
+  const box=$('choresList');box.innerHTML='';const chores=actions.filter(item=>isHouseholdTask(item)&&item.repeat?.enabled&&!item.done).sort((a,b)=>(a.repeat?.nextDue||'9999').localeCompare(b.repeat?.nextDue||'9999'));
   if(!chores.length){const e=empty(box,'Nog geen klusjes','Voeg een terugkerende taak toe, zoals bed verschonen of ramen wassen.',()=>openNewChore());e.classList.add('clickable-empty');return}
   chores.forEach(item=>{const row=document.createElement('article');row.className='vault-item chore-item';const last=item.repeat?.lastDone,meta=[recurrenceLabel(item.repeat),last?'Laatst gedaan '+formatDate(last):'Nog geen laatste keer ingevuld'];row.innerHTML='<div><strong></strong><small></small></div>';row.querySelector('strong').textContent=item.title;row.querySelector('small').textContent=meta.join(' · ');row.onclick=e=>{if(!e.target.closest('.more-button'))openTaskDetail(item)};row.append(moreButton(()=>actionMenu(item)));box.append(row)})
 }
-function openNewChore(){openAction();activeActionExtras.add('repeat');setDisclosure('repeat',true);updateActionExtraSummaries();$('actionTitle').focus()}
+function openNewChore(){openAction(null,'','household');activeActionExtras.add('repeat');setDisclosure('repeat',true);updateActionExtraSummaries();$('actionTitle').focus()}
 $('addChoreButton').onclick=openNewChore;

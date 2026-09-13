@@ -12,3 +12,7 @@ function durationLabel(minutes) {
   if (n % 60 === 0) return `Ongeveer ${n / 60} uur`;
   return `Ongeveer ${Math.floor(n / 60)} uur en ${n % 60} minuten`;
 }
+
+function normalizeSearchText(...values) {
+  return values.filter(value => value != null).join(' ').toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
