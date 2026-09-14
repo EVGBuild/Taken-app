@@ -1,0 +1,24 @@
+{
+  "fixtureVersion": "phase-0-legacy-1",
+  "description": "Synthetische data; geen productie- of persoonsgegevens.",
+  "localStorage": {
+    "mijnTaken": [
+      {"text":"Bel de garage over de afspraak","priority":2,"deadline":{"enabled":true,"date":"2026-09-14"},"duration":10,"createdAt":1789290000000},
+      {"id":"legacy-waiting","title":"Reactie op garantieaanvraag controleren","blocker":{"enabled":true,"text":"Klantenservice","availableFrom":"2026-09-15"},"createdAt":1789200000000},
+      {"id":"legacy-later","title":"Fotoarchief uitzoeken","lifecycle":{"state":"deferred","deferredUntil":"2026-10-01"},"createdAt":1789100000000},
+      {"id":"legacy-household","title":"Kattenbakken geheel verschonen","type":"household","repeat":{"enabled":true,"every":3,"unit":"months","lastDone":"2026-06-12","nextDue":"2026-09-12"},"createdAt":1789000000000},
+      {"id":"legacy-complete","title":"Reservering bevestigen","done":true,"createdAt":1788900000000}
+    ],
+    "lumiEnergy": 2,
+    "lumiMorningCheckin": {"date":"2026-09-13","energy":2,"updatedAt":1789300000000},
+    "lumiProjects": [{"id":"project-home","title":"Huis op orde","color":"teal","order":0},{"title":"App verbeteren","color":"purple","order":1}],
+    "lumiWishlist": [{"name":"Vrolijke sokken","purchaseType":"wish","importance":1,"color":"gold","order":0},{"id":"purchase-needed","name":"Nieuwe oplader","purchaseType":"need","dueDate":"2026-09-20","price":"24.95","order":1}],
+    "lumiLists": [{"name":"Weekendtas","type":"checklist","color":"blue","items":["Tandenborstel",{"text":"Oplader","done":true}]}],
+    "lumiIdeas": ["Een rustige leeshoek maken"],
+    "lumiInbox": ["Losse gedachte zonder categorie"],
+    "lumiFinance": [{"title":"Terugbetaling","amount":40,"direction":"receive","party":"Familielid","status":"open"}],
+    "lumiDocuments": [{"title":"Garantiebon","fileName":"garantiebon.pdf","category":"Garantie","tags":["apparatuur"]}],
+    "lumiBucketlist": [{"id":"bucket-2026","name":"2026","color":"blue","items":[{"id":"bucket-item","text":"Een nacht aan zee","done":false}]},{"id":"bucket-2027","name":"2027","color":"purple","items":[]},{"id":"bucket-later","name":"Ooit","color":"teal","items":[]}],
+    "lumiSettings": {"suggestionMode":"few","guidance":"balanced","reducedMotion":false}
+  }
+}

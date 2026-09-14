@@ -1,0 +1,69 @@
+name: Foundation regression gate
+
+on:
+  push:
+    branches:
+      - foundation-migration
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-foundation-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run foundation regression tests
+        run: >-
+          node --test
+          tests/current-storage-characterization.test.js
+          tests/current-lifecycle-characterization.test.js
+          tests/recurrence.test.js
+          tests/storage-migration-spike.test.js
+          tests/storage-safety-seam.test.js
+          tests/storage-boundary-enforcement.test.js
+          tests/bootstrap-boundary.test.js
+          tests/startup-boundary.test.js
+          tests/navigation-boundary.test.js
+          tests/i18n-foundation.test.js
+          tests/design-system-boundary.test.js
+          tests/raw-capture-provenance.test.js
+          tests/domain-identity-relations.test.js
+          tests/connected-vault.test.js
+          tests/decision-engine-v2.test.js
+          tests/decision-engine-shadow.test.js
+          tests/decision-engine-v2-scenarios.test.js
+          tests/decision-engine-activation.test.js
+          tests/ai-service-boundary.test.js
+          tests/cloud-auth-sync-boundary.test.js
+          tests/entitlement-service-boundary.test.js
+          tests/home-today-product.test.js
+
+  chromium-bootstrap-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright without changing repository dependencies
+        run: npm install --no-save --package-lock=false playwright
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run bootstrap browser gate
+        run: node --test tests/bootstrap-browser-gate.test.js
