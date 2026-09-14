@@ -32,3 +32,23 @@ jobs:
           tests/storage-safety-seam.test.js
           tests/storage-boundary-enforcement.test.js
           tests/bootstrap-boundary.test.js
+
+  chromium-bootstrap-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright without changing repository dependencies
+        run: npm install --no-save --package-lock=false playwright
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run bootstrap browser gate
+        run: node --test tests/bootstrap-browser-gate.test.js
