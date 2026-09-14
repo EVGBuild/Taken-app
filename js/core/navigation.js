@@ -1,4 +1,4 @@
-/* VDS v1 mobile application: scoped navigation icons and living-light motion. */
+/* VDS v1 mobile application: scoped navigation icons, screen routing and living-light motion. */
 const vdsNavIcons={home:'house',masterlist:'check-square',vault:'vault',projects:'folder',settings:'gear'};
 function syncVdsNavIcons(){document.querySelectorAll('.nav-button').forEach(button=>{const active=button.classList.contains('active'),icon=button.querySelector('span');icon.innerHTML=`<i class="${active?'ph-fill':'ph'} ph-${vdsNavIcons[button.dataset.screen]}" aria-hidden="true"></i>`})}
 
@@ -15,6 +15,46 @@ document.querySelectorAll('.overlay,.menu-overlay').forEach(overlay=>new Mutatio
 
 const vaultScreens=new Set(['vault','masterlist','wishlist','lists','listDetail','ideas','bucketlist','chores','inbox','finance','documents']);
 function navContextFor(screen){return vaultScreens.has(screen)?'vault':screen}
+
+function showScreen(name){
+  previousScreen=currentScreen;
+  currentScreen=name;
+  document.querySelectorAll('.screen').forEach(screen=>screen.classList.toggle('active',screen.id===name+'Screen'));
+  const context=navContextFor(name);
+  document.querySelectorAll('.nav-button').forEach(button=>button.classList.toggle('active',button.dataset.screen===context));
+  if(name==='home')renderHome();
+  if(name==='masterlist')renderMasterlist();
+  if(name==='wishlist')renderWishlist();
+  if(name==='projects')renderProjects();
+  if(name==='lists')renderLists();
+  if(name==='ideas')renderIdeas();
+  if(name==='bucketlist')renderBucketlist();
+  if(name==='chores')renderChores();
+  if(name==='inbox')renderInbox();
+  if(name==='finance')renderFinance();
+  if(name==='documents')renderDocuments();
+  if(name==='settings')renderSettings();
+  syncVdsNavIcons();
+  syncAmbientLumi();
+  syncGlobalAdd();
+  window.scrollTo(0,0);
+}
+
+function wireNavigation(){
+  document.querySelectorAll('.nav-button').forEach(button=>button.onclick=()=>{if(currentScreen==='capture')pendingInboxConversionId=null;showScreen(button.dataset.screen)});
+  document.querySelectorAll('.vault-back').forEach(button=>button.onclick=()=>showScreen('vault'));
+  $('seeProjectsButton').onclick=()=>showScreen('projects');
+  $('masterlistModule').onclick=()=>showScreen('masterlist');
+  $('masterlistBackButton').onclick=()=>showScreen('vault');
+  $('wishlistModule').onclick=()=>showScreen('wishlist');
+  $('listsModule').onclick=()=>showScreen('lists');
+  $('ideasModule').onclick=()=>showScreen('ideas');
+  $('bucketlistModule').onclick=()=>showScreen('bucketlist');
+  $('choresModule').onclick=()=>showScreen('chores');
+  if($('vaultVisualSearch'))$('vaultVisualSearch').oninput=()=>{const q=$('vaultVisualSearch').value.trim().toLowerCase();document.querySelectorAll('#vaultScreen .module-card').forEach(card=>card.classList.toggle('vault-search-hidden',!!q&&!card.textContent.toLowerCase().includes(q)))};
+}
+
+wireNavigation();
 syncVdsNavIcons();
 $('globalAddButton').setAttribute('aria-label','Vastleggen');
 $('globalAddButton').innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
