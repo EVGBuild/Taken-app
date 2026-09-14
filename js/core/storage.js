@@ -70,3 +70,7 @@ function read(key, fallback = []) {
 function write(key, value) {
   storageGateway.write(key, value);
 }
+
+function remove(key) {
+  storageGateway.removeRaw(key);
+}
