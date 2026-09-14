@@ -80,6 +80,6 @@ function createRecommendationEngine({ todayKey }) {
 // foundation branch still uses classic scripts. Replace this with an explicit
 // script/module entry when the runtime loader itself is modernized.
 if(typeof document!=='undefined'&&typeof document.write==='function'){
-  document.write('<script src="./js/features/decision-engine-v2.js?v=1"><\/script>');
-  document.write('<script src="./js/features/decision-engine-activation.js?v=1"><\/script>');
+  document.write('<script src="./js/features/decision-engine-v2.js?v=2"><\/script>');
+  document.write('<script src="./js/features/decision-engine-activation.js?v=2"><\/script>');
 }
