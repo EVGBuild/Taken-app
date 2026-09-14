@@ -36,6 +36,7 @@ jobs:
           tests/navigation-boundary.test.js
           tests/i18n-foundation.test.js
           tests/design-system-boundary.test.js
+          tests/raw-capture-provenance.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
