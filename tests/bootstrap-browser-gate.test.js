@@ -42,6 +42,13 @@ browserTest('bootstrap and navigation seams preserve current startup semantics i
 
     await page.locator('.nav-button[data-screen="vault"]').click();
     await page.locator('#vaultScreen.active').waitFor();
+    await page.locator('#vaultVisualSearch').fill('garantieaanvraag');
+    const connectedSearch = await page.evaluate(() => searchConnectedVault('garantieaanvraag'));
+    assert.equal(connectedSearch.length, 1);
+    assert.equal(connectedSearch[0].type, 'task');
+    assert.equal(connectedSearch[0].id, 'legacy-waiting');
+    assert.equal(await page.locator('#masterlistModule').evaluate(element => element.classList.contains('vault-search-hidden')), false);
+    await page.locator('#vaultVisualSearch').fill('');
     await page.locator('#masterlistModule').click();
     await page.locator('#masterlistScreen.active').waitFor();
     await page.locator('#masterlistBackButton').click();
@@ -81,11 +88,18 @@ browserTest('raw capture is durable before classification and unresolved capture
     const afterClassification = await page.evaluate(() => ({
       raw: JSON.parse(localStorage.getItem('lumiRawCaptures') || '[]'),
       inbox: JSON.parse(localStorage.getItem('lumiInbox') || '[]'),
+      relations: JSON.parse(localStorage.getItem('lumiDomainRelations') || '[]'),
+      search: searchConnectedVault('Ted trimmen'),
     }));
     assert.equal(afterClassification.raw[0].status, 'unresolved');
     assert.equal(afterClassification.raw[0].selectedType, 'unknown');
     assert.equal(afterClassification.inbox.at(-1).text, 'Ted trimmen');
     assert.equal(afterClassification.inbox.at(-1).rawCaptureId, afterClassification.raw[0].id);
+    assert.equal(afterClassification.relations.length, 1);
+    assert.equal(afterClassification.relations[0].kind, 'derived-from');
+    assert.equal(afterClassification.search.length, 1);
+    assert.equal(afterClassification.search[0].type, 'inbox');
+    assert.equal(afterClassification.search[0].relations[0].to.type, 'raw-capture');
     assert.deepEqual(pageErrors, []);
   } finally {
     await browser.close();
