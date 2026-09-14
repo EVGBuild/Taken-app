@@ -1,4 +1,6 @@
-const recommendationEngine = createRecommendationEngine({ todayKey });
+const legacyRecommendationEngine = createRecommendationEngine({ todayKey });
+const decisionEngineV2 = createDecisionEngineV2({ todayKey });
+const recommendationEngine = createDecisionEngineAdapter({legacyEngine:legacyRecommendationEngine,v2Engine:decisionEngineV2,initialMode:'v2'});
 
 const calendarService={provider:'apple',mode:'backend-required',capabilities:{readEvents:true,writeEvents:true,multipleCalendars:true,eventKitReady:true},status:async()=>({connected:false,calendars:[],lastSync:null}),connect:async()=>{throw new Error('SECURE_BACKEND_REQUIRED')},sync:async()=>[],disconnect:async()=>true,createEvent:async()=>{throw new Error('SECURE_BACKEND_REQUIRED')}};
 document.addEventListener('click',e=>{if(e.target.closest('.task-row,.suggestion-card')&&!e.target.closest('.check,.more-button,.swap-button'))detailOrigin=currentScreen},true);
