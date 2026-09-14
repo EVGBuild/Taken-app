@@ -8,11 +8,7 @@ const { readLegacyFixture, seedFixture, startStaticServer } = require('./helpers
 const browserExecutableAvailable = Boolean(chromium && fs.existsSync(chromium.executablePath()));
 const browserTest = browserExecutableAvailable ? test : test.skip;
 
-function isKnownBaselinePageError(stack) {
-  return /ReferenceError: renderHome is not defined/.test(stack) && /\/js\/core\/ui\.js/.test(stack);
-}
-
-browserTest('bootstrap data seam preserves current startup semantics in Chromium', async () => {
+browserTest('bootstrap and navigation seams preserve current startup semantics in Chromium', async () => {
   const { server, url } = await startStaticServer();
   const browser = await chromium.launch({ headless: true });
   try {
@@ -31,10 +27,8 @@ browserTest('bootstrap data seam preserves current startup semantics in Chromium
       storageAdapter: storageGateway.activeAdapter,
     }));
     const fixture = readLegacyFixture();
-    const unexpectedPageErrors = pageErrors.filter(stack => !isKnownBaselinePageError(stack));
 
-    assert.deepEqual(unexpectedPageErrors, []);
-    assert.ok(pageErrors.filter(isKnownBaselinePageError).length <= 1, 'known ui.js bootstrap-ordering baseline changed unexpectedly');
+    assert.deepEqual(pageErrors, []);
     assert.equal(state.storageAdapter, 'legacy-localStorage');
     assert.equal(state.actions.length, fixture.mijnTaken.length);
     assert.equal(state.actions[0].title, fixture.mijnTaken[0].text);
@@ -45,6 +39,14 @@ browserTest('bootstrap data seam preserves current startup semantics in Chromium
     assert.equal(state.projects.find(item => item.id === 'project-home').title, 'Huis op orde');
     assert.equal(state.wishlist.find(item => item.id === 'purchase-needed').price, 24.95);
     assert.equal(state.documentsRaw, JSON.stringify(fixture.lumiDocuments));
+
+    await page.locator('.nav-button[data-screen="vault"]').click();
+    await page.locator('#vaultScreen.active').waitFor();
+    await page.locator('#masterlistModule').click();
+    await page.locator('#masterlistScreen.active').waitFor();
+    await page.locator('#masterlistBackButton').click();
+    await page.locator('#vaultScreen.active').waitFor();
+    assert.deepEqual(pageErrors, []);
   } finally {
     await browser.close();
     await new Promise(resolve => server.close(resolve));
