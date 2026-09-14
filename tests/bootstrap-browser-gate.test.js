@@ -52,3 +52,43 @@ browserTest('bootstrap and navigation seams preserve current startup semantics i
     await new Promise(resolve => server.close(resolve));
   }
 });
+
+browserTest('raw capture is durable before classification and unresolved captures keep provenance', async () => {
+  const { server, url } = await startStaticServer();
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    const pageErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.stack || error.message));
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.locator('#homeScreen.active').waitFor();
+
+    await page.locator('#globalAddButton').click();
+    await page.locator('#universalCaptureOverlay:not(.hidden)').waitFor();
+    await page.locator('#universalCaptureText').fill('Ted trimmen');
+
+    const beforeClassification = await page.evaluate(() => JSON.parse(localStorage.getItem('lumiRawCaptures') || '[]'));
+    assert.equal(beforeClassification.length, 1);
+    assert.equal(beforeClassification[0].rawText, 'Ted trimmen');
+    assert.equal(beforeClassification[0].status, 'raw');
+    assert.equal(beforeClassification[0].selectedType, null);
+
+    await page.locator('#universalCaptureForm').evaluate(form => form.requestSubmit());
+    await page.locator('#captureTypeOverlay:not(.hidden)').waitFor();
+    await page.locator('[data-capture-type="unknown"]').click();
+    await page.locator('#inboxScreen.active').waitFor();
+
+    const afterClassification = await page.evaluate(() => ({
+      raw: JSON.parse(localStorage.getItem('lumiRawCaptures') || '[]'),
+      inbox: JSON.parse(localStorage.getItem('lumiInbox') || '[]'),
+    }));
+    assert.equal(afterClassification.raw[0].status, 'unresolved');
+    assert.equal(afterClassification.raw[0].selectedType, 'unknown');
+    assert.equal(afterClassification.inbox.at(-1).text, 'Ted trimmen');
+    assert.equal(afterClassification.inbox.at(-1).rawCaptureId, afterClassification.raw[0].id);
+    assert.deepEqual(pageErrors, []);
+  } finally {
+    await browser.close();
+    await new Promise(resolve => server.close(resolve));
+  }
+});
