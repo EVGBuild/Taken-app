@@ -22,9 +22,9 @@ function connectedVaultIndex(){
   actions.forEach(item=>records.push(connectedVaultRecord('task',item.id,item.title,[item.note,item.waitingFor].filter(Boolean).join(' '),isHouseholdTask(item)?'chores':'masterlist')));
   projects.forEach(item=>records.push(connectedVaultRecord('project',item.id,item.title,'','projects')));
   wishlist.forEach(item=>records.push(connectedVaultRecord('wishlist',item.id,item.name,[item.note,item.link].filter(Boolean).join(' '),'wishlist')));
-  lists.forEach(list=>{records.push(connectedVaultRecord('list',list.id,list.name||list.title,'','lists'));(list.items||[]).forEach((item,index)=>records.push(connectedVaultRecord('list-item',item.id||`${list.id}:${index}`,item.text||item.name||String(item),'','lists')))});
+  lists.forEach(list=>{records.push(connectedVaultRecord('list',list.id,list.name||list.title,'','lists'));(list.items||[]).forEach((item,index)=>records.push(connectedVaultRecord('list-item',item.id||`${list.id}:${index}`,item.text||item.name||String(item),'','lists')));});
   ideas.forEach(item=>records.push(connectedVaultRecord('idea',item.id,item.text,item.note||'','ideas'));
-  bucketlist.forEach(group=>{records.push(connectedVaultRecord('bucket-group',group.id,group.name,'','bucketlist'));(group.items||[]).forEach((item,index)=>records.push(connectedVaultRecord('bucket-item',item.id||`${group.id}:${index}`,item.text||item.name||String(item),'','bucketlist')))});
+  bucketlist.forEach(group=>{records.push(connectedVaultRecord('bucket-group',group.id,group.name,'','bucketlist'));(group.items||[]).forEach((item,index)=>records.push(connectedVaultRecord('bucket-item',item.id||`${group.id}:${index}`,item.text||item.name||String(item),'','bucketlist')));});
   inbox.forEach(item=>records.push(connectedVaultRecord('inbox',item.id,item.text,'','inbox'));
   financeItems.forEach(item=>records.push(connectedVaultRecord('finance',item.id,item.title,[item.party,item.note].filter(Boolean).join(' '),'finance')));
   documents.forEach(item=>records.push(connectedVaultRecord('document',item.id,item.title,[item.fileName,item.category,item.party,item.note,(item.tags||[]).join(' ')].filter(Boolean).join(' '),'documents')));
