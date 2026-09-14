@@ -33,6 +33,7 @@ jobs:
           tests/storage-boundary-enforcement.test.js
           tests/bootstrap-boundary.test.js
           tests/startup-boundary.test.js
+          tests/navigation-boundary.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
