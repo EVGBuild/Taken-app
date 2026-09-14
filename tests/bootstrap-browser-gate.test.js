@@ -25,11 +25,13 @@ browserTest('bootstrap and navigation seams preserve current startup semantics i
       wishlist: JSON.parse(localStorage.getItem('lumiWishlist')),
       documentsRaw: localStorage.getItem('lumiDocuments'),
       storageAdapter: storageGateway.activeAdapter,
+      decisionMode: recommendationEngine.mode(),
     }));
     const fixture = readLegacyFixture();
 
     assert.deepEqual(pageErrors, []);
     assert.equal(state.storageAdapter, 'legacy-localStorage');
+    assert.equal(state.decisionMode, 'v2');
     assert.equal(state.actions.length, fixture.mijnTaken.length);
     assert.equal(state.actions[0].title, fixture.mijnTaken[0].text);
     assert.ok(state.actions[0].id);
@@ -39,6 +41,14 @@ browserTest('bootstrap and navigation seams preserve current startup semantics i
     assert.equal(state.projects.find(item => item.id === 'project-home').title, 'Huis op orde');
     assert.equal(state.wishlist.find(item => item.id === 'purchase-needed').price, 24.95);
     assert.equal(state.documentsRaw, JSON.stringify(fixture.lumiDocuments));
+
+    const fallback = await page.evaluate(() => {
+      const before=recommendationEngine.mode();
+      const legacy=recommendationEngine.useLegacy();
+      const restored=recommendationEngine.useV2();
+      return {before,legacy,restored,after:recommendationEngine.mode()};
+    });
+    assert.deepEqual(fallback,{before:'v2',legacy:'legacy',restored:'v2',after:'v2'});
 
     await page.locator('.nav-button[data-screen="vault"]').click();
     await page.locator('#vaultScreen.active').waitFor();
