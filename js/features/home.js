@@ -3,7 +3,7 @@
   if(document.querySelector('link[data-home-visual-qa]'))return;
   const link=document.createElement('link');
   link.rel='stylesheet';
-  link.href='./css/phase3a-visual-qa.css?v=1';
+  link.href='./css/phase3a-visual-qa.css?v=2';
   link.dataset.homeVisualQa='true';
   document.head.append(link);
 })();
