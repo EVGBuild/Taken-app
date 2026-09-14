@@ -1,0 +1,110 @@
+/* Phase 3A mobile visual-QA correction.
+   Deliberately scoped to Home + shared primary nav. */
+
+#homeScreen{
+  padding-bottom:118px!important;
+  background:
+    radial-gradient(ellipse 78% 36% at 6% 8%,rgba(99,72,139,.12),transparent 70%),
+    radial-gradient(ellipse 62% 32% at 100% 38%,rgba(46,112,124,.08),transparent 72%)!important;
+}
+#homeScreen:before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.42;
+  background:
+    radial-gradient(circle at 12% 17%,rgba(255,255,255,.34) 0 .55px,transparent .9px),
+    radial-gradient(circle at 82% 12%,rgba(210,194,235,.30) 0 .5px,transparent .9px),
+    radial-gradient(circle at 91% 46%,rgba(178,225,224,.24) 0 .5px,transparent .9px),
+    radial-gradient(circle at 25% 62%,rgba(255,255,255,.20) 0 .45px,transparent .85px);
+}
+#homeScreen>*{position:relative;z-index:1}
+
+#homeScreen .home-topbar{margin-bottom:10px!important;padding-inline:1px!important}
+#homeScreen .home-topbar time{font-size:12.5px!important;opacity:.72!important}
+#homeScreen .home-settings-button{width:36px!important;height:36px!important;min-width:36px!important;background:rgba(12,18,33,.36)!important}
+#homeScreen .home-settings-button i{font-size:18px!important}
+
+/* Check-in is an invitation, not the hero object. */
+#homeScreen .today-context.home-checkin-card{
+  grid-template-columns:34px minmax(0,1fr) 30px!important;
+  gap:10px!important;
+  min-height:0!important;
+  margin:0 0 22px!important;
+  padding:11px 12px!important;
+  border-radius:16px!important;
+  border-color:rgba(145,108,183,.14)!important;
+  background:linear-gradient(145deg,rgba(12,17,32,.58),rgba(7,11,23,.68))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018)!important;
+}
+#homeScreen .checkin-icon{width:34px!important;height:27px!important}
+#homeScreen .checkin-title{font-size:14px!important;line-height:1.2!important;font-weight:600!important;letter-spacing:-.01em!important}
+#homeScreen .checkin-subtitle{margin-top:2px!important;font-size:11.5px!important;line-height:1.25!important;color:#8d8998!important}
+#homeScreen .checkin-lumi{display:none!important}
+#homeScreen .checkin-arrow{width:30px!important;height:30px!important;border:0!important;background:transparent!important;color:#9270a8!important}
+#homeScreen .checkin-arrow svg{width:16px!important;height:16px!important}
+#homeScreen .checkin-icon .battery-shell{stroke:#795f89!important;stroke-width:2!important}
+#homeScreen .checkin-icon .battery-bar{fill:#846695!important;opacity:.18!important}
+#homeScreen .checkin-icon .battery-bar.filled{fill:#9674a9!important;opacity:.86!important;filter:none!important}
+
+/* Home heading is a section label, not a second page title. */
+#homeScreen .home-now-heading{margin:0 0 9px!important;padding-inline:1px!important}
+#homeScreen .home-now-heading h1{margin:0 0 2px!important;font-size:22px!important;line-height:1.15!important;font-weight:600!important;letter-spacing:-.025em!important}
+#homeScreen .home-now-heading .section-intro{font-size:11.5px!important;line-height:1.3!important;color:#858393!important}
+
+/* Actual rows: quieter, denser, and without card-like floating chrome. */
+#homeScreen #suggestionList{gap:0!important;border-top:1px solid rgba(150,162,190,.10)!important}
+#homeScreen #suggestionList .suggestion-card{
+  grid-template-columns:24px minmax(0,1fr) 34px!important;
+  gap:10px!important;
+  min-height:62px!important;
+  padding:9px 5px 9px 4px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(150,162,190,.10)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#homeScreen #suggestionList .suggestion-card:after{
+  content:""!important;position:absolute!important;left:-1px!important;top:17px!important;width:2px!important;height:28px!important;border-radius:2px!important;background:var(--row-accent)!important;opacity:.52!important;
+}
+#homeScreen #suggestionList .check{width:24px!important;height:24px!important;min-width:24px!important;border-width:1.5px!important;border-radius:7px!important;border-color:#626b7e!important}
+#homeScreen #suggestionList .suggestion-content{gap:1px!important}
+#homeScreen #suggestionList .suggestion-project{font-size:9.5px!important;color:#7f8190!important}
+#homeScreen #suggestionList .suggestion-text{font-size:14px!important;line-height:1.22!important;font-weight:500!important}
+#homeScreen #suggestionList .recommendation-why{font-size:10px!important;line-height:1.2!important;color:#858392!important}
+#homeScreen #suggestionList .swap-button{width:34px!important;height:34px!important;min-width:34px!important;border:0!important;background:transparent!important;color:#7d8496!important}
+#homeScreen #suggestionList .swap-button span{font-size:17px!important}
+
+#homeScreen #todayRecoveryActions{margin-top:11px!important;padding:0!important}
+#homeScreen #broadenSuggestionsButton{min-height:44px!important;padding:8px 10px!important;border-radius:12px!important;background:rgba(8,14,27,.32)!important}
+
+/* Lighter primary navigation. The centre action is an icon, not a labelled tab. */
+.bottom-nav{
+  grid-template-columns:1fr 64px 1fr!important;
+  width:min(calc(100% - 28px),500px)!important;
+  height:64px!important;
+  padding:4px 8px!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,rgba(14,25,40,.27),rgba(5,11,22,.18))!important;
+  border-color:rgba(160,188,204,.11)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+.bottom-nav .nav-button{min-height:54px!important}
+.bottom-nav .nav-button span{width:27px!important;height:27px!important}
+.bottom-nav .nav-button span i{font-size:22px!important}
+.bottom-nav .nav-button small{font-size:9.5px!important;opacity:.82!important}
+.global-add{
+  width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+  bottom:24px!important;font-size:29px!important;line-height:1!important;
+  border-color:rgba(91,190,191,.38)!important;
+  box-shadow:0 0 0 1px rgba(83,183,185,.05),0 8px 22px rgba(0,0,0,.18)!important;
+}
+.global-add:before{opacity:.38!important}
+.global-add:after{content:none!important;display:none!important}
+
+@media(max-width:390px){
+  #homeScreen .today-context.home-checkin-card{grid-template-columns:32px minmax(0,1fr) 28px!important;padding:10px!important}
+  #homeScreen .checkin-icon{width:32px!important;height:25px!important}
+  #homeScreen .checkin-title{font-size:13.5px!important}
+  #homeScreen .checkin-subtitle{font-size:11px!important}
+  #homeScreen #suggestionList .suggestion-text{font-size:13.5px!important}
+}
