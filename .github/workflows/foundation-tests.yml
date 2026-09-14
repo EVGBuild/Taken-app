@@ -40,6 +40,7 @@ jobs:
           tests/domain-identity-relations.test.js
           tests/connected-vault.test.js
           tests/decision-engine-v2.test.js
+          tests/decision-engine-shadow.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
