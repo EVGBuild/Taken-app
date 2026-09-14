@@ -150,7 +150,7 @@ browserTest('Home surfaces heavier options on demand and does not fake energy fi
     await page.locator('#homeScreen.active').waitFor();
     await page.locator('#suggestionList .suggestion-card').waitFor();
     const unknownText=await page.locator('#suggestionList .recommendation-why').first().textContent();
-    assert.match(unknownText,/Meer context nodig|More context needed/);
+    assert.match(unknownText,/Nog niet genoeg context om de fit te bepalen|Not enough context to determine fit|More context needed/i);
     assert.doesNotMatch(unknownText,/Past bij je energie|Fits your energy/);
     assert.deepEqual(pageErrors, []);
   } finally {
