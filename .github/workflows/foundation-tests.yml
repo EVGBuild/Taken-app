@@ -46,6 +46,7 @@ jobs:
           tests/ai-service-boundary.test.js
           tests/cloud-auth-sync-boundary.test.js
           tests/entitlement-service-boundary.test.js
+          tests/home-today-product.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
