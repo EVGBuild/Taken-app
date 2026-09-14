@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "entryOrder": [
+    "foundation.css",
+    "vds.css",
+    "theme.css",
+    "mobile-polish.css",
+    "mockup-rollout.css",
+    "mockup-fidelity-v2.css",
+    "home-exact.css",
+    "consolidation.css"
+  ],
+  "zones": {
+    "foundation": {
+      "purpose": "Structural primitives, layout foundations and legacy-safe base rules.",
+      "files": ["foundation.css"]
+    },
+    "design-system": {
+      "purpose": "Visual tokens, shared components, navigation language and mobile presentation.",
+      "files": ["vds.css", "theme.css", "mobile-polish.css"]
+    },
+    "product-compatibility": {
+      "purpose": "Current product-specific fidelity and consolidation overrides preserved until visually migrated.",
+      "files": ["mockup-rollout.css", "mockup-fidelity-v2.css", "home-exact.css", "consolidation.css"]
+    }
+  }
+}
