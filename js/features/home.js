@@ -1,4 +1,12 @@
 /** Home presentation only; recommendation selection lives in recommendations.js/today.js. */
+(function installHomeVisualQaLayer(){
+  if(document.querySelector('link[data-home-visual-qa]'))return;
+  const link=document.createElement('link');
+  link.rel='stylesheet';
+  link.href='./css/phase3a-visual-qa.css?v=1';
+  link.dataset.homeVisualQa='true';
+  document.head.append(link);
+})();
 function renderHomeScreen({$,sets,checkin,todayKey,suggestionCard,openCheckin,renderProjectPreview,broaden}){
   const attention=sets.attention||[],primary=sets.visible.slice(0,Math.max(0,3-attention.length)).map(entry=>entry.item),current=checkin.date===todayKey()?Number(checkin.energy)||null:null,card=$('todayContext'),locale=lumiLocale()==='en'?'en-GB':'nl-NL';
   $('homeDate').textContent=new Intl.DateTimeFormat(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date()).replace(/^./,character=>character.toUpperCase());$('todayDate').textContent=new Intl.DateTimeFormat(locale,{day:'numeric',month:'long'}).format(new Date());
