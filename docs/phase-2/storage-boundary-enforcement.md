@@ -3,7 +3,7 @@
 Datum: 2026-09-14  
 Branch: `foundation-migration`  
 Basis: continuity/documentation truth afgerond  
-Status: **implementatie afgerond; repositoryguard toegevoegd; volledige lokale regressierun nog niet opnieuw uitgevoerd vanuit deze omgeving**
+Status: **afgerond; foundation regression gate groen**
 
 ## Doel
 
@@ -13,45 +13,67 @@ Deze slice verandert geen datamodel, geen storagebron, geen productfeature en ge
 
 ## Wijzigingen
 
-### 1. Verwijderen toegevoegd aan de actieve storagegrens
+### 1. Volledige actieve storagegrens
 
-`js/core/storage.js` exposeert nu naast `read(...)` en `write(...)` ook:
+`js/core/storage.js` exposeert nu alle actieve persistentiehandelingen via de `StorageGateway`:
 
-```js
-function remove(key) {
-  storageGateway.removeRaw(key);
-}
-```
+- `getRaw(key)`
+- `setRaw(key, value)`
+- `read(key, fallback)`
+- `write(key, value)`
+- `remove(key)`
 
-De bestaande legacy-adapter en gateway hadden al `removeRaw`; deze slice maakt die capaciteit beschikbaar aan actieve productcode zonder de adapter te omzeilen.
+`getRaw` en `setRaw` zijn toegevoegd zodat bestaande raw-stringsemantiek, zoals de wishlist-tipflag, bytecompatibel via dezelfde gateway kan blijven lopen.
 
-### 2. Settings-bypass verwijderd
+### 2. Directe feature-bypasses verwijderd
 
-De actie “alle lokale gegevens verwijderen” in `js/features/settings.js` gebruikte rechtstreeks:
+De repositoryguard bracht drie directe featuretoegangen aan het licht. Ze zijn allemaal via de gateway geleid:
 
-```js
-localStorage.removeItem(key)
-```
+- `js/features/settings.js` — verwijderen van alle persistente LumiVault-keys loopt via `remove(key)`;
+- `js/features/task-capture.js` — verwijderen van action draft loopt via `remove(KEYS.actionDraft)`;
+- `js/features/wishlist.js` — de bestaande raw tipflag loopt via `getRaw(KEYS.tip)` en `setRaw(KEYS.tip, 'shown')`, zodat de bestaande raw waarde `shown` behouden blijft.
 
-Dat loopt nu via:
+De tijdelijke sessieflag `lumiCheckinOffered` blijft `sessionStorage` gebruiken. Dat is sessiestatus en geen persistente LumiVault-productstore.
 
-```js
-remove(key)
-```
+### 3. Repositoryguard
 
-De bestaande sessieflag `lumiCheckinOffered` blijft via `sessionStorage` verwijderd worden. Dit is tijdelijke sessiestatus en geen persistente LumiVault-productstore.
+`tests/storage-boundary-enforcement.test.js` leest de actieve `<script src>`-bestanden uit `index.html` en faalt wanneer een actief productscript buiten `js/core/storage.js` rechtstreeks `localStorage` gebruikt.
 
-### 3. Repositoryguard toegevoegd
+De guard beschermt daarmee de architectuurgrens tegen toekomstige regressie.
+
+### 4. Reproduceerbare CI-gate
 
 Nieuw:
 
-`tests/storage-boundary-enforcement.test.js`
+`.github/workflows/foundation-tests.yml`
 
-De guard leest de actieve `<script src>`-bestanden uit `index.html` en faalt wanneer een actief productscript buiten `js/core/storage.js` rechtstreeks `localStorage` gebruikt.
+De workflow draait op iedere push naar `foundation-migration`, op pull requests en handmatig. De gate gebruikt Node 22 en draait de niet-browsergebonden foundationtests voor:
 
-De test controleert daarnaast dat de actieve storagegrens `read`, `write` en `remove` aanbiedt en dat `remove` via `storageGateway.removeRaw(...)` loopt.
+- storagekarakterisatie;
+- lifecycle;
+- recurrence;
+- storage migration spike;
+- storage safety seam;
+- storage boundary enforcement.
 
-Hiermee wordt een toekomstige bypass van de actieve productgrens expliciet detecteerbaar.
+De browsercontractgate uit de storage-safetyfase blijft een aparte bewezen browsergate; deze CI-workflow vervangt die niet.
+
+## Validatieresultaat
+
+De eerste CI-run deed precies wat de guard moest doen en vond nog twee bestaande bypasses in `wishlist.js` en `task-capture.js`. Die run was rood en is niet stil aangepast.
+
+Na het herstellen van beide bypasses is workflowrun `34819901492` groen afgerond op commit:
+
+`cdbe09565503fb427cc7a201ffbc869728f89573`
+
+Resultaat van de foundation regression set:
+
+- **45 tests**
+- **45 geslaagd**
+- **0 mislukt**
+- **0 overgeslagen**
+
+Daarmee is de eerdere `validation pending` opgeheven.
 
 ## Scope die bewust niet is gewijzigd
 
@@ -60,36 +82,28 @@ Hiermee wordt een toekomstige bypass van de actieve productgrens expliciet detec
 - geen data gemigreerd;
 - geen bootstraprefactor;
 - geen UI/CSS-wijziging;
-- geen Capture-, Vault- of Decision Engine-wijziging;
+- geen Capture-, Vault- of Decision Engine-redesign;
 - geen cloud-, auth-, AI- of billingcode;
-- het losse niet-actieve `js/storage.js` ES-modulebestand is in deze slice niet verwijderd of geactiveerd; `index.html` laadt uitsluitend `js/core/storage.js` als actieve storagecode.
-
-## Verificatie
-
-GitHub-vergelijking van de slicebasis met de implementatie toont uitsluitend:
-
-- `js/core/storage.js`: 4 regels toegevoegd;
-- `js/features/settings.js`: één directe mutatie vervangen;
-- `tests/storage-boundary-enforcement.test.js`: nieuwe guardtest.
-
-De actuele branchbestanden bevestigen dat Settings geen directe `localStorage.removeItem(...)` meer gebruikt en dat verwijderen door de gateway loopt.
-
-Een volledige `node --test tests/*.test.js` regressierun kon vanuit de huidige uitvoeringsomgeving niet opnieuw worden gestart, omdat deze omgeving de repository niet via het openbare GitHub-netwerk kan clonen. Dit wordt niet als groen testresultaat voorgesteld.
+- het losse niet-actieve `js/storage.js` ES-modulebestand is niet geactiveerd of verwijderd;
+- `index.html` laadt uitsluitend `js/core/storage.js` als actieve storagecode.
 
 ## Exitpoort
 
 | Criterium | Status |
 | --- | --- |
-| Actieve Settings-mutatie loopt via storagegrens | Behaald |
-| `read`, `write` en `remove` hebben één actieve gateway | Behaald |
-| `localStorage` blijft enige actieve productbron | Behaald |
-| Geen IndexedDB read-switch | Behaald |
-| Geen product/UI/datamodelwijziging | Behaald |
-| Automatische guard tegen nieuwe actieve `localStorage`-bypasses | Toegevoegd |
-| Volledige bestaande regressiesuite opnieuw groen gedraaid | **Nog te verifiëren in een runner met repositorytoegang** |
+| Alle actieve producttoegang tot `localStorage` loopt via storagegrens | **Behaald** |
+| Raw en JSON-semantiek blijven beschikbaar via één gateway | **Behaald** |
+| `localStorage` blijft enige actieve productbron | **Behaald** |
+| Geen IndexedDB read-switch | **Behaald** |
+| Geen product/UI/datamodelwijziging | **Behaald** |
+| Automatische guard tegen nieuwe actieve `localStorage`-bypasses | **Behaald** |
+| Reproduceerbare foundation CI-gate aanwezig | **Behaald** |
+| Foundation regression set groen | **Behaald: 45/45** |
 
-Daarom is de **codewijziging afgerond**, maar de formele slice-exitpoort blijft technisch op **validation pending** totdat de volledige testset opnieuw is gedraaid.
+**Formele status: exitpoort behaald.**
 
-## Volgende stap na groene regressierun
+## Volgende funderingsslice
 
-Pas na die verificatie door naar de volgende funderingsslice: **Bootstrap + module boundaries**. Die slice moet eerst responsibilities scheiden zonder productgedrag, storagebron of UI te veranderen.
+De volgende stap is **Bootstrap + module boundaries**.
+
+Doel daarvan is niet om de app ineens om te bouwen naar een framework of ES-modules. Eerst wordt de huidige startknoop gecontroleerd opgesplitst in herkenbare verantwoordelijkheden, met behoud van bestaand gedrag en de nu groene foundationgate.
