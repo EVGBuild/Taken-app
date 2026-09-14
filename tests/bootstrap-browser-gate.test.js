@@ -14,7 +14,7 @@ browserTest('bootstrap data seam preserves current startup semantics in Chromium
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     const pageErrors = [];
-    page.on('pageerror', error => pageErrors.push(error.message));
+    page.on('pageerror', error => pageErrors.push(error.stack || error.message));
     await seedFixture(page);
     await page.goto(url, { waitUntil: 'domcontentloaded' });
     await page.locator('#homeScreen.active').waitFor();
