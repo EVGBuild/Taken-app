@@ -31,3 +31,4 @@ jobs:
           tests/storage-migration-spike.test.js
           tests/storage-safety-seam.test.js
           tests/storage-boundary-enforcement.test.js
+          tests/bootstrap-boundary.test.js
