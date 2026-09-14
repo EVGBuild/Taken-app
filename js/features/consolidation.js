@@ -27,7 +27,6 @@
   }
 
   function installCaptureTypes(){
-    document.querySelector('[data-capture-type="unknown"]')?.remove();
     const list=document.querySelector('.capture-type-list');
     const labels={wishlist:'capture.purchase',household:'capture.household',bucket:'capture.bucketItem'};
     const wishlistButton=list?.querySelector('[data-capture-type="wishlist"] strong');if(wishlistButton)wishlistButton.textContent=t(labels.wishlist);
