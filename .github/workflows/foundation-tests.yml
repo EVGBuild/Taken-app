@@ -48,6 +48,7 @@ jobs:
           tests/cloud-auth-sync-boundary.test.js
           tests/entitlement-service-boundary.test.js
           tests/home-today-product.test.js
+          tests/home-visual-contract.test.js
 
   chromium-browser-gate:
     runs-on: ubuntu-latest
