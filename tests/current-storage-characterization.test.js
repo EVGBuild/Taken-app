@@ -8,6 +8,7 @@ class MemoryStorage {
   constructor(values = {}) { this.values = new Map(Object.entries(values)); }
   getItem(key) { return this.values.has(key) ? this.values.get(key) : null; }
   setItem(key, value) { this.values.set(key, String(value)); }
+  removeItem(key) { this.values.delete(key); }
 }
 
 function contextWith(values = {}) {
@@ -39,4 +40,13 @@ test('write persists the exact JSON representation expected by the current app',
   const { run, localStorage } = contextWith();
   run("write('example', {title:'Taak', done:false, value:null})");
   assert.equal(localStorage.getItem('example'), '{"title":"Taak","done":false,"value":null}');
+});
+
+test('the StorageGateway keeps legacy localStorage as the only active product adapter', () => {
+  const { run, localStorage } = contextWith({ original: '{"kept":true}' });
+  assert.equal(run('storageGateway.activeAdapter'), 'legacy-localStorage');
+  assert.equal(run("storageGateway.getRaw('original')"), '{"kept":true}');
+  run("storageGateway.write('newValue', {ok:true})");
+  assert.equal(localStorage.getItem('newValue'), '{"ok":true}');
+  assert.equal(run("storageGateway.read('newValue').ok"), true);
 });

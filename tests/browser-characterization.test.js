@@ -127,6 +127,7 @@ browserTest('known gaps stay diagnostic rather than becoming protected behavior'
   await page.locator('#vaultVisualSearch').fill('garantiebon');
   assert.match(await page.locator('#vaultSearchResults').innerText(), /Geen resultaten gevonden/);
   assert.equal(await page.locator('[data-capture-type="unknown"]').count(), 0);
+  await page.locator('#vaultVisualSearch').fill('');
   await page.locator('#choresModule').click();
   await page.locator('#choresList .chore-item').click();
   const actions = await page.locator('#taskDetailOverlay:not(.hidden) button').allInnerTexts();

@@ -36,7 +36,8 @@ function seededStorage(extra = {}, options) {
 
 test('the spike covers exactly the current storage contract', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'js/core/storage.js'), 'utf8');
-  const appKeys = [...source.matchAll(/^\s+\w+: '([^']+)'/gm)].map((match) => match[1]);
+  const keysBlock = source.slice(source.indexOf('const KEYS'), source.indexOf('});') + 3);
+  const appKeys = [...keysBlock.matchAll(/^\s+\w+: '([^']+)'/gm)].map((match) => match[1]);
   assert.deepEqual([...LEGACY_KEYS].sort(), appKeys.sort());
 });
 

@@ -49,3 +49,14 @@ Niet als goedgekeurd behandelen: de definitieve productnaam. “LumiVault” is 
 | De voorgestelde migratievolgorde is optimaal | Herprioriteren op risico en afhankelijkheden na karakterisatietests. |
 
 Nieuwe hypotheses mogen fase 1 sturen als onderzoeksvraag, maar niet als stilzwijgend goedgekeurde productregel.
+
+## Technisch validatielog fase 1
+
+Dit log wijzigt geen productbesluiten uit A of researchconclusies uit B.
+
+| Datum | Hypothese uit C | Nieuw bewijs | Actuele status |
+| --- | --- | --- | --- |
+| 2026-09-13 | IndexedDB wordt de geschikte duurzame browserstore | StorageGateway, immutable export, lossless conversie, afzonderlijke IndexedDB-shadow-adapter, verificatie en rollback zijn geïmplementeerd. De echte Chromium-run bevestigt transacties, atomische abort, idempotentie, rollback, exportbehoud, 2 MiB-bijlage en volledige round-trip. Een 6 MiB-bron faalt al op de legacy-localStorage-quota; een betrouwbare IndexedDB-quota-estimate was niet beschikbaar. | **Geschikt als shadow-kandidaat; browsercontract groen.** Nog steeds geen toestemming voor product-read. |
+| 2026-09-13 | Eén generiek Item-model kan alle modules dragen | De implementatie gebruikt items, collections, relations, contexts en auxiliary data met volledige legacy-payload. | **Universeel plat model verworpen.** Samengestelde representatie bevestigd voor verdere shadow-validatie. |
+| 2026-09-13 | TypeScript, bundling en Vitest zijn passende volgende tooling | De seam en contracttests zijn zonder deze tooling implementeerbaar en testbaar. | **Niet invoeren in deze slice.** Geen nieuw bewijs dat invoering nu nodig is. |
+| 2026-09-13 | De voorgestelde migratievolgorde is optimaal | De storage safety seam kan worden geïsoleerd terwijl `localStorage` de enige actieve bron blijft. De formele storage-exitpoort is behaald; twee bestaande UI/baseline-afwijkingen zijn expliciet buiten deze technische slice vastgelegd. | **Eerste stap technisch bevestigd en afgerond.** Geen read-switch, legacy-opruiming of volgende slice zonder afzonderlijk besluit. |
