@@ -16,6 +16,31 @@ document.querySelectorAll('.overlay,.menu-overlay').forEach(overlay=>new Mutatio
 const vaultScreens=new Set(['vault','masterlist','wishlist','lists','listDetail','ideas','bucketlist','chores','inbox','finance','documents']);
 function navContextFor(screen){return vaultScreens.has(screen)?'vault':screen}
 
+function connectedVaultRecord(type,id,title,text='',collection=type){return {ref:createDomainRef(type,id),type,id,title:String(title||''),searchText:[title,text].filter(Boolean).join(' ').toLocaleLowerCase(),collection}}
+function connectedVaultIndex(){
+  const records=[];
+  actions.forEach(item=>records.push(connectedVaultRecord('task',item.id,item.title,[item.note,item.waitingFor].filter(Boolean).join(' '),isHouseholdTask(item)?'chores':'masterlist')));
+  projects.forEach(item=>records.push(connectedVaultRecord('project',item.id,item.title,'','projects')));
+  wishlist.forEach(item=>records.push(connectedVaultRecord('wishlist',item.id,item.name,[item.note,item.link].filter(Boolean).join(' '),'wishlist')));
+  lists.forEach(list=>{records.push(connectedVaultRecord('list',list.id,list.name||list.title,'','lists'));(list.items||[]).forEach((item,index)=>records.push(connectedVaultRecord('list-item',item.id||`${list.id}:${index}`,item.text||item.name||String(item),'','lists')))});
+  ideas.forEach(item=>records.push(connectedVaultRecord('idea',item.id,item.text,item.note||'','ideas'));
+  bucketlist.forEach(group=>{records.push(connectedVaultRecord('bucket-group',group.id,group.name,'','bucketlist'));(group.items||[]).forEach((item,index)=>records.push(connectedVaultRecord('bucket-item',item.id||`${group.id}:${index}`,item.text||item.name||String(item),'','bucketlist')))});
+  inbox.forEach(item=>records.push(connectedVaultRecord('inbox',item.id,item.text,'','inbox'));
+  financeItems.forEach(item=>records.push(connectedVaultRecord('finance',item.id,item.title,[item.party,item.note].filter(Boolean).join(' '),'finance')));
+  documents.forEach(item=>records.push(connectedVaultRecord('document',item.id,item.title,[item.fileName,item.category,item.party,item.note,(item.tags||[]).join(' ')].filter(Boolean).join(' '),'documents')));
+  return records.filter(record=>record.ref);
+}
+function searchConnectedVault(query){
+  const needle=String(query||'').trim().toLocaleLowerCase();if(!needle)return [];
+  return connectedVaultIndex().filter(record=>record.searchText.includes(needle)).map(record=>({...record,relations:domainRelationsFor(record.ref)}));
+}
+function filterVaultCollections(query){
+  const needle=String(query||'').trim().toLocaleLowerCase(),matches=searchConnectedVault(needle),matchedCollections=new Set(matches.map(match=>match.collection));
+  const moduleCollections={masterlistModule:'masterlist',wishlistModule:'wishlist',listsModule:'lists',ideasModule:'ideas',bucketlistModule:'bucketlist',choresModule:'chores'};
+  document.querySelectorAll('#vaultScreen .module-card').forEach(card=>{const nameMatch=card.textContent.toLocaleLowerCase().includes(needle),contentMatch=matchedCollections.has(moduleCollections[card.id]);card.classList.toggle('vault-search-hidden',!!needle&&!nameMatch&&!contentMatch)});
+  return matches;
+}
+
 function showScreen(name){
   previousScreen=currentScreen;
   currentScreen=name;
@@ -51,7 +76,7 @@ function wireNavigation(){
   $('ideasModule').onclick=()=>showScreen('ideas');
   $('bucketlistModule').onclick=()=>showScreen('bucketlist');
   $('choresModule').onclick=()=>showScreen('chores');
-  if($('vaultVisualSearch'))$('vaultVisualSearch').oninput=()=>{const q=$('vaultVisualSearch').value.trim().toLowerCase();document.querySelectorAll('#vaultScreen .module-card').forEach(card=>card.classList.toggle('vault-search-hidden',!!q&&!card.textContent.toLowerCase().includes(q)))};
+  if($('vaultVisualSearch'))$('vaultVisualSearch').oninput=()=>filterVaultCollections($('vaultVisualSearch').value);
 }
 
 wireNavigation();
