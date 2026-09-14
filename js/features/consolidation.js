@@ -1,22 +1,5 @@
 /* LumiVault consolidation: capture, collections, search, projects and purchases. */
 (function consolidateLumiVault(){
-  Object.assign(LUMI_TRANSLATIONS.nl,{
-    'capture.purchase':'Aankoop / wens','capture.household':'Huishoudelijke taak','capture.bucketItem':'Bucketlist-item',
-    'capture.taskEyebrow':'Taak','capture.extraTitle':'Extra informatie','task.resistanceQuestion':'Hoe erg zie je ertegenop om eraan te beginnen?',
-    'nav.projects':'Projecten','project.icon':'Icoon','project.active':'Actief','project.completed':'Afgerond','project.archive':'Markeer als afgerond','project.reopen':'Maak weer actief',
-    'purchase.search':'Zoek in Kopen','purchase.all':'Alles','purchase.done':'Geregeld','purchase.wishlist':'Wishlist','purchase.needTiming':'Wanneer heb je het nodig?','purchase.wishTiming':'Wanneer wil je dit?','purchase.noRush':'Geen haast','purchase.byDate':'Voor een bepaalde datum','purchase.extraTitle':'Extra informatie',
-    'vault.searchEmpty':'Geen resultaten gevonden','vault.searchType.task':'Masterlist','vault.searchType.purchase':'Kopen','vault.searchType.idea':'Ideeën','vault.searchType.list':'Lijstjes','vault.searchType.bucket':'Bucketlist','vault.searchType.project':'Projecten','vault.searchType.household':'Huishouden',
-    'vault.projects':'Projecten','capture.householdSaved':'Huishoudelijke taak','capture.bucketSaved':'Bucketlist-item'
-  });
-  Object.assign(LUMI_TRANSLATIONS.en,{
-    'capture.purchase':'Purchase / wish','capture.household':'Household task','capture.bucketItem':'Bucket-list item',
-    'capture.taskEyebrow':'Task','capture.extraTitle':'Extra information','task.resistanceQuestion':'How much do you dread getting started?',
-    'nav.projects':'Projects','project.icon':'Icon','project.active':'Active','project.completed':'Completed','project.archive':'Mark completed','project.reopen':'Make active again',
-    'purchase.search':'Search purchases','purchase.all':'All','purchase.done':'Done','purchase.wishlist':'Wishlist','purchase.needTiming':'When do you need it?','purchase.wishTiming':'When would you like it?','purchase.noRush':'No rush','purchase.byDate':'Before a certain date','purchase.extraTitle':'Extra information',
-    'vault.searchEmpty':'No results found','vault.searchType.task':'Masterlist','vault.searchType.purchase':'Purchases','vault.searchType.idea':'Ideas','vault.searchType.list':'Lists','vault.searchType.bucket':'Bucket list','vault.searchType.project':'Projects','vault.searchType.household':'Household',
-    'vault.projects':'Projects','capture.householdSaved':'Household task','capture.bucketSaved':'Bucket-list item'
-  });
-
   const iconNames=['house','car','map-pin','paw-print','package','suitcase-rolling','heart','wrench','plant','briefcase','storefront','currency-eur','file-text','star','confetti','airplane-tilt','bicycle','book-open','music-notes','camera','palette','graduation-cap','barbell','sparkle'];
 
   function makeSearch(id,placeholderKey){
@@ -93,7 +76,6 @@
     if(!urgent||document.querySelector(`[data-purchase-suggestion="${urgent.id}"]`))return;
     const card=document.createElement('article');card.className='suggestion-card purchase-suggestion';card.dataset.purchaseSuggestion=urgent.id;card.innerHTML=`<span class="purchase-suggestion-icon"><i class="ph ph-shopping-bag"></i></span><div class="suggestion-content"><strong></strong><small>${t('vault.searchType.purchase')} · ${urgent.purchaseType==='need'?t('purchase.need'):t('purchase.wishlist')}</small></div>`;card.querySelector('strong').textContent=urgent.name;card.onclick=()=>openWishlistDetail(urgent);$('suggestionList')?.append(card);
   };
-
 
   function searchEntries(){
     const entries=[];const push=(title,meta,open,search=title)=>entries.push({title,meta,open,search:normalizeSearchText(search,meta)});
