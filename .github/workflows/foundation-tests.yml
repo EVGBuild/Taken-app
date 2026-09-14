@@ -42,6 +42,7 @@ jobs:
           tests/decision-engine-v2.test.js
           tests/decision-engine-shadow.test.js
           tests/decision-engine-v2-scenarios.test.js
+          tests/decision-engine-activation.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
