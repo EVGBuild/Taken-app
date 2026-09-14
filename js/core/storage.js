@@ -21,6 +21,13 @@ const KEYS = Object.freeze({
   bucketlist: 'lumiBucketlist'
 });
 
+// New foundation data lives outside the immutable legacy-key set above.
+// This keeps the legacy export/migration contract stable while allowing
+// capture provenance to become durable before classification.
+const CAPTURE_KEYS = Object.freeze({
+  raw: 'lumiRawCaptures'
+});
+
 function createLegacyStorageAdapter(storage) {
   return Object.freeze({
     name: 'legacy-localStorage',
