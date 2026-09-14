@@ -23,10 +23,35 @@ const KEYS = Object.freeze({
 
 // New foundation data lives outside the immutable legacy-key set above.
 // This keeps the legacy export/migration contract stable while allowing
-// capture provenance to become durable before classification.
+// capture provenance and typed relations to grow without flattening domains.
 const CAPTURE_KEYS = Object.freeze({
   raw: 'lumiRawCaptures'
 });
+const DOMAIN_KEYS = Object.freeze({
+  relations: 'lumiDomainRelations'
+});
+
+function createDomainRef(type,id){
+  const refType=String(type||'').trim(),refId=String(id||'').trim();
+  if(!refType||!refId)return null;
+  return Object.freeze({type:refType,id:refId});
+}
+function sameDomainRef(left,right){return !!left&&!!right&&left.type===right.type&&left.id===right.id}
+function createDomainRelation({kind,from,to,source='user',createdAt=Date.now()}){
+  const fromRef=createDomainRef(from?.type,from?.id),toRef=createDomainRef(to?.type,to?.id),relationKind=String(kind||'').trim();
+  if(!relationKind||!fromRef||!toRef)return null;
+  return {id:`${relationKind}:${fromRef.type}:${fromRef.id}:${toRef.type}:${toRef.id}`,kind:relationKind,from:fromRef,to:toRef,source,createdAt};
+}
+function linkDomainRelation(input){
+  const relation=createDomainRelation(input);if(!relation)return null;
+  const relations=read(DOMAIN_KEYS.relations,[]),existing=relations.find(item=>item.id===relation.id);
+  if(existing)return existing;
+  relations.push(relation);write(DOMAIN_KEYS.relations,relations);return relation;
+}
+function domainRelationsFor(ref){
+  const target=createDomainRef(ref?.type,ref?.id);if(!target)return [];
+  return read(DOMAIN_KEYS.relations,[]).filter(relation=>sameDomainRef(relation.from,target)||sameDomainRef(relation.to,target));
+}
 
 function createLegacyStorageAdapter(storage) {
   return Object.freeze({
