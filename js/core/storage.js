@@ -63,6 +63,14 @@ function createStorageGateway(activeAdapter) {
 const legacyStorageAdapter = createLegacyStorageAdapter(localStorage);
 const storageGateway = createStorageGateway(legacyStorageAdapter);
 
+function getRaw(key) {
+  return storageGateway.getRaw(key);
+}
+
+function setRaw(key, value) {
+  storageGateway.setRaw(key, value);
+}
+
 function read(key, fallback = []) {
   return storageGateway.read(key, fallback);
 }
