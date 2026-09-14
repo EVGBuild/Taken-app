@@ -1,0 +1,33 @@
+name: Foundation regression gate
+
+on:
+  push:
+    branches:
+      - foundation-migration
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-foundation-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run foundation regression tests
+        run: >-
+          node --test
+          tests/current-storage-characterization.test.js
+          tests/current-lifecycle-characterization.test.js
+          tests/recurrence.test.js
+          tests/storage-migration-spike.test.js
+          tests/storage-safety-seam.test.js
+          tests/storage-boundary-enforcement.test.js
