@@ -33,13 +33,13 @@ test('deadline remains visible even when it exceeds current capacity',()=>{
 test('waiting and future Later items never leak into active suggestions',()=>{
   const result=compare([
     {id:'waiting',title:'Wachten op antwoord',lifecycle:{state:'waiting'}},
-    {id:'later',title:'Later bekijken',lifecycle:{state:'later',resurfaceDate:'2026-10-01'}}
+    {id:'later',title:'Later bekijken',lifecycle:{state:'later',deferredUntil:'2026-10-01'}}
   ],3);
   for(const row of result.rows){assert.equal(row.v2Visible,false);assert.equal(row.legacyVisible,false);}
 });
 
 test('resurfaced Later item becomes eligible again',()=>{
-  const result=compare([{id:'return',title:'Nu weer bekijken',lifecycle:{state:'later',resurfaceDate:'2026-09-14'},energyDemand:2}],3);
+  const result=compare([{id:'return',title:'Nu weer bekijken',lifecycle:{state:'later',deferredUntil:'2026-09-14'},energyDemand:2}],3);
   const row=result.rows[0];
   assert.equal(row.v2Band,'fit');
   assert.equal(row.v2Visible,true);
@@ -52,7 +52,7 @@ test('important fitting task is separated from ordinary fitting task without a u
   ],3);
   assert.equal(result.rows.find(row=>row.id==='important').v2Band,'strong');
   assert.equal(result.rows.find(row=>row.id==='ordinary').v2Band,'fit');
-  assert.deepEqual(result.v2VisibleIds,['important','ordinary']);
+  assert.equal(JSON.stringify(result.v2VisibleIds),JSON.stringify(['important','ordinary']));
 });
 
 test('known intentional difference: V2 does not let a strong task hide another fitting task through score-window pruning',()=>{
