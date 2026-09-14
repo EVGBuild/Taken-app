@@ -116,3 +116,43 @@ browserTest('raw capture is durable before classification and unresolved capture
     await new Promise(resolve => server.close(resolve));
   }
 });
+
+browserTest('Home surfaces heavier options on demand and does not fake energy fit without context', async () => {
+  const { server, url } = await startStaticServer();
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    const pageErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.stack || error.message));
+    await page.addInitScript(() => {
+      localStorage.setItem('mijnTaken', JSON.stringify([
+        {id:'heavy',title:'Zware taak',energyDemand:5,mentalLoad:5,physicalLoad:5,necessity:1,impact:1,order:0}
+      ]));
+      localStorage.setItem('lumiMorningCheckin', JSON.stringify({date:new Date().toISOString().slice(0,10),energy:1}));
+      localStorage.setItem('lumiEnergy', JSON.stringify(1));
+    });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.locator('#homeScreen.active').waitFor();
+    await page.locator('#todayRecoveryActions').waitFor({state:'visible'});
+    assert.equal(await page.locator('#suggestionList .suggestion-card').count(),0);
+    await page.locator('#broadenSuggestionsButton').click();
+    await page.locator('#suggestionList .suggestion-card').waitFor();
+    assert.match(await page.locator('#suggestionList').textContent(),/Zware taak/);
+
+    await page.evaluate(() => {
+      localStorage.setItem('mijnTaken', JSON.stringify([{id:'unknown',title:'Taak zonder context',order:0}]));
+      localStorage.removeItem('lumiMorningCheckin');
+      localStorage.removeItem('lumiEnergy');
+    });
+    await page.reload({waitUntil:'domcontentloaded'});
+    await page.locator('#homeScreen.active').waitFor();
+    await page.locator('#suggestionList .suggestion-card').waitFor();
+    const unknownText=await page.locator('#suggestionList .recommendation-why').first().textContent();
+    assert.match(unknownText,/Meer context nodig|More context needed/);
+    assert.doesNotMatch(unknownText,/Past bij je energie|Fits your energy/);
+    assert.deepEqual(pageErrors, []);
+  } finally {
+    await browser.close();
+    await new Promise(resolve => server.close(resolve));
+  }
+});
