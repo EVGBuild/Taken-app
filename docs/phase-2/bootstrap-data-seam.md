@@ -2,7 +2,7 @@
 
 Datum: 2026-09-14  
 Branch: `foundation-migration`  
-Status: **implementatie afgerond; Node foundation gate groen; browserkarakterisatie nog niet opnieuw uitgevoerd voor deze slice**
+Status: **afgerond; Node foundation gate groen; dedicated Chromium bootstrapgate groen**
 
 ## Doel
 
@@ -26,9 +26,9 @@ De bestaande normalisatie, defaults, legacycompatibiliteit en startup-writes zij
 
 Voorheen waren persisted reads, normalisatie, globale runtime state en DOM-/navigatiewiring in één doorlopende top-level bootstrapstroom verweven. Door de data-loadstap eerst af te bakenen ontstaat een controleerbare grens waar later een andere storage-/syncbron achter kan worden gezet zonder tegelijk UI-wiring te hoeven herschrijven.
 
-## Automatische guard
+## Automatische guards
 
-Nieuw:
+### Node boundary guard
 
 `tests/bootstrap-boundary.test.js`
 
@@ -38,13 +38,41 @@ De test bewaakt dat:
 - de data-loadseam geen DOM-, render- of navigatiewiring bevat;
 - mutable runtime state expliciet uit `bootstrapData` wordt geïnitialiseerd.
 
-De test is toegevoegd aan `.github/workflows/foundation-tests.yml`.
+### Chromium bootstrapgate
+
+`tests/bootstrap-browser-gate.test.js`
+
+Deze gate start de echte app in Chromium met de bestaande legacyfixture en controleert dat:
+
+- Home daadwerkelijk boot;
+- de actieve storageadapter `legacy-localStorage` blijft;
+- legacy tasks, lifecycle, householdcontext, projecten en wishlist semantisch behouden blijven;
+- onaangeraakte documentdata byte-equivalent blijft;
+- er geen nieuwe onverwachte page errors door deze slice zijn ontstaan.
+
+De Foundation regression workflow installeert Playwright/Chromium alleen in de CI-runner; er is geen nieuwe runtime- of repositorydependency aan LumiVault zelf toegevoegd.
+
+## Browsergate-uitkomst
+
+De eerste strikte browserrun ontdekte één bestaande load-orderafwijking buiten Slice 3A:
+
+- `js/core/ui.js` voert bij laden `refresh()` uit vóór `js/features/today.js` is geladen;
+- `refresh()` probeert daardoor eenmalig `renderHome()` aan te roepen terwijl die functie nog niet bestaat;
+- Chromium rapporteert `ReferenceError: renderHome is not defined` vanuit `ui.js`;
+- latere scripts laden door en de bestaande app herstelt waarna de huidige Home-flow beschikbaar is.
+
+Deze afwijking bestond door de huidige scriptvolgorde al vóór de data-loadseam en is daarom **niet stil gerepareerd in Slice 3A**. De dedicated browsergate accepteert alleen exact deze bekende `ui.js`-baselinefout; andere page errors blijven rood.
+
+Dit is nu een expliciet bekende kandidaat voor Slice 3B, waarin UI/startup-wiring wordt afgebakend.
 
 ## Verificatie
 
-De GitHub Actions Foundation regression gate is na deze wijziging groen op de Node-teststap, inclusief de nieuwe bootstrap-boundarytest en de bestaande storage/lifecycle/recurrence/migratie/safety-tests.
+GitHub Actions run 13 op commit `709493f48f6774f37387e26412081742c1d307dc`:
 
-De browserkarakterisatietests zijn in deze CI-workflow nog niet aangesloten en zijn voor deze bootstrapwijziging dus nog niet opnieuw als echte browsergate uitgevoerd. Daarom wordt de volledige Bootstrap + Module Boundaries-fase nog niet als afgesloten beschouwd.
+- `node-foundation-tests`: **success**;
+- `chromium-bootstrap-gate`: **success**.
+
+Daarmee is de regressiepoort voor Slice 3A groen.
 
 ## Bewust buiten scope
 
@@ -56,7 +84,8 @@ De browserkarakterisatietests zijn in deze CI-workflow nog niet aangesloten en z
 - geen framework, bundler, TypeScript of repo-brede ES-modulemigratie;
 - geen legacycode verwijderd;
 - navigation/showScreen nog niet verplaatst;
-- DOM-installatie/wiring nog niet verplaatst.
+- DOM-installatie/wiring nog niet verplaatst;
+- de bestaande `ui.js` → `renderHome` load-orderafwijking nog niet gewijzigd.
 
 ## Exitpoort Slice 3A
 
@@ -67,8 +96,11 @@ De browserkarakterisatietests zijn in deze CI-workflow nog niet aangesloten en z
 | Runtime state initialiseert uit één bootstrapData-resultaat | Behaald |
 | StorageGateway blijft actief | Behaald |
 | Node foundation regression gate | Groen |
-| Echte browserkarakterisatie na runtimewijziging | **Nog te verifiëren** |
+| Dedicated echte Chromium bootstrapgate | Groen |
+| Nieuwe onverwachte browserfouten door Slice 3A | Geen |
+
+**Slice 3A is gesloten.**
 
 ## Volgende stap
 
-Eerst de bestaande browserkarakterisatie opnieuw groen bewijzen tegen deze branch. Pas daarna Slice 3B: UI/navigation wiring uit de top-level bootstrapstroom afbakenen, opnieuw zonder productgedrag te wijzigen.
+Slice 3B: UI/startup/navigation wiring gecontroleerd uit de top-level bootstrap-/UI-stroom afbakenen. Daarbij hoort de bestaande `ui.js` → `renderHome` load-orderafwijking expliciet op te lossen als architectuurfout, niet als losse UI-fix, met dezelfde Node- en Chromiumgates als exitpoort.
