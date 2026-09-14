@@ -38,6 +38,7 @@ jobs:
           tests/design-system-boundary.test.js
           tests/raw-capture-provenance.test.js
           tests/domain-identity-relations.test.js
+          tests/connected-vault.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
