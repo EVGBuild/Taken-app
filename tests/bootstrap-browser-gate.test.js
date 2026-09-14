@@ -125,6 +125,8 @@ browserTest('Home surfaces heavier options on demand and does not fake energy fi
     const pageErrors = [];
     page.on('pageerror', error => pageErrors.push(error.stack || error.message));
     await page.addInitScript(() => {
+      if(sessionStorage.getItem('homeScenarioSeeded'))return;
+      sessionStorage.setItem('homeScenarioSeeded','1');
       localStorage.setItem('mijnTaken', JSON.stringify([
         {id:'heavy',title:'Zware taak',energyDemand:5,mentalLoad:5,physicalLoad:5,necessity:1,impact:1,order:0}
       ]));
