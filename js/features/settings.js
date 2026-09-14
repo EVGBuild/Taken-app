@@ -11,7 +11,7 @@ document.querySelectorAll('[data-settings-action="feedback"]').forEach(button=>b
 document.querySelectorAll('.settings-back').forEach(button=>button.onclick=()=>showScreen('settings'));
 document.querySelectorAll('[data-setting] [data-value]').forEach(button=>button.onclick=()=>{const group=button.closest('[data-setting]');appSettings[group.dataset.setting]=button.dataset.value;saveAppSettings();renderAppSettings()});
 document.querySelectorAll('[data-setting-toggle]').forEach(input=>input.onchange=()=>{appSettings[input.dataset.settingToggle]=input.checked;saveAppSettings();renderAppSettings()});
-$('clearLocalDataButton').onclick=()=>confirmRemoval(()=>{Object.values(KEYS).forEach(key=>localStorage.removeItem(key));sessionStorage.removeItem('lumiCheckinOffered');location.reload()},'Alle LumiVault-gegevens op dit apparaat definitief verwijderen?','Ja, alles verwijderen');
+$('clearLocalDataButton').onclick=()=>confirmRemoval(()=>{Object.values(KEYS).forEach(key=>remove(key));sessionStorage.removeItem('lumiCheckinOffered');location.reload()},'Alle LumiVault-gegevens op dit apparaat definitief verwijderen?','Ja, alles verwijderen');
 applyAccessibilitySettings();renderAppSettings();
 
 // Lifecycle semantics stay separate: waiting is represented by blocker/lifecycle.state,
