@@ -8,7 +8,9 @@ function createDecisionEngineAdapter({legacyEngine,v2Engine,initialMode='legacy'
     const reason=decision?.reason;
     if(reason==='deadline')return t('reason.deadline');
     if(reason==='important-fit')return [t('reason.important'),t('reason.energyFit')].filter(Boolean).join(' · ');
+    if(reason==='important-context-unknown')return t('reason.important');
     if(reason==='capacity-fit'||reason==='light-option')return t('reason.energyFit');
+    if(reason==='context-unknown')return t('reason.contextUnknown');
     if(reason==='capacity-mismatch')return t('reason.lowEnergy');
     if(reason==='resurfaced')return t('reason.resurfaced');
     return '';
