@@ -45,6 +45,7 @@ jobs:
           tests/decision-engine-activation.test.js
           tests/ai-service-boundary.test.js
           tests/cloud-auth-sync-boundary.test.js
+          tests/entitlement-service-boundary.test.js
 
   chromium-bootstrap-gate:
     runs-on: ubuntu-latest
